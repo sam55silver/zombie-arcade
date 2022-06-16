@@ -2,7 +2,7 @@ extends HBoxContainer
 
 var kill_count = 0
 
-var number_array = [preload("res://Art/Kills UI/KillsUI - 0.png"), preload("res://Art/Kills UI/KillsUI - 1.png"), preload("res://Art/Kills UI/KillsUI - 2.png"), preload("res://Art/Kills UI/KillsUI - 3.png"), preload("res://Art/Kills UI/KillsUI - 4.png"), preload("res://Art/Kills UI/KillsUI - 5.png"), preload("res://Art/Kills UI/KillsUI - 6.png"),preload("res://Art/Kills UI/KillsUI - 7.png"), preload("res://Art/Kills UI/KillsUI - 8.png"), preload("res://Art/Kills UI/KillsUI - 9.png")]
+var number_array = [preload("res://Art/Kills UI/NumberFont/KillsUI - 0.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 1.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 2.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 3.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 4.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 5.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 6.png"),preload("res://Art/Kills UI/NumberFont/KillsUI - 7.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 8.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 9.png")]
 
 func count_to_string():
 	var count_string = str(kill_count)
@@ -23,5 +23,5 @@ func update_kill_count():
 	get_child(2).texture = number_array[count_string[2].to_int()]
 
 
-func _on_player_got_kill():
+func _on_Player_got_kill():
 	update_kill_count()

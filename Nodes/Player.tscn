@@ -1,22 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://okjvop2lnrnl"]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource type="Texture2D" uid="uid://bbku4sl3d6sb0" path="res://Art/Player.png" id="1_nw5hc"]
-[ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="1_o3yel"]
+[ext_resource path="res://Art/Player/Player.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=2]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dxnkd"]
-radius = 21.0
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.0
 
-[node name="Player" type="CharacterBody2D"]
-position = Vector2(226, 224)
-script = ExtResource( "1_o3yel" )
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 2 )
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-texture_repeat = 1
+[node name="Sprite" type="Sprite" parent="."]
 rotation = 1.5708
-scale = Vector2(4, 4)
-texture = ExtResource( "1_nw5hc" )
-offset = Vector2(0, -12.054)
+texture = ExtResource( 1 )
+offset = Vector2( 0, -48 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( "CircleShape2D_dxnkd" )
+shape = SubResource( 1 )

@@ -24,5 +24,5 @@ func get_hit():
 func player_dead():
 	print("dead")
 
-func _on_player_got_hurt():
+func _on_Player_got_hurt():
 	get_hit()

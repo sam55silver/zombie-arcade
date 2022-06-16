@@ -1,6 +1,8 @@
-extends CharacterBody2D
+extends KinematicBody2D
 
-const MAX_SPEED = 300.0
+var velocity = Vector2.ZERO
+
+const MAX_SPEED = 500.0
 const ACCELERATION = 100
 
 signal got_kill()
@@ -22,10 +24,10 @@ func _physics_process(delta):
 	direction = direction.normalized()
 	
 	if direction:
-		velocity += direction * ACCELERATION 
-		velocity = velocity.limit_length(MAX_SPEED)
+		velocity += direction * ACCELERATION  
+		velocity = velocity.clamped(MAX_SPEED)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, 1000 * delta)
 		
 
-	move_and_slide()
+	move_and_slide(velocity)
