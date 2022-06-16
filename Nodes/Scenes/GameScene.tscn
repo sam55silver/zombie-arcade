@@ -1,0 +1,147 @@
+[gd_scene load_steps=10 format=3 uid="uid://dlpwt65wrybjl"]
+
+[ext_resource type="PackedScene" uid="uid://okjvop2lnrnl" path="res://Nodes/Player.tscn" id="1_7cyaj"]
+[ext_resource type="Texture2D" uid="uid://d36kac0jq7obp" path="res://Art/Map V1.png" id="2_ketmp"]
+[ext_resource type="Texture2D" uid="uid://coiomsc3u7yfc" path="res://Art/Gameplay Area Border.png" id="3_aaxjg"]
+[ext_resource type="Script" path="res://Scripts/HealthController.gd" id="4_yj31n"]
+[ext_resource type="Texture2D" uid="uid://c8h1db1mjq06g" path="res://Art/Health UI/HealthUI -Health Unit.png" id="5_3b602"]
+[ext_resource type="Texture2D" uid="uid://cyaexoqoywq0a" path="res://Art/Health UI/HealthUI - Health Text.png" id="6_teljy"]
+[ext_resource type="Texture2D" uid="uid://bx44txwy65ows" path="res://Art/Kills UI/KillsUI - Skull.png" id="7_kkwmj"]
+[ext_resource type="Script" path="res://Scripts/KillCountController.gd" id="8_170ue"]
+[ext_resource type="Texture2D" uid="uid://k4el4ekrkm8k" path="res://Art/Kills UI/KillsUI - 0.png" id="9_0bnql"]
+
+[node name="World" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(512, 544)
+scale = Vector2(4, 4)
+texture = ExtResource( "2_ketmp" )
+
+[node name="Player" parent="." instance=ExtResource( "1_7cyaj" )]
+
+[node name="GameplayAreaBorder" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(512, 544)
+scale = Vector2(4, 4)
+texture = ExtResource( "3_aaxjg" )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="GameplayAreaBorder"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="GameplayAreaBorder/StaticBody2D"]
+position = Vector2(-117, -120)
+polygon = PackedVector2Array(221, 16, 12, 16, 12, 225, 221, 225, 221, 16, 229, 8, 229, 232, 5, 232, 5, 8, 229, 8)
+
+[node name="User Interface" type="Control" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Health" type="HBoxContainer" parent="User Interface"]
+offset_left = 92.0
+offset_top = 32.0
+offset_right = 376.0
+offset_bottom = 64.0
+theme_override_constants/separation = 4
+script = ExtResource( "4_yj31n" )
+
+[node name="1" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="2" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 36.0
+offset_right = 68.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="3" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 72.0
+offset_right = 104.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="4" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 108.0
+offset_right = 140.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="5" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 144.0
+offset_right = 176.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="6" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 180.0
+offset_right = 212.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="7" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 216.0
+offset_right = 248.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="8" type="TextureRect" parent="User Interface/Health"]
+texture_filter = 1
+offset_left = 252.0
+offset_right = 284.0
+offset_bottom = 32.0
+texture = ExtResource( "5_3b602" )
+
+[node name="HealthText" type="TextureRect" parent="User Interface"]
+texture_filter = 1
+offset_left = 92.0
+offset_top = 80.0
+offset_right = 304.0
+offset_bottom = 112.0
+texture = ExtResource( "6_teljy" )
+stretch_mode = 2
+
+[node name="KillsIcon" type="TextureRect" parent="User Interface"]
+texture_filter = 1
+offset_left = 756.0
+offset_top = 36.0
+offset_right = 816.0
+offset_bottom = 96.0
+texture = ExtResource( "7_kkwmj" )
+
+[node name="KillCount" type="HBoxContainer" parent="User Interface"]
+offset_left = 824.0
+offset_top = 36.0
+offset_right = 928.0
+offset_bottom = 68.0
+script = ExtResource( "8_170ue" )
+
+[node name="1" type="TextureRect" parent="User Interface/KillCount"]
+texture_filter = 1
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource( "9_0bnql" )
+
+[node name="2" type="TextureRect" parent="User Interface/KillCount"]
+texture_filter = 1
+offset_left = 36.0
+offset_right = 68.0
+offset_bottom = 32.0
+texture = ExtResource( "9_0bnql" )
+
+[node name="3" type="TextureRect" parent="User Interface/KillCount"]
+texture_filter = 1
+offset_left = 72.0
+offset_right = 104.0
+offset_bottom = 32.0
+texture = ExtResource( "9_0bnql" )
+
+[connection signal="got_hurt" from="Player" to="User Interface/Health" method="_on_player_got_hurt"]
+[connection signal="got_kill" from="Player" to="User Interface/KillCount" method="_on_player_got_kill"]
