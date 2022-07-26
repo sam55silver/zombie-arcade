@@ -12,20 +12,19 @@
 [ext_resource path="res://Nodes/Zombie.tscn" type="PackedScene" id=10]
 
 [node name="Game World" type="Node2D"]
-position = Vector2( 331, 358 )
 __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
 
 [node name="background" type="Sprite" parent="."]
-position = Vector2( 181, 186 )
+position = Vector2( 510, 578 )
 texture = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -89, 30 )
+position = Vector2( 240, 422 )
 
 [node name="gameplay_border" type="Sprite" parent="."]
-position = Vector2( 183, 152 )
+position = Vector2( 512, 544 )
 texture = ExtResource( 2 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="gameplay_border"]
@@ -36,10 +35,10 @@ scale = Vector2( 15.1178, 0.361207 )
 polygon = PoolVector2Array( 46.303, 149.499, -8.99601, 149.499, -8.99601, 2463.96, -9.92207, 2502.72, -9.92207, 110.74, 47.2291, 110.74, 47.2291, 2502.72, -9.92207, 2502.72, -8.99601, 2463.96, 46.303, 2463.96 )
 
 [node name="Control" type="Control" parent="."]
-margin_left = -331.0
-margin_top = -394.0
-margin_right = 693.0
-margin_bottom = -234.0
+margin_left = -2.0
+margin_top = -2.0
+margin_right = 1022.0
+margin_bottom = 158.0
 
 [node name="HealthText" type="TextureRect" parent="Control"]
 margin_left = 94.0
@@ -134,13 +133,13 @@ margin_bottom = 32.0
 texture = ExtResource( 4 )
 
 [node name="Zombie" parent="." instance=ExtResource( 10 )]
-position = Vector2( 27, 315 )
+position = Vector2( 356, 707 )
 
 [node name="Zombie2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 227, 224 )
+position = Vector2( 556, 616 )
 
 [node name="Zombie3" parent="." instance=ExtResource( 10 )]
-position = Vector2( 240, 88 )
+position = Vector2( 569, 480 )
 
 [connection signal="got_hurt" from="Player" to="Control/HealthContainer" method="_on_Player_got_hurt"]
 [connection signal="got_kill" from="Player" to="Control/KillCount" method="_on_Player_got_kill"]

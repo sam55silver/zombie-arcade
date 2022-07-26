@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Player GunShot Animation.png-60e5f24eff64a9c035b5aa733b2dd49c.stex"
+path="res://.import/Bullet.png-3a9fe2cc3445939789c3075d8f61ead3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Player/Player GunShot Animation.png"
-dest_files=[ "res://.import/Player GunShot Animation.png-60e5f24eff64a9c035b5aa733b2dd49c.stex" ]
+source_file="res://Art/Player/Bullet.png"
+dest_files=[ "res://.import/Bullet.png-3a9fe2cc3445939789c3075d8f61ead3.stex" ]
 
 [params]
 
