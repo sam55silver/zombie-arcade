@@ -16,15 +16,110 @@ __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
 
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HealthText" type="TextureRect" parent="UI"]
+margin_left = 92.0
+margin_top = 81.0
+margin_right = 304.0
+margin_bottom = 113.0
+texture = ExtResource( 6 )
+
+[node name="HealthContainer" type="HBoxContainer" parent="UI"]
+margin_left = 92.0
+margin_top = 37.0
+margin_right = 376.0
+margin_bottom = 69.0
+script = ExtResource( 9 )
+
+[node name="1" type="TextureRect" parent="UI/HealthContainer"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="2" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="3" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="4" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 108.0
+margin_right = 140.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="5" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 144.0
+margin_right = 176.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="6" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 180.0
+margin_right = 212.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="7" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 216.0
+margin_right = 248.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="8" type="TextureRect" parent="UI/HealthContainer"]
+margin_left = 252.0
+margin_right = 284.0
+margin_bottom = 32.0
+texture = ExtResource( 7 )
+
+[node name="KillsIcon" type="TextureRect" parent="UI"]
+margin_left = 748.0
+margin_top = 41.0
+margin_right = 808.0
+margin_bottom = 101.0
+texture = ExtResource( 5 )
+
+[node name="KillCount" type="HBoxContainer" parent="UI"]
+margin_left = 824.0
+margin_top = 41.0
+margin_right = 928.0
+margin_bottom = 73.0
+script = ExtResource( 8 )
+
+[node name="1" type="TextureRect" parent="UI/KillCount"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture = ExtResource( 4 )
+
+[node name="2" type="TextureRect" parent="UI/KillCount"]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 32.0
+texture = ExtResource( 4 )
+
+[node name="3" type="TextureRect" parent="UI/KillCount"]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 32.0
+texture = ExtResource( 4 )
+
 [node name="background" type="Sprite" parent="."]
-position = Vector2( 510, 578 )
+position = Vector2( 510, 563 )
 texture = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 240, 422 )
+position = Vector2( 240, 407 )
 
 [node name="gameplay_border" type="Sprite" parent="."]
-position = Vector2( 512, 544 )
+position = Vector2( 512, 529 )
+z_index = 1
 texture = ExtResource( 2 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="gameplay_border"]
@@ -34,112 +129,11 @@ position = Vector2( -284, -438 )
 scale = Vector2( 15.1178, 0.361207 )
 polygon = PoolVector2Array( 46.303, 149.499, -8.99601, 149.499, -8.99601, 2463.96, -9.92207, 2502.72, -9.92207, 110.74, 47.2291, 110.74, 47.2291, 2502.72, -9.92207, 2502.72, -8.99601, 2463.96, 46.303, 2463.96 )
 
-[node name="Control" type="Control" parent="."]
-margin_left = -2.0
-margin_top = -2.0
-margin_right = 1022.0
-margin_bottom = 158.0
-
-[node name="HealthText" type="TextureRect" parent="Control"]
-margin_left = 94.0
-margin_top = 112.0
-margin_right = 306.0
-margin_bottom = 144.0
-texture = ExtResource( 6 )
-
-[node name="HealthContainer" type="HBoxContainer" parent="Control"]
-margin_left = 94.0
-margin_top = 68.0
-margin_right = 378.0
-margin_bottom = 100.0
-script = ExtResource( 9 )
-
-[node name="1" type="TextureRect" parent="Control/HealthContainer"]
-margin_right = 32.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="2" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 36.0
-margin_right = 68.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="3" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 72.0
-margin_right = 104.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="4" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 108.0
-margin_right = 140.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="5" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 144.0
-margin_right = 176.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="6" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 180.0
-margin_right = 212.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="7" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 216.0
-margin_right = 248.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="8" type="TextureRect" parent="Control/HealthContainer"]
-margin_left = 252.0
-margin_right = 284.0
-margin_bottom = 32.0
-texture = ExtResource( 7 )
-
-[node name="KillsIcon" type="TextureRect" parent="Control"]
-margin_left = 750.0
-margin_top = 72.0
-margin_right = 810.0
-margin_bottom = 132.0
-texture = ExtResource( 5 )
-
-[node name="KillCount" type="HBoxContainer" parent="Control"]
-margin_left = 826.0
-margin_top = 72.0
-margin_right = 930.0
-margin_bottom = 104.0
-script = ExtResource( 8 )
-
-[node name="1" type="TextureRect" parent="Control/KillCount"]
-margin_right = 32.0
-margin_bottom = 32.0
-texture = ExtResource( 4 )
-
-[node name="2" type="TextureRect" parent="Control/KillCount"]
-margin_left = 36.0
-margin_right = 68.0
-margin_bottom = 32.0
-texture = ExtResource( 4 )
-
-[node name="3" type="TextureRect" parent="Control/KillCount"]
-margin_left = 72.0
-margin_right = 104.0
-margin_bottom = 32.0
-texture = ExtResource( 4 )
-
 [node name="Zombie" parent="." instance=ExtResource( 10 )]
-position = Vector2( 356, 707 )
+position = Vector2( 356, 692 )
 
 [node name="Zombie2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 556, 616 )
+position = Vector2( 556, 601 )
 
 [node name="Zombie3" parent="." instance=ExtResource( 10 )]
-position = Vector2( 569, 480 )
-
-[connection signal="got_hurt" from="Player" to="Control/HealthContainer" method="_on_Player_got_hurt"]
-[connection signal="got_kill" from="Player" to="Control/KillCount" method="_on_Player_got_kill"]
+position = Vector2( 569, 465 )

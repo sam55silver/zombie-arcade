@@ -24,4 +24,5 @@ func update_kill_count():
 
 
 func _on_Player_got_kill():
+	print_debug("got kill")
 	update_kill_count()
