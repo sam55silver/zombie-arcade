@@ -3,7 +3,7 @@ extends KinematicBody2D
 onready var player = get_parent().get_node("Player")
 
 signal got_kill()
-signal hurt_player()
+signal inside_player()
 
 var life = 2
 var speed = 100
@@ -13,18 +13,15 @@ var in_player = false
 var velocity = Vector2.ZERO
 
 func _ready():
-	var health = get_node("../UI/HealthContainer")
-	self.connect("hurt_player", health, "_on_Player_got_hurt")
-	
 	var player = get_node("../Player")
-	self.connect("hurt_player", player, "_on_Player_got_hurt")
+	self.connect("inside_player", player, "_on_Player_Zombie_Collide")
 	
 	var kills = get_node("../UI/KillCount")
 	self.connect("got_kill", kills, "_on_Player_got_kill")
 	
 func _process(delta):
 	if in_player:
-		emit_signal("hurt_player")
+		emit_signal("inside_player")
 	
 func _physics_process(delta):
 	look_at(player.global_position)

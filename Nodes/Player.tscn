@@ -1,8 +1,25 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Art/Player/Player.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=2]
 [ext_resource path="res://Art/Player/Player GunShot Animation.png" type="Texture" id=3]
+
+[sub_resource type="Shader" id=8]
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : hint_color = vec4(1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	color.rgb = mix(color.rgb, flash_color.rgb, flash_modifier);
+	COLOR = color;	
+}"
+
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
+shader_param/flash_color = Color( 1, 0.796078, 0.796078, 1 )
+shader_param/flash_modifier = 0.0
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -44,6 +61,7 @@ radius = 20.0
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 9 )
 rotation = 1.5708
 frames = SubResource( 7 )
 animation = "Idle"

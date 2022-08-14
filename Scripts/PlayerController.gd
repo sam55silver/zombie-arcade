@@ -1,12 +1,19 @@
 extends KinematicBody2D
 
 var velocity = Vector2.ZERO
+var player_is_invs = false
 
 const MAX_SPEED = 500.0
 const ACCELERATION = 100
 
 onready var _animated_sprite = $AnimatedSprite 
 onready var bullet = preload("res://Nodes/Bullet.tscn")
+
+signal hurt_player()
+onready var health = get_node("../UI/HealthContainer")
+
+func _ready():
+	self.connect("hurt_player", health, "_on_Player_got_hurt")
 
 func _process(_delta):
 	if Input.is_action_just_pressed("shoot") and _animated_sprite.get_animation() == "Idle":
@@ -38,8 +45,11 @@ func _on_AnimatedSprite_animation_finished():
 	if(_animated_sprite.get_animation() == "Shoot"):
 		_animated_sprite.play("Idle")
 		
-func _on_Player_got_hurt():
-	$Timer.start()
+func _on_Player_Zombie_Collide():
+	if !player_is_invs:
+		emit_signal("hurt_player")
+		$Timer.start()
+		player_is_invs = true
 
 func _on_Timer_timeout():
-	print("done")
+	player_is_invs = false
