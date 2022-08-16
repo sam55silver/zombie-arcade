@@ -4,8 +4,8 @@ var velocity = Vector2.ZERO
 var player_is_invs = false
 var player_is_dead = false
 
-const MAX_SPEED = 500.0
-const ACCELERATION = 100
+const MAX_SPEED = 300.0
+const ACCELERATION = 50
 
 onready var _animated_sprite = $AnimatedSprite 
 onready var bullet = preload("res://Nodes/Bullet.tscn")
@@ -23,6 +23,9 @@ func _process(_delta):
 		var new_bullet = bullet.instance()
 		new_bullet.transform = $Muzzle.global_transform
 		get_parent().add_child(new_bullet)
+		
+	if player_is_invs and !player_is_dead:
+		_animated_sprite.material.set_shader_param("flash_modifier",  $Timer.get_time_left())
 
 func _physics_process(delta):
 	if !player_is_dead:
@@ -58,9 +61,10 @@ func _on_Player_Zombie_Collide():
 		player_is_invs = true
 
 func _on_Timer_timeout():
+	_animated_sprite.material.set_shader_param("flash_modifier",  0)
 	player_is_invs = false
 
 func _on_Player_Die():
 	player_is_dead = true
-	_animated_sprite.set_offset(Vector2(-4,-84))
+	_animated_sprite.set_offset(Vector2(-2,-42))
 	_animated_sprite.play("Death-1")
