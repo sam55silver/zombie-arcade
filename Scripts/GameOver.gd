@@ -3,8 +3,16 @@ extends Node2D
 onready var globals = get_node("/root/Globals")
 
 func _ready():
-	globals.kill_count = 35
+	globals.kill_count = 110
 	
+	var data = {"name": "SAM", "score": globals.kill_count}
+	var query = JSON.print(data)
+	
+	var headers = ["Content-type: application/json"]
+	
+	$HTTPRequest.request("http://localhost:5001/zombie-arcade-api/us-central1/high_scores", headers, true, HTTPClient.METHOD_POST, query)
+
+		
 #	$HTTPRequest.request("http://localhost:5001/zombie-arcade-api/us-central1/high_scores")
 
 func _on_retryButton_pressed():
@@ -17,6 +25,10 @@ func _new_high_score():
 	print("New highscore of ", globals.kill_count)
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+	print("result ", result)
+	print("response_code ", response_code)
+	print("headers ", headers)
+	print("body ", body)
 #	var scores = JSON.parse(body.get_string_from_utf8()).result
 #
 #	var size = scores.size()
