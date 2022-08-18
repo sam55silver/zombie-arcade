@@ -57,5 +57,8 @@ margin_bottom = 480.0
 texture_normal = ExtResource( 7 )
 texture_hover = ExtResource( 8 )
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="pressed" from="retryButton" to="." method="_on_retryButton_pressed"]
 [connection signal="pressed" from="menuButton" to="." method="_on_menuButton_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
