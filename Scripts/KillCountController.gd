@@ -1,11 +1,10 @@
 extends HBoxContainer
 
-var kill_count = 0
-
+onready var globals = get_node("/root/Globals")
 var number_array = [preload("res://Art/Kills UI/NumberFont/KillsUI - 0.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 1.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 2.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 3.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 4.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 5.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 6.png"),preload("res://Art/Kills UI/NumberFont/KillsUI - 7.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 8.png"), preload("res://Art/Kills UI/NumberFont/KillsUI - 9.png")]
 
 func count_to_string():
-	var count_string = str(kill_count)
+	var count_string = str(globals.kill_count)
 	
 	if(count_string.length() == 1):
 		count_string = "00" + count_string
@@ -15,7 +14,7 @@ func count_to_string():
 	return count_string
 
 func update_kill_count():
-	kill_count += 1;
+	globals.kill_count += 1;
 	var count_string = count_to_string()
 	
 	get_child(0).texture = number_array[count_string[0].to_int()]
