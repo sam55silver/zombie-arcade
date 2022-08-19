@@ -11,7 +11,7 @@ const app = express();
 app.use(cors({ origin: true }));
 
 app.get("/", async (req, res) => {
-  const snapshot = await db.orderBy("score", "desc").limit(10).get();
+  const snapshot = await db.orderBy("score", "desc").limit(8).get();
 
   let scores = [];
   snapshot.forEach((score) => {
