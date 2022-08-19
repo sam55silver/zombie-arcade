@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+onready var globals = get_node("/root/Globals")
+
 var velocity = Vector2.ZERO
 var player_is_invs = false
 var player_is_dead = false
@@ -14,6 +16,10 @@ signal hurt_player()
 onready var health = get_node("../UI/HealthContainer")
 
 func _ready():
+	globals.kill_count = 0
+	globals.high_score_location = null
+	globals.high_scores = []
+	
 	_animated_sprite.play("Idle")
 	self.connect("hurt_player", health, "_on_Player_got_hurt")
 
@@ -52,7 +58,10 @@ func _on_AnimatedSprite_animation_finished():
 		_animated_sprite.play("Idle")
 	
 	if("Death" in _animated_sprite.get_animation()):
-		get_tree().change_scene("res://Nodes/Scenes/game_over.tscn")
+		if globals._check_new_high_score():
+			get_tree().change_scene("res://Nodes/Scenes/new_high_score.tscn")
+		else:
+			get_tree().change_scene("res://Nodes/Scenes/high_score.tscn")
 		
 func _on_Player_Zombie_Collide():
 	if !player_is_invs:
@@ -65,6 +74,7 @@ func _on_Timer_timeout():
 	player_is_invs = false
 
 func _on_Player_Die():
+	globals._get_high_scores()
 	player_is_dead = true
 	_animated_sprite.set_offset(Vector2(-2,-42))
 	_animated_sprite.play("Death-1")

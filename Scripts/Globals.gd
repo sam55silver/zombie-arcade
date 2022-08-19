@@ -2,6 +2,16 @@ extends Node
 
 var kill_count = 0
 
+func count_to_string(count):
+	var count_string = str(count)
+	
+	if(count_string.length() == 1):
+		count_string = "00" + count_string
+	elif (count_string.length() == 2):
+		count_string = "0" + count_string
+
+	return count_string
+
 # High Score API
 const API = "http://localhost:5001/zombie-arcade-api/us-central1/high_scores"
 onready var http = $HTTPRequest
@@ -18,6 +28,8 @@ func _post_high_score(name):
 	var headers = ["Content-type: application/json"]
 	
 	http.request(API, headers, true, HTTPClient.METHOD_POST, query)
+	
+	high_scores.insert(high_score_location, data)
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	# GET REQUEST
@@ -37,8 +49,8 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 func _check_new_high_score():
 	var size = high_scores.size()
 	
-	# See if the top 10 positions are filled
-	for n in 10:
+	# See if the top 8 positions are filled
+	for n in 8:
 		if size > n:
 			var score = high_scores[n]
 

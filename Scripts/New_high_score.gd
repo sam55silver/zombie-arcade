@@ -8,3 +8,4 @@ func _ready():
 func _on_submit_button_up():
 	var name = $name_input.get_text() 
 	globals._post_high_score(name)
+	get_tree().change_scene("res://Nodes/Scenes/high_score.tscn")
