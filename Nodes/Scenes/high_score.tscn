@@ -19,12 +19,14 @@ text = "High Scores"
 align = 1
 valign = 1
 
-[node name="high_scores" type="VBoxContainer" parent="."]
-margin_left = 127.0
-margin_top = 73.0
-margin_right = 250.0
-margin_bottom = 236.0
+[node name="high_scores" type="GridContainer" parent="."]
+margin_left = 105.0
+margin_top = 70.0
+margin_right = 256.0
+margin_bottom = 215.0
 rect_scale = Vector2( 2, 2 )
+custom_constants/hseparation = 40
+columns = 3
 
 [node name="retryButton" type="TextureButton" parent="."]
 margin_left = 144.0
