@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/New_high_score.gd" type="Script" id=1]
+
+[node name="new_high_score" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="title" type="Label" parent="."]
+margin_left = 6.0
+margin_top = 30.0
+margin_right = 251.0
+margin_bottom = 78.0
+rect_scale = Vector2( 2, 2 )
+text = "New High Score"
+align = 1
+valign = 1
+
+[node name="kill_count" type="Label" parent="."]
+margin_left = 212.0
+margin_top = 121.0
+margin_right = 252.0
+margin_bottom = 135.0
+rect_scale = Vector2( 2, 2 )
+align = 1
+valign = 1
+
+[node name="input_label" type="Label" parent="."]
+margin_left = 131.0
+margin_top = 268.0
+margin_right = 249.0
+margin_bottom = 282.0
+rect_scale = Vector2( 2, 2 )
+text = "Enter Name Below"
+align = 1
+valign = 1
+
+[node name="name_input" type="LineEdit" parent="."]
+margin_left = 146.0
+margin_top = 319.0
+margin_right = 353.0
+margin_bottom = 350.0
+
+[node name="submit" type="Button" parent="."]
+margin_left = 222.0
+margin_top = 406.0
+margin_right = 279.0
+margin_bottom = 426.0
+text = "Submit"
+
+[connection signal="button_up" from="submit" to="." method="_on_submit_button_up"]
