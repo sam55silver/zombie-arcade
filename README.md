@@ -9,4 +9,4 @@ Hopefully, I will be able to re-create this game to finish it. For now, version 
 
 ## Change of engines
 
-Originally my plan was to re-create the game in phaser3, however, godot recently released a new build for 4.0 which has gotten me very excited. Opening up and messing around I was able to re-create most of the game within a couple of hours. full steam ahead with godot!
+This branch is for phaser3 implementation, mostly wanted to see how developing a game in phaser would be like. It isn't as intuitive as godot but I can see it being very customizable and powerful.
