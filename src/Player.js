@@ -1,113 +1,39 @@
-const Player = new Phaser.Class({
-  Extends: Phaser.Physics.Arcade.Sprite,
+import { Container, AnimatedSprite, Sprite } from 'pixijs';
+import Bullet from './Bullet';
 
-  initialize:
-    // Zombie Constructor
-    function Player(scene, bulletGroup, zombieGroup) {
-      Phaser.Physics.Arcade.Sprite.call(this, scene, 300, 300, 'player');
-      this.setOrigin(0.5, 0.8);
+class Player extends Container {
+  constructor(app, spriteSheet) {
+    super();
 
-      this.speed = 0.2;
+    this.app = app;
+    this.spriteSheet = spriteSheet;
 
-      this.cursors = scene.input.keyboard.addKeys({
-        'up': Phaser.Input.Keyboard.KeyCodes.W,
-        'down': Phaser.Input.Keyboard.KeyCodes.S,
-        'left': Phaser.Input.Keyboard.KeyCodes.A,
-        'right': Phaser.Input.Keyboard.KeyCodes.D,
-      });
+    this.x = 512 / 2;
+    this.y = 512 / 2;
 
-      this.scene.input.on(
-        'pointerdown',
-        function (pointer, time, lastFired) {
-          if (this.active === false) return;
+    this.sprite = new AnimatedSprite(spriteSheet.animations['PlayerGunShot']);
+    this.sprite.anchor.set(0.5, 0.9);
+    this.sprite.animationSpeed = 0.2;
+    this.sprite.play();
 
-          if (this.anims.isPlaying) return;
+    this.muzzle = new Sprite(spriteSheet.textures['Bullet.png']);
+    this.muzzle.anchor.set(0.5);
+    this.muzzle.y = -this.sprite.height / 2;
 
-          // Get bullet from bullets group
-          var bullet = bulletGroup.get().setActive(true).setVisible(true);
+    this.addChild(this.sprite);
+    // this.addChild(this.muzzle);
+    this.fire();
+  }
 
-          if (bullet) {
-            this.play('shoot');
-            bullet.fire(this, scene.input.mousePointer);
-            scene.physics.add.overlap(
-              zombieGroup,
-              bullet,
-              this.enemyHitCallback
-            );
-          }
-        },
-        this
-      );
+  fire() {
+    this.app.stage.addChild(
+      new Bullet(this.muzzle, this.spriteSheet.textures['Bullet.png'])
+    );
+  }
 
-      this.anims.create({
-        key: 'shoot',
-        frames: this.anims.generateFrameNumbers('player', {
-          frames: [0, 1, 2, 3, 4],
-        }),
-        frameRate: 8,
-        repeat: 0,
-      });
-
-      this.anims.create({
-        key: 'idle',
-        frames: this.anims.generateFrameNumbers('player', {
-          frames: [4],
-        }),
-        frameRate: 1,
-      });
-
-      this.play('idle');
-      this.anims.isPlaying = false;
-    },
-
-  enemyHitCallback: function (group, zombie) {
-    zombie.hit(1);
-  },
-
-  hit: function (damage) {
-    if (!this.canBeHit) return;
-
-    this.health -= damage;
-
-    if (this.health <= 0) {
-      this.destroy();
-    } else {
-      this.canBeHit = false;
-      setTimeout(() => (this.canBeHit = true), 100);
-    }
-  },
-
-  update: function (time, delta) {
-    this.setVelocity(0);
-
-    this.rotation =
-      Phaser.Math.Angle.Between(
-        this.x,
-        this.y,
-        this.scene.input.mousePointer.x,
-        this.scene.input.mousePointer.y
-      ) + Phaser.Math.DegToRad(90);
-
-    let dir = [0, 0];
-    if (this.cursors.left.isDown) {
-      dir[0] = -1;
-    } else if (this.cursors.right.isDown) {
-      dir[0] = 1;
-    }
-
-    if (this.cursors.up.isDown) {
-      dir[1] = -1;
-    } else if (this.cursors.down.isDown) {
-      dir[1] = 1;
-    }
-
-    if (dir[0] !== 0 || dir[1] !== 0) {
-      const vec2 = new Phaser.Math.Vector2(dir[0], dir[1]);
-      const velocity = vec2.normalize().scale(this.speed);
-      this.x += velocity.x * delta;
-      this.y += velocity.y * delta;
-    }
-  },
-});
+  update(delta) {
+    this.rotation += 0.02 * delta;
+  }
+}
 
 export default Player;
