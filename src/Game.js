@@ -1,4 +1,4 @@
-import { Sprite, AnimatedSprite, Container } from 'pixijs';
+import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 import Player from './Player';
 
 const Game = (app, spriteSheet) => {

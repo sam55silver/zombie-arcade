@@ -1,4 +1,4 @@
-import { Assets, Text, Container } from 'pixijs';
+import { Assets, Text, Container } from 'pixi.js';
 
 const Loader = (app) => {
   return new Promise(async (resolve, reject) => {

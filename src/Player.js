@@ -1,4 +1,4 @@
-import { Container, AnimatedSprite, Sprite } from 'pixijs';
+import { Container, AnimatedSprite, Sprite } from 'pixi.js';
 import Bullet from './Bullet';
 
 class Player extends Container {

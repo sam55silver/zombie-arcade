@@ -1,4 +1,4 @@
-import { Container, Sprite, Ticker } from 'pixijs';
+import { Container, Sprite, Ticker } from 'pixi.js';
 
 class Bullet extends Container {
   constructor(muzzle, texture) {

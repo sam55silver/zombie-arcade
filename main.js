@@ -1,5 +1,5 @@
 import './style.css';
-import { Application } from 'pixijs';
+import { Application } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game';
 
