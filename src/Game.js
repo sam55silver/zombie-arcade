@@ -1,5 +1,6 @@
 import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 import Player from './Player';
+import Input from './Input';
 
 const Game = (app, spriteSheet) => {
   const loadImageCentered = (texture, offset) => {
@@ -19,27 +20,19 @@ const Game = (app, spriteSheet) => {
   // Create Game window and add to app
   const gameWindow = new Container();
   gameWindow.addChild(loadImageCentered('./Art/GameWindow/map.png', [0, 17]));
-  gameWindow.addChild(
-    loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
-  );
 
   app.stage.addChild(gameWindow);
+
+  app.input = new Input();
 
   // add player to stage
   const player = new Player(app, spriteSheet);
 
   app.stage.addChild(player);
 
-  // const player = new AnimatedSprite(spriteSheet.animations['PlayerGunShot']);
-
-  // player.x = 512 / 2;
-  // player.y = 512 / 2;
-  // // player.anchor.set(0.5);
-
-  // player.animationSpeed = 0.1;
-  // // player.play();
-
-  // app.stage.addChild(player);
+  app.stage.addChild(
+    loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
+  );
 
   // Start the game loop
   app.ticker.add((delta) => {

@@ -1,5 +1,6 @@
 import { Container, AnimatedSprite, Sprite } from 'pixi.js';
 import Bullet from './Bullet';
+import { normalize } from './Utility';
 
 class Player extends Container {
   constructor(app, spriteSheet) {
@@ -22,17 +23,37 @@ class Player extends Container {
 
     this.addChild(this.sprite);
     // this.addChild(this.muzzle);
-    this.fire();
+    // this.fire();
+
+    this.moveDir = { 'x': 0, 'y': 0 };
+    this.speed = 4;
+
+    // input
+    const moveInput = (axis, dir) => {
+      const move = () => (this.moveDir[axis] = dir);
+      const stop = () => (this.moveDir[axis] = 0);
+      return [move, stop];
+    };
+    app.input.addInput('w', ...moveInput('y', -1));
+    app.input.addInput('s', ...moveInput('y', 1));
+    app.input.addInput('a', ...moveInput('x', -1));
+    app.input.addInput('d', ...moveInput('x', 1));
   }
 
   fire() {
     this.app.stage.addChild(
-      new Bullet(this.muzzle, this.spriteSheet.textures['Bullet.png'])
+      new Bullet(
+        this.muzzle.getGlobalPosition(),
+        this.spriteSheet.textures['Bullet.png']
+      )
     );
   }
 
   update(delta) {
     this.rotation += 0.02 * delta;
+    const moveDir = normalize(this.moveDir);
+    this.x += moveDir.x * this.speed * delta;
+    this.y += moveDir.y * this.speed * delta;
   }
 }
 

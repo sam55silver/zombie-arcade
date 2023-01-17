@@ -1,10 +1,12 @@
 import { Container, Sprite, Ticker } from 'pixi.js';
 
 class Bullet extends Container {
-  constructor(muzzle, texture) {
+  constructor(muzzleloc, texture) {
     super();
-    this.x = muzzle.x;
-    this.y = muzzle.y + 100;
+    this.y = muzzleloc.y;
+    this.x = muzzleloc.x;
+
+    console.log(muzzleloc);
 
     this.sprite = new Sprite(texture);
     this.sprite.anchor.set(0.5);
