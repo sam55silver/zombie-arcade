@@ -2,7 +2,11 @@ import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 import Player from './Player';
 import Input from './Input';
 
-const Game = (app, spriteSheet) => {
+const Game = (app) => {
+  // Add input to app
+  app.input = new Input();
+
+  // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
     const image = Sprite.from(texture);
     image.anchor.set(0.5);
@@ -17,19 +21,14 @@ const Game = (app, spriteSheet) => {
     return image;
   };
 
-  // Create Game window and add to app
-  const gameWindow = new Container();
-  gameWindow.addChild(loadImageCentered('./Art/GameWindow/map.png', [0, 17]));
-
-  app.stage.addChild(gameWindow);
-
-  app.input = new Input();
+  // Create map
+  app.stage.addChild(loadImageCentered('./Art/GameWindow/map.png', [0, 17]));
 
   // add player to stage
-  const player = new Player(app, spriteSheet);
-
+  const player = new Player(app);
   app.stage.addChild(player);
 
+  // Create border for player to stay in
   app.stage.addChild(
     loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
   );

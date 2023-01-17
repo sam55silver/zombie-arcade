@@ -17,7 +17,11 @@ const Setup = () => {
   // Load Assets
   Loader(app)
     .then((spriteSheet) => {
-      Game(app, spriteSheet);
+      // Add spriteSheet to app
+      app.spriteSheet = spriteSheet;
+
+      // Start game
+      Game(app);
     })
     .catch((err) => {
       console.log(err);
