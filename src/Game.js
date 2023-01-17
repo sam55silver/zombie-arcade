@@ -1,6 +1,7 @@
 import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 import Player from './Player';
 import Input from './Input';
+import Zombie from './Zombie';
 
 const Game = (app) => {
   // Add input to app
@@ -32,6 +33,9 @@ const Game = (app) => {
   app.stage.addChild(
     loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
   );
+
+  const zombie = new Zombie(app, 1, { x: 100, y: 100 });
+  app.stage.addChild(zombie);
 
   // Start the game loop
   app.ticker.add((delta) => {
