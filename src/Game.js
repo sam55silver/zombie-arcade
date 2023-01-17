@@ -28,6 +28,7 @@ const Game = (app) => {
   // add player to stage
   const player = new Player(app);
   app.stage.addChild(player);
+  app.player = player;
 
   // Create border for player to stay in
   app.stage.addChild(

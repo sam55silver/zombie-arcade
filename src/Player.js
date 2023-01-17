@@ -1,6 +1,6 @@
 import { Container, AnimatedSprite, Sprite } from 'pixi.js';
 import Bullet from './Bullet';
-import { normalize } from './Utility';
+import { lookAt, normalize, vector } from './Utility';
 
 class Player extends Container {
   constructor(app) {
@@ -39,6 +39,14 @@ class Player extends Container {
     app.input.addInput('s', ...moveInput('y', 1));
     app.input.addInput('a', ...moveInput('x', -1));
     app.input.addInput('d', ...moveInput('x', 1));
+
+    app.input.addMouseMovement(app.view, this.onMouseMove.bind(this));
+  }
+
+  onMouseMove(mouseLoc) {
+    console.log(mouseLoc);
+    const angle = lookAt(vector(this.x, this.y), mouseLoc).angle;
+    this.rotation = angle;
   }
 
   fire() {
@@ -51,7 +59,6 @@ class Player extends Container {
   }
 
   update(delta) {
-    this.rotation += 0.02 * delta;
     const moveDir = normalize(this.moveDir);
     this.x += moveDir.x * this.speed * delta;
     this.y += moveDir.y * this.speed * delta;
