@@ -14,9 +14,13 @@ class Player extends Container {
     this.sprite = new AnimatedSprite(
       app.spriteSheet.animations['PlayerGunShot']
     );
+    this.sprite.loop = false;
+    this.sprite.gotoAndStop(
+      app.spriteSheet.animations['PlayerGunShot'].length - 1
+    );
     this.sprite.anchor.set(0.5, 0.9);
+
     this.sprite.animationSpeed = 0.2;
-    this.sprite.play();
 
     this.muzzle = new Sprite(app.spriteSheet.textures['Bullet.png']);
     this.muzzle.anchor.set(0.5);
@@ -41,21 +45,21 @@ class Player extends Container {
     app.input.addInput('d', ...moveInput('x', 1));
 
     app.input.addMouseMovement(app.view, this.onMouseMove.bind(this));
+    app.input.addMouseInput(app.view, this.fire.bind(this));
   }
 
   onMouseMove(mouseLoc) {
-    console.log(mouseLoc);
     const angle = lookAt(vector(this.x, this.y), mouseLoc).angle;
     this.rotation = angle;
   }
 
   fire() {
-    this.app.stage.addChild(
-      new Bullet(
-        this.muzzle.getGlobalPosition(),
-        this.app.spriteSheet.textures['Bullet.png']
-      )
-    );
+    if (this.sprite.playing) return;
+
+    this.sprite.textures = this.app.spriteSheet.animations['PlayerGunShot'];
+    this.sprite.play();
+
+    const bullet = new Bullet(this.app, this.x, this.y, this.rotation);
   }
 
   update(delta) {

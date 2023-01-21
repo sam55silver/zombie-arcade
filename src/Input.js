@@ -20,12 +20,29 @@ class Input {
     });
   }
 
+  addMouseInput(client, callback) {
+    this.inputs['0'] = { keyDown: callback };
+
+    client.addEventListener('mousedown', (e) => {
+      if (e.button == 0) this.currentInputs.push(e.button);
+    });
+    client.addEventListener('mouseup', (e) => {
+      if (e.button == 0) {
+        this.currentInputs = this.currentInputs.filter(
+          (input) => input !== e.button
+        );
+      }
+    });
+  }
+
   addInput(key, keyDown, keyUp) {
     this.inputs[key] = { keyUp, keyDown };
   }
 
   keyDown(e) {
-    if (this.inputs[e.key]) this.currentInputs.push(e.key);
+    if (this.inputs[e.key] && !this.currentInputs.includes(e.key)) {
+      this.currentInputs.push(e.key);
+    }
   }
 
   keyUp(e) {
@@ -42,6 +59,7 @@ class Input {
     this.currentInputs.forEach((input) => {
       if (this.inputs[input]) this.inputs[input].keyDown(delta);
     });
+    // console.log(this.currentInputs);
   }
 }
 
