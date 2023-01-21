@@ -26,7 +26,7 @@ class Bullet extends Container {
 
     this.addChild(this.sprite);
 
-    app.stage.addChild(this);
+    app.gameArea.addChild(this);
 
     this.ticker = Ticker.shared;
     this.ticker.add(this.update, this);

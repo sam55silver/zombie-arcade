@@ -26,8 +26,12 @@ const Game = (app) => {
   app.stage.addChild(loadImageCentered('./Art/GameWindow/map.png', [0, 17]));
 
   // add player to stage
+  const gameArea = new Container();
+  app.gameArea = gameArea;
+  app.stage.addChild(gameArea);
+
   const player = new Player(app);
-  app.stage.addChild(player);
+  app.gameArea.addChild(player);
   app.player = player;
 
   // Create border for player to stay in
@@ -37,7 +41,7 @@ const Game = (app) => {
 
   const zombie = new Zombie(app, 1, { x: 100, y: 100 });
   app.zombies = [zombie];
-  app.stage.addChild(zombie);
+  app.gameArea.addChild(zombie);
 
   // Start the game loop
   app.ticker.add((delta) => {
