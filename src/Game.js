@@ -36,6 +36,7 @@ const Game = (app) => {
   );
 
   const zombie = new Zombie(app, 1, { x: 100, y: 100 });
+  app.zombies = [zombie];
   app.stage.addChild(zombie);
 
   // Start the game loop

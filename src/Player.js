@@ -1,6 +1,7 @@
 import { Container, AnimatedSprite, Sprite } from 'pixi.js';
 import Bullet from './Bullet';
-import { lookAt, normalize, vector } from './Utility';
+import { lookAt, updateContainer } from './Utility';
+import SAT from 'sat';
 
 class Player extends Container {
   constructor(app) {
@@ -10,6 +11,7 @@ class Player extends Container {
 
     this.x = 512 / 2;
     this.y = 512 / 2;
+    this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), 10);
 
     this.sprite = new AnimatedSprite(
       app.spriteSheet.animations['PlayerGunShot']
@@ -27,10 +29,8 @@ class Player extends Container {
     this.muzzle.y = -this.sprite.height / 2;
 
     this.addChild(this.sprite);
-    // this.addChild(this.muzzle);
-    // this.fire();
 
-    this.moveDir = { 'x': 0, 'y': 0 };
+    this.moveDir = new SAT.Vector(0, 0);
     this.speed = 4;
 
     // input
@@ -46,11 +46,13 @@ class Player extends Container {
 
     app.input.addMouseMovement(app.view, this.onMouseMove.bind(this));
     app.input.addMouseInput(app.view, this.fire.bind(this));
+
+    this.mouseLoc = new SAT.Vector(0, 0);
   }
 
-  onMouseMove(mouseLoc) {
-    const angle = lookAt(vector(this.x, this.y), mouseLoc).angle;
-    this.rotation = angle;
+  onMouseMove(x, y) {
+    this.mouseLoc.x = x;
+    this.mouseLoc.y = y;
   }
 
   fire() {
@@ -59,13 +61,18 @@ class Player extends Container {
     this.sprite.textures = this.app.spriteSheet.animations['PlayerGunShot'];
     this.sprite.play();
 
-    const bullet = new Bullet(this.app, this.x, this.y, this.rotation);
+    new Bullet(this.app, this.x, this.y, this.rotation);
   }
 
   update(delta) {
-    const moveDir = normalize(this.moveDir);
-    this.x += moveDir.x * this.speed * delta;
-    this.y += moveDir.y * this.speed * delta;
+    const moveDir = this.moveDir.normalize();
+    this.hitBox.pos.x += moveDir.x * this.speed * delta;
+    this.hitBox.pos.y += moveDir.y * this.speed * delta;
+    updateContainer(this, this.hitBox.pos);
+
+    // look at mouse
+    const angle = lookAt(this.hitBox.pos, this.mouseLoc).angle;
+    this.rotation = angle;
   }
 }
 

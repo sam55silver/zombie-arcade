@@ -1,5 +1,4 @@
 import { Ticker } from 'pixi.js';
-import { vector } from './Utility';
 
 class Input {
   constructor() {
@@ -16,7 +15,7 @@ class Input {
   addMouseMovement(client, callback) {
     const rect = client.getBoundingClientRect();
     client.addEventListener('mousemove', (e) => {
-      callback(vector(e.clientX - rect.left, e.clientY - rect.top));
+      callback(e.clientX - rect.left, e.clientY - rect.top);
     });
   }
 
