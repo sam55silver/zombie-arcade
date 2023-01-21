@@ -43,6 +43,16 @@ const Game = (app) => {
   app.zombies = [zombie];
   app.gameArea.addChild(zombie);
 
+  // Zombie spawner
+  const spawnZombie = () => {
+    const zombie = new Zombie(app, 1, { x: 100, y: 100 });
+    app.zombies.push(zombie);
+    app.gameArea.addChild(zombie);
+  };
+
+  // Spawn a zombie every 5 seconds
+  setInterval(spawnZombie, 1000);
+
   // Start the game loop
   app.ticker.add((delta) => {
     // Update the current game state:

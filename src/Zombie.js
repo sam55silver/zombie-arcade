@@ -30,6 +30,7 @@ class Zombie extends Container {
     this.health -= 1;
     if (this.health <= 0) {
       this.ticker.remove(this.update, this);
+      this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
       this.destroy();
     }
   }

@@ -13,7 +13,6 @@ class Bullet extends Container {
     };
 
     this.zombies = app.zombies;
-    console.log(app.zombies[0].hitBox.pos);
 
     this.x = x + offset.x;
     this.y = y + offset.y;
