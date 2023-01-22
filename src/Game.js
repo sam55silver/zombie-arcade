@@ -82,7 +82,6 @@ const Game = (app) => {
       ).toPolygon(),
     ],
   };
-  console.log(app.map.walls);
 
   app.stage.addChild(map);
 
