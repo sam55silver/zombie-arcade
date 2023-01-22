@@ -65,15 +65,24 @@ const ZombieSpawner = (app) => {
     const zombie = new Zombie(app, 1, chooseSpawnArea());
     app.zombies.push(zombie);
     app.gameArea.addChild(zombie);
+  };
 
+  const button = document.getElementById('spawn-zombie');
+  button.addEventListener('click', () => {
+    spawnZombie();
+  });
+
+  const zombieSpawnTimer = () => {
     // Start timer to Spawn the next zombie
     const baseTime = 1000;
     const flexTime = Math.random() * 1000; // Add small variation to spawn time
-    setTimeout(spawnZombie, baseTime + flexTime);
+    setTimeout(() => {
+      spawnZombie();
+      zombieSpawnTimer();
+    }, baseTime + flexTime);
   };
 
-  // Start zombie spawner
-  setTimeout(spawnZombie, 1000);
+  // zombieSpawnTimer();
 };
 
 export default ZombieSpawner;
