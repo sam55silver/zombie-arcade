@@ -63,13 +63,23 @@ class Zombie extends Container {
   }
 
   update(delta) {
+    const { hitBox } = this;
+
     const moveDir = this.lookAtPlayer().vectorTo.normalize();
-    if (!SAT.testCircleCircle(this.app.player.hitBox, this.hitBox)) {
-      this.hitBox.pos.x += moveDir.x * this.speed * delta;
-      this.hitBox.pos.y += moveDir.y * this.speed * delta;
+
+    const response = new SAT.Response();
+    if (!SAT.testCircleCircle(hitBox, this.app.player.hitBox, response)) {
+      hitBox.pos.x += moveDir.x * this.speed * delta;
+      hitBox.pos.y += moveDir.y * this.speed * delta;
+    } else {
+      // TODO: add player hit here
+      const posToMove = response.a.pos.sub(response.overlapV);
+      hitBox.pos.x = posToMove.x;
+      hitBox.pos.y = posToMove.y;
     }
+
     this.testCollideWithZombies();
-    updateContainer(this, this.hitBox.pos);
+    updateContainer(this, hitBox.pos);
   }
 }
 

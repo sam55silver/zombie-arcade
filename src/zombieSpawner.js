@@ -82,7 +82,7 @@ const ZombieSpawner = (app) => {
     }, baseTime + flexTime);
   };
 
-  // zombieSpawnTimer();
+  zombieSpawnTimer();
 };
 
 export default ZombieSpawner;
