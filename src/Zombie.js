@@ -12,6 +12,8 @@ class Zombie extends Container {
     this.y = position.y;
     this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), 15);
 
+    this.lookAtPlayer();
+
     this.health = 2;
     this.speed = 1;
 
@@ -35,12 +37,15 @@ class Zombie extends Container {
     }
   }
 
-  update(delta) {
+  lookAtPlayer() {
     const lookAtPlayer = lookAt(this.hitBox.pos, this.app.player.hitBox.pos);
-
     this.rotation = lookAtPlayer.angle;
 
-    const moveDir = lookAtPlayer.vectorTo.normalize();
+    return lookAtPlayer;
+  }
+
+  update(delta) {
+    const moveDir = this.lookAtPlayer().vectorTo.normalize();
     if (!SAT.testCircleCircle(this.app.player.hitBox, this.hitBox)) {
       this.hitBox.pos.x += moveDir.x * this.speed * delta;
       this.hitBox.pos.y += moveDir.y * this.speed * delta;

@@ -1,7 +1,7 @@
 import { Sprite, AnimatedSprite, Container } from 'pixi.js';
 import Player from './Player';
 import Input from './Input';
-import Zombie from './Zombie';
+import ZombieSpawner from './zombieSpawner';
 
 const Game = (app) => {
   // Add input to app
@@ -23,7 +23,8 @@ const Game = (app) => {
   };
 
   // Create map
-  app.stage.addChild(loadImageCentered('./Art/GameWindow/map.png', [0, 17]));
+  const map = loadImageCentered('./Art/GameWindow/map.png', [0, 17]);
+  app.stage.addChild(map);
 
   // add player to stage
   const gameArea = new Container();
@@ -39,25 +40,14 @@ const Game = (app) => {
     loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
   );
 
-  const zombie = new Zombie(app, 1, { x: 100, y: 100 });
-  app.zombies = [zombie];
-  app.gameArea.addChild(zombie);
-
-  // Zombie spawner
-  const spawnZombie = () => {
-    const zombie = new Zombie(app, 1, { x: 100, y: 100 });
-    app.zombies.push(zombie);
-    app.gameArea.addChild(zombie);
-  };
-
-  // Spawn a zombie every 5 seconds
-  setInterval(spawnZombie, 1000);
-
   // Start the game loop
   app.ticker.add((delta) => {
     // Update the current game state:
     player.update(delta);
   });
+
+  // Start the zombie spawner
+  ZombieSpawner(app, map);
 };
 
 export default Game;
