@@ -64,10 +64,25 @@ class Player extends Container {
     new Bullet(this.app, this.x, this.y, this.rotation);
   }
 
+  testCollideWithWall() {
+    const { hitBox } = this;
+    const { walls } = this.app.map;
+
+    for (let i = 0; i < walls.length; i++) {
+      const wall = walls[i];
+      const response = new SAT.Response();
+      if (SAT.testCirclePolygon(hitBox, wall, response)) {
+        hitBox.pos.x -= response.overlapV.x;
+        hitBox.pos.y -= response.overlapV.y;
+      }
+    }
+  }
+
   update(delta) {
     const moveDir = this.moveDir.normalize();
     this.hitBox.pos.x += moveDir.x * this.speed * delta;
     this.hitBox.pos.y += moveDir.y * this.speed * delta;
+    this.testCollideWithWall();
     updateContainer(this, this.hitBox.pos);
 
     // look at mouse

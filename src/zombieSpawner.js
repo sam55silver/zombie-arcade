@@ -1,34 +1,6 @@
 import Zombie from './Zombie';
 
-const ZombieSpawner = (app, map) => {
-  // Calculate map dimensions
-  const mapDimensions = {
-    width: map.texture.baseTexture.resource.source.width,
-    height: map.texture.baseTexture.resource.source.height,
-    x: map.x,
-    y: map.y,
-  };
-
-  // Calculate map borders i.e. the area where zombies can spawn
-  const mapArea = {
-    topLeft: {
-      x: mapDimensions.x - mapDimensions.width / 2,
-      y: mapDimensions.y - mapDimensions.height / 2,
-    },
-    bottomRight: {
-      x: mapDimensions.x + mapDimensions.width / 2,
-      y: mapDimensions.y + mapDimensions.height / 2,
-    },
-    topRight: {
-      x: mapDimensions.x + mapDimensions.width / 2,
-      y: mapDimensions.y - mapDimensions.height / 2,
-    },
-    bottomLeft: {
-      x: mapDimensions.x - mapDimensions.width / 2,
-      y: mapDimensions.y + mapDimensions.height / 2,
-    },
-  };
-
+const ZombieSpawner = (app) => {
   // Function to get a random point in a given vector
   // Add offset to the point to spawn zombies outside the map
   const spawnZombieInArea = (p1, p2, offsetDir, offsetSign) => {
@@ -52,21 +24,36 @@ const ZombieSpawner = (app, map) => {
     switch (spawnArea) {
       case 0:
         // spawn on top
-        return spawnZombieInArea(mapArea.topLeft, mapArea.topRight, 'y', -1);
+        return spawnZombieInArea(
+          app.map.area.topLeft,
+          app.map.area.topRight,
+          'y',
+          -1
+        );
       case 1:
         // spawn on right
-        return spawnZombieInArea(mapArea.topRight, mapArea.bottomRight, 'x', 1);
+        return spawnZombieInArea(
+          app.map.area.topRight,
+          app.map.area.bottomRight,
+          'x',
+          1
+        );
       case 2:
         // spawn on bottom
         return spawnZombieInArea(
-          mapArea.bottomLeft,
-          mapArea.bottomRight,
+          app.map.area.bottomLeft,
+          app.map.area.bottomRight,
           'y',
           1
         );
       case 3:
         // spawn on left
-        return spawnZombieInArea(mapArea.topLeft, mapArea.bottomLeft, 'x', -1);
+        return spawnZombieInArea(
+          app.map.area.topLeft,
+          app.map.area.bottomLeft,
+          'x',
+          -1
+        );
     }
   };
 

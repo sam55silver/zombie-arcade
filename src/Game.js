@@ -1,7 +1,8 @@
-import { Sprite, AnimatedSprite, Container } from 'pixi.js';
+import { Sprite, Container } from 'pixi.js';
 import Player from './Player';
 import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
+import SAT from 'sat';
 
 const Game = (app) => {
   // Add input to app
@@ -24,6 +25,65 @@ const Game = (app) => {
 
   // Create map
   const map = loadImageCentered('./Art/GameWindow/map.png', [0, 17]);
+  // Calculate map dimensions
+  const mapDimensions = {
+    width: map.texture.baseTexture.resource.source.width,
+    height: map.texture.baseTexture.resource.source.height,
+    x: map.x,
+    y: map.y,
+  };
+
+  // Calculate map borders i.e. the area where zombies can spawn
+  const mapArea = {
+    topLeft: {
+      x: mapDimensions.x - mapDimensions.width / 2,
+      y: mapDimensions.y - mapDimensions.height / 2,
+    },
+    bottomRight: {
+      x: mapDimensions.x + mapDimensions.width / 2,
+      y: mapDimensions.y + mapDimensions.height / 2,
+    },
+    topRight: {
+      x: mapDimensions.x + mapDimensions.width / 2,
+      y: mapDimensions.y - mapDimensions.height / 2,
+    },
+    bottomLeft: {
+      x: mapDimensions.x - mapDimensions.width / 2,
+      y: mapDimensions.y + mapDimensions.height / 2,
+    },
+  };
+
+  app.map = {
+    area: mapArea,
+    walls: [
+      // Top wall
+      new SAT.Box(
+        new SAT.Vector(mapArea.topLeft.x, mapArea.topLeft.y - 10),
+        mapDimensions.width,
+        10
+      ).toPolygon(),
+      // Bottom wall
+      new SAT.Box(
+        new SAT.Vector(mapArea.bottomLeft.x, mapArea.bottomLeft.y),
+        mapDimensions.width,
+        10
+      ).toPolygon(),
+      // Left wall
+      new SAT.Box(
+        new SAT.Vector(mapArea.topLeft.x - 10, mapArea.topLeft.y),
+        10,
+        mapDimensions.height
+      ).toPolygon(),
+      // Right wall
+      new SAT.Box(
+        new SAT.Vector(mapArea.topRight.x, mapArea.topRight.y),
+        10,
+        mapDimensions.height
+      ).toPolygon(),
+    ],
+  };
+  console.log(app.map.walls);
+
   app.stage.addChild(map);
 
   // add player to stage
@@ -47,7 +107,7 @@ const Game = (app) => {
   });
 
   // Start the zombie spawner
-  ZombieSpawner(app, map);
+  ZombieSpawner(app);
 };
 
 export default Game;
