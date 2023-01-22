@@ -44,13 +44,32 @@ class Zombie extends Container {
     return lookAtPlayer;
   }
 
+  testCollideWithZombies() {
+    const { hitBox, sprite } = this;
+
+    // Get all zombies except this one
+    const zombies = this.app.zombies.filter((zombie) => zombie !== this);
+
+    // Test collision with all other zombies
+    for (let i = 0; i < zombies.length; i++) {
+      const response = new SAT.Response();
+      if (SAT.testCircleCircle(hitBox, zombies[i].hitBox, response)) {
+        const posToMove = response.a.pos.sub(response.overlapV);
+
+        hitBox.pos.x = posToMove.x;
+        hitBox.pos.y = posToMove.y;
+      }
+    }
+  }
+
   update(delta) {
     const moveDir = this.lookAtPlayer().vectorTo.normalize();
     if (!SAT.testCircleCircle(this.app.player.hitBox, this.hitBox)) {
       this.hitBox.pos.x += moveDir.x * this.speed * delta;
       this.hitBox.pos.y += moveDir.y * this.speed * delta;
-      updateContainer(this, this.hitBox.pos);
     }
+    this.testCollideWithZombies();
+    updateContainer(this, this.hitBox.pos);
   }
 }
 
