@@ -6,7 +6,7 @@ class Zombie extends CharacterController {
   constructor(app, type, position) {
     super(
       app,
-      { x: 200, y: 200 },
+      position,
       15,
       [app.spriteSheet.textures[`ZombieDesign${type}.png`]],
       { x: 0.5, y: 0.9 },
@@ -24,9 +24,8 @@ class Zombie extends CharacterController {
   hit() {
     this.health -= 1;
     if (this.health <= 0) {
-      this.ticker.remove(this.update, this);
       this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
-      this.destroy();
+      this.destroyCharacter();
     }
   }
 
@@ -43,35 +42,21 @@ class Zombie extends CharacterController {
     // Test collision with all other zombies
     for (let i = 0; i < this.app.zombies.length; i++) {
       // If this is the same zombie, skip
-      if (this.app.zombies == this) continue;
+      if (this.app.zombies[i] == this) continue;
 
-      // Soft body collision check
+      // Soft body collision acheck
       const response = new SAT.Response();
       if (SAT.testCircleCircle(hitBox, this.app.zombies[i].hitBox, response)) {
-        this.velocity = response.a.pos.sub(response.overlapV);
+        this.velocity = this.velocity.sub(response.overlapV.scale(0.2));
       }
     }
   }
 
   update(delta) {
-    const { hitBox } = this;
+    this.velocity = this.lookAtPlayer().vectorTo.normalize().scale(this.speed);
 
-    const moveDir = this.lookAtPlayer().vectorTo.normalize();
-
-    const response = new SAT.Response();
-    if (!SAT.testCircleCircle(hitBox, this.app.player.hitBox, response)) {
-      this.velocity = moveDir.scale(this.speed);
-    } else {
-      // TODO: add player hit here
-
-      if (response.overlap < 1) {
-        this.velocity = new SAT.Vector(0, 0);
-      } else {
-        this.velocity = this.velocity.sub(response.overlapV).scale(0.5);
-      }
-    }
-
-    // this.testCollideWithZombies();
+    this.rigidBodyCollisionCheck(SAT.testCircleCircle, this.app.player.hitBox);
+    this.testCollideWithZombies();
   }
 }
 

@@ -2,7 +2,7 @@ import { Container, Ticker, AnimatedSprite, Graphics } from 'pixi.js';
 import SAT from 'sat';
 
 class CharacterController extends Container {
-  constructor(app, pos, hitBoxRadius, sprite, origin, speed, update) {
+  constructor(app, pos, hitBoxRadius, sprite, origin, speed) {
     super();
 
     this.x = pos.x;
@@ -30,6 +30,40 @@ class CharacterController extends Container {
     this.ticker.add(this.updateCharacter, this);
 
     app.gameArea.addChild(this);
+  }
+
+  rigidBodyCollisionCheck(type, collisionObjects) {
+    // Rigid body collision check
+    // Check where player is going to move for collision
+    const newHitBox = new SAT.Circle(
+      new SAT.Vector(this.x + this.velocity.x, this.y + this.velocity.y),
+      this.hitBox.r
+    );
+
+    const checkCollide = (obj) => {
+      const response = new SAT.Response();
+      if (type(newHitBox, obj, response)) {
+        this.velocity = this.velocity.sub(response.overlapV);
+        return true;
+      }
+      return false;
+    };
+
+    // Check if there are multiple collision objects
+    const len = collisionObjects.length;
+    if (len) {
+      for (let i = 0; i < len; i++) {
+        if (checkCollide(collisionObjects[i])) break;
+      }
+    } else {
+      checkCollide(collisionObjects);
+    }
+  }
+
+  destroyCharacter() {
+    this.ticker.remove(this.update, this);
+    this.ticker.remove(this.updateCharacter, this);
+    this.destroy();
   }
 
   addToUpdate(update, player) {

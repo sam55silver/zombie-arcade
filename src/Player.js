@@ -50,27 +50,6 @@ class Player extends CharacterController {
     new Bullet(this.app, this.x, this.y, this.rotation);
   }
 
-  testCollideWithWall() {
-    const { hitBox } = this;
-    const { walls } = this.app.map;
-
-    // Rigid body collision check
-    // Check where player is going to move for collision
-    const newHitBox = new SAT.Circle(
-      new SAT.Vector(this.x + this.velocity.x, this.y + this.velocity.y),
-      hitBox.r
-    );
-
-    for (let i = 0; i < walls.length; i++) {
-      const wall = walls[i];
-      const response = new SAT.Response();
-      if (SAT.testCirclePolygon(newHitBox, wall, response)) {
-        this.velocity = this.velocity.sub(response.overlapV);
-        break;
-      }
-    }
-  }
-
   lookAtMouse() {
     // look at mouse
     const angle = lookAt(this.hitBox.pos, this.mouseLoc).angle;
@@ -81,7 +60,7 @@ class Player extends CharacterController {
     // move
     this.velocity = this.moveDir.clone().normalize().scale(this.speed);
 
-    this.testCollideWithWall();
+    this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.app.map.walls);
     this.lookAtMouse();
   }
 }
