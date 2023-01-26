@@ -67,9 +67,20 @@ const ZombieSpawner = (app) => {
     app.gameArea.addChild(zombie);
   };
 
-  const button = document.getElementById('spawn-zombie');
-  button.addEventListener('click', () => {
+  const singleZombieButton = document.getElementById('spawn-zombie');
+  singleZombieButton.addEventListener('click', () => {
     spawnZombie();
+  });
+
+  const spawnerButton = document.getElementById('spawner');
+  let spawnerOn = spawnerButton.checked;
+
+  spawnerButton.addEventListener('click', (e) => {
+    spawnerOn = e.target.checked;
+
+    if (spawnerOn) {
+      zombieSpawnTimer();
+    }
   });
 
   const zombieSpawnTimer = () => {
@@ -77,12 +88,15 @@ const ZombieSpawner = (app) => {
     const baseTime = 1000;
     const flexTime = Math.random() * 1000; // Add small variation to spawn time
     setTimeout(() => {
+      if (!spawnerOn) return;
       spawnZombie();
       zombieSpawnTimer();
     }, baseTime + flexTime);
   };
 
-  zombieSpawnTimer();
+  if (spawnerOn) {
+    zombieSpawnTimer();
+  }
 };
 
 export default ZombieSpawner;
