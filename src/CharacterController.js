@@ -32,7 +32,7 @@ class CharacterController extends Container {
     app.gameArea.addChild(this);
   }
 
-  rigidBodyCollisionCheck(type, collisionObjects) {
+  rigidBodyCollisionCheck(type, collisionObjects, callback) {
     // Rigid body collision check
     // Check where player is going to move for collision
     const newHitBox = new SAT.Circle(
@@ -44,6 +44,8 @@ class CharacterController extends Container {
       const response = new SAT.Response();
       if (type(newHitBox, obj, response)) {
         this.velocity = this.velocity.sub(response.overlapV);
+        if (callback) callback();
+
         return true;
       }
       return false;

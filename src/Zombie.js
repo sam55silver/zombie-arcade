@@ -55,7 +55,13 @@ class Zombie extends CharacterController {
   update(delta) {
     this.velocity = this.lookAtPlayer().vectorTo.normalize().scale(this.speed);
 
-    this.rigidBodyCollisionCheck(SAT.testCircleCircle, this.app.player.hitBox);
+    this.rigidBodyCollisionCheck(
+      SAT.testCircleCircle,
+      this.app.player.hitBox,
+      () => {
+        // this.app.player.hit();
+      }
+    );
     this.testCollideWithZombies();
   }
 }
