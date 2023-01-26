@@ -1,31 +1,24 @@
-import { Container, AnimatedSprite, Ticker, Graphics } from 'pixi.js';
-import { lookAt, updateContainer } from './Utility';
+import CharacterController from './CharacterController';
+import { lookAt } from './Utility';
 import SAT from 'sat';
 
-class Zombie extends Container {
+class Zombie extends CharacterController {
   constructor(app, type, position) {
-    super();
+    super(
+      app,
+      { x: 200, y: 200 },
+      15,
+      [app.spriteSheet.textures[`ZombieDesign${type}.png`]],
+      { x: 0.5, y: 0.9 },
+      1,
+      Zombie.update
+    );
 
     this.app = app;
-
-    this.x = position.x;
-    this.y = position.y;
-    this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), 15);
 
     this.lookAtPlayer();
 
     this.health = 2;
-    this.speed = 1;
-
-    this.sprite = new AnimatedSprite([
-      app.spriteSheet.textures[`ZombieDesign${type}.png`],
-    ]);
-    this.sprite.anchor.set(0.5, 0.9);
-    this.sprite.stop();
-    this.addChild(this.sprite);
-
-    this.ticker = Ticker.shared;
-    this.ticker.add(this.update, this);
   }
 
   hit() {
@@ -45,19 +38,17 @@ class Zombie extends Container {
   }
 
   testCollideWithZombies() {
-    const { hitBox, sprite } = this;
-
-    // Get all zombies except this one
-    const zombies = this.app.zombies.filter((zombie) => zombie !== this);
+    const { hitBox } = this;
 
     // Test collision with all other zombies
-    for (let i = 0; i < zombies.length; i++) {
-      const response = new SAT.Response();
-      if (SAT.testCircleCircle(hitBox, zombies[i].hitBox, response)) {
-        const posToMove = response.a.pos.sub(response.overlapV);
+    for (let i = 0; i < this.app.zombies.length; i++) {
+      // If this is the same zombie, skip
+      if (this.app.zombies == this) continue;
 
-        hitBox.pos.x = posToMove.x;
-        hitBox.pos.y = posToMove.y;
+      // Soft body collision check
+      const response = new SAT.Response();
+      if (SAT.testCircleCircle(hitBox, this.app.zombies[i].hitBox, response)) {
+        this.velocity = response.a.pos.sub(response.overlapV);
       }
     }
   }
@@ -69,17 +60,18 @@ class Zombie extends Container {
 
     const response = new SAT.Response();
     if (!SAT.testCircleCircle(hitBox, this.app.player.hitBox, response)) {
-      hitBox.pos.x += moveDir.x * this.speed * delta;
-      hitBox.pos.y += moveDir.y * this.speed * delta;
+      this.velocity = moveDir.scale(this.speed);
     } else {
       // TODO: add player hit here
-      const posToMove = response.a.pos.sub(response.overlapV);
-      hitBox.pos.x = posToMove.x;
-      hitBox.pos.y = posToMove.y;
+
+      if (response.overlap < 1) {
+        this.velocity = new SAT.Vector(0, 0);
+      } else {
+        this.velocity = this.velocity.sub(response.overlapV).scale(0.5);
+      }
     }
 
-    this.testCollideWithZombies();
-    updateContainer(this, hitBox.pos);
+    // this.testCollideWithZombies();
   }
 }
 
