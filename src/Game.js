@@ -99,12 +99,6 @@ const Game = (app) => {
     loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
   );
 
-  // Start the game loop
-  app.ticker.add((delta) => {
-    // Update the current game state:
-    player.update(delta);
-  });
-
   // Start the zombie spawner
   ZombieSpawner(app);
 };

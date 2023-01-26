@@ -1,38 +1,24 @@
-import { Container, AnimatedSprite, Sprite } from 'pixi.js';
+import { Graphics } from 'pixi.js';
+import CharacterController from './CharacterController';
 import Bullet from './Bullet';
-import { lookAt, updateContainer } from './Utility';
+import { lookAt } from './Utility';
 import SAT from 'sat';
 
-class Player extends Container {
+class Player extends CharacterController {
   constructor(app) {
-    super();
+    super(
+      app,
+      { x: 512 / 2, y: 512 / 2 },
+      10,
+      app.spriteSheet.animations['PlayerGunShot'],
+      { x: 0.5, y: 0.9 },
+      4,
+      Player.update
+    );
 
     this.app = app;
 
-    this.x = 512 / 2;
-    this.y = 512 / 2;
-    this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), 10);
-
-    this.sprite = new AnimatedSprite(
-      app.spriteSheet.animations['PlayerGunShot']
-    );
-    this.sprite.loop = false;
-    this.sprite.gotoAndStop(
-      app.spriteSheet.animations['PlayerGunShot'].length - 1
-    );
-    this.sprite.anchor.set(0.5, 0.9);
-
-    this.sprite.animationSpeed = 0.2;
-
-    this.muzzle = new Sprite(app.spriteSheet.textures['Bullet.png']);
-    this.muzzle.anchor.set(0.5);
-    this.muzzle.y = -this.sprite.height / 2;
-
-    this.addChild(this.sprite);
-
     this.moveDir = new SAT.Vector(0, 0);
-    this.speed = 4;
-
     // input
     const moveInput = (axis, dir) => {
       const move = () => (this.moveDir[axis] = dir);
@@ -68,26 +54,35 @@ class Player extends Container {
     const { hitBox } = this;
     const { walls } = this.app.map;
 
+    // hitBox.pos.x = this.velocity.x;
+    // hitBox.pos.y = this.velocity.y;
+    const newHitBox = new SAT.Circle(
+      new SAT.Vector(this.x + this.velocity.x, this.y + this.velocity.y),
+      hitBox.r
+    );
+
     for (let i = 0; i < walls.length; i++) {
       const wall = walls[i];
       const response = new SAT.Response();
-      if (SAT.testCirclePolygon(hitBox, wall, response)) {
-        hitBox.pos.x -= response.overlapV.x;
-        hitBox.pos.y -= response.overlapV.y;
+      if (SAT.testCirclePolygon(newHitBox, wall, response)) {
+        this.velocity = this.velocity.sub(response.overlapV);
+        break;
       }
     }
   }
 
-  update(delta) {
-    const moveDir = this.moveDir.normalize();
-    this.hitBox.pos.x += moveDir.x * this.speed * delta;
-    this.hitBox.pos.y += moveDir.y * this.speed * delta;
-    this.testCollideWithWall();
-    updateContainer(this, this.hitBox.pos);
-
+  lookAtMouse() {
     // look at mouse
     const angle = lookAt(this.hitBox.pos, this.mouseLoc).angle;
     this.rotation = angle;
+  }
+
+  update(delta) {
+    // move
+    this.velocity = this.moveDir.clone().normalize().scale(this.speed);
+
+    this.testCollideWithWall();
+    this.lookAtMouse();
   }
 }
 
