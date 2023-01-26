@@ -9,7 +9,7 @@ class Player extends CharacterController {
     super(
       app,
       { x: 512 / 2, y: 512 / 2 },
-      10,
+      6,
       app.spriteSheet.animations['PlayerGunShot'],
       { x: 0.5, y: 0.9 },
       4,
@@ -54,8 +54,8 @@ class Player extends CharacterController {
     const { hitBox } = this;
     const { walls } = this.app.map;
 
-    // hitBox.pos.x = this.velocity.x;
-    // hitBox.pos.y = this.velocity.y;
+    // Rigid body collision check
+    // Check where player is going to move for collision
     const newHitBox = new SAT.Circle(
       new SAT.Vector(this.x + this.velocity.x, this.y + this.velocity.y),
       hitBox.r
