@@ -11,22 +11,26 @@ class Zombie extends CharacterController {
       [app.spriteSheet.textures[`ZombieDesign${type}.png`]],
       { x: 0.5, y: 0.9 },
       1,
-      Zombie.update
+      2
     );
 
     this.app = app;
+    this.dead = false;
 
     this.lookAtPlayer();
-
-    this.health = 2;
   }
 
-  hit() {
-    this.health -= 1;
-    if (this.health <= 0) {
-      this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
-      this.destroyCharacter();
-    }
+  deathCallback() {
+    this.dead = true;
+
+    // Play death animation
+    this.velocity = new SAT.Vector(0, 0);
+    this.sprite.textures = this.app.spriteSheet.animations['Zombie 2 Death'];
+    this.sprite.animationSpeed = 0.1;
+    this.sprite.play();
+
+    console.log('Zombie died', this.velocity);
+    // this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
   }
 
   lookAtPlayer() {
@@ -53,16 +57,20 @@ class Zombie extends CharacterController {
   }
 
   update(delta) {
-    this.velocity = this.lookAtPlayer().vectorTo.normalize().scale(this.speed);
+    if (!this.dead) {
+      this.velocity = this.lookAtPlayer()
+        .vectorTo.normalize()
+        .scale(this.speed);
 
-    this.rigidBodyCollisionCheck(
-      SAT.testCircleCircle,
-      this.app.player.hitBox,
-      () => {
-        // this.app.player.hit();
-      }
-    );
-    this.testCollideWithZombies();
+      this.rigidBodyCollisionCheck(
+        SAT.testCircleCircle,
+        this.app.player.hitBox,
+        () => {
+          this.app.player.getHit();
+        }
+      );
+      this.testCollideWithZombies();
+    }
   }
 }
 
