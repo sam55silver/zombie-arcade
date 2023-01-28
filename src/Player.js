@@ -13,7 +13,7 @@ class Player extends CharacterController {
       app.spriteSheet.animations['PlayerGunShot'],
       { x: 0.5, y: 0.9 },
       4,
-      Player.update
+      5
     );
 
     this.app = app;
@@ -34,11 +34,29 @@ class Player extends CharacterController {
     app.input.addMouseInput(app.view, this.fire.bind(this));
 
     this.mouseLoc = new SAT.Vector(0, 0);
+
+    this.isInvulnerable = false;
   }
 
   onMouseMove(x, y) {
     this.mouseLoc.x = x;
     this.mouseLoc.y = y;
+  }
+
+  getHit() {
+    if (this.isInvulnerable) return;
+
+    // Make player invulnerable for a short time
+    this.sprite.tint = 0xff0000;
+    this.sprite.alpha = 0.5;
+    this.isInvulnerable = true;
+    setTimeout(() => {
+      this.sprite.tint = 0xffffff;
+      this.sprite.alpha = 1;
+      this.isInvulnerable = false;
+    }, 1000);
+
+    this.hit();
   }
 
   fire() {
