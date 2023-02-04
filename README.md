@@ -2,12 +2,11 @@
 
 A Zombie Arcade game made by Sam Silver and Will Bowie. All art and music was made by Will Bowie. Scripts and Sound effects were made by Sam Silver.
 
-## Tragedy
+The first Version of the game can be found in the releases section!
 
-Sadly, the scripts and sound effects have been corrupted during a transfer of data to different work stations.
-Hopefully, I will be able to re-create this game to finish it. For now, version 4.0 is around and playable. There is only a missing story feature and a couple of bugs.
+I am currently working on porting this game to the web with improved features, such as a highscore screen. Read "Change of Engines" for more details.
 
-## Change of engines
+## Change of Engines
 
 I wanted to try different engines to learn what is avabliable in the game development world. I started to re-create this project in the following engines:
 - Godot 4.0
