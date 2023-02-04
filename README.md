@@ -13,7 +13,7 @@ I wanted to try different engines to learn what is avabliable in the game develo
 - Phaser 3
 - PixiJS
 
-Each implementation can be found in different branchs. The master being the godot 4.0 branch.
+Each implementation can be found in different branchs. The main being the godot 4.0 branch.
 
 I am now manily focusing on the PixiJS framework with some of my own implementations to create an "engine" for this game. This branch can be found at "pixijs-version".
 
