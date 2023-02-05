@@ -67,7 +67,7 @@ class CharacterController extends Container {
     const len = collisionObjects.length;
     if (len) {
       for (let i = 0; i < len; i++) {
-        if (checkCollide(collisionObjects[i])) break;
+        checkCollide(collisionObjects[i]);
       }
     } else {
       checkCollide(collisionObjects);
