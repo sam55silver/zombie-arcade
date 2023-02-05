@@ -3,6 +3,7 @@ import Player from './Player';
 import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
+import KillCountUI from './KillCountUI';
 
 const Game = (app) => {
   // Add input to app
@@ -97,6 +98,13 @@ const Game = (app) => {
   const player = new Player(app);
   app.gameArea.addChild(player);
   app.player = player;
+
+  // add kill count
+  const killCount = new KillCountUI(app);
+  killCount.x = mapArea.topRight.x - 76;
+  killCount.y = mapArea.topRight.y - 26;
+  app.stage.addChild(killCount);
+  app.killCount = killCount;
 
   // Start the zombie spawner
   ZombieSpawner(app);

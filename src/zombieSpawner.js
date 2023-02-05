@@ -61,8 +61,11 @@ const ZombieSpawner = (app) => {
   app.zombies = [];
 
   const spawnZombie = () => {
+    // Get random int between 0 and 1
+    const type = Math.floor(Math.random() * 2);
+
     // chose area to spawn zombie
-    const zombie = new Zombie(app, 1, chooseSpawnArea());
+    const zombie = new Zombie(app, type, chooseSpawnArea());
     app.zombies.push(zombie);
     app.gameArea.addChild(zombie);
   };

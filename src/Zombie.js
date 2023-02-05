@@ -22,6 +22,7 @@ class Zombie extends CharacterController {
 
   deathCallback() {
     this.dead = true;
+    this.app.killCount.update();
 
     // Play death animation
     // this.velocity = new SAT.Vector(0, 0);
@@ -30,7 +31,7 @@ class Zombie extends CharacterController {
     // this.sprite.play();
 
     // console.log('Zombie died', this.velocity);
-    // this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
+    this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
   }
 
   lookAtPlayer() {
