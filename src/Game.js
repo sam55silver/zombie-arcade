@@ -28,8 +28,8 @@ const Game = (app) => {
   const map = loadImageCentered('map.png', [0, 17]);
   // Calculate map dimensions
   const mapDimensions = {
-    width: map.texture.baseTexture.resource.source.width,
-    height: map.texture.baseTexture.resource.source.height,
+    width: map.width,
+    height: map.height,
     x: map.x,
     y: map.y,
   };
