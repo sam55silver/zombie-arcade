@@ -14,6 +14,7 @@ class CharacterController extends Container {
     this.sprite.loop = false;
     this.sprite.gotoAndStop(sprite.length - 1);
     this.sprite.anchor.set(origin.x, origin.y);
+    this.sprite.scale.set(2);
     this.sprite.animationSpeed = 0.2;
     this.addChild(this.sprite);
 

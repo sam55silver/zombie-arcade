@@ -32,7 +32,8 @@ const Loader = (app) => {
         // Update loading text
         loadingScreen.removeChild(loadingText);
 
-        const errorText = new Text('Error loading assets!', loadingScreenStyle);
+        const errorText = new Text('Error Loading Assets', loadingScreenStyle);
+        errorText.anchor.set(0.5);
         loadingScreen.addChild(errorText);
 
         // Reject promise to stop execution

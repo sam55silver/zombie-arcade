@@ -10,7 +10,7 @@ class Player extends CharacterController {
       app,
       { x: 512 / 2, y: 512 / 2 },
       6,
-      app.spriteSheet.animations['PlayerGunShot'],
+      app.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
       4,
       5
@@ -62,7 +62,8 @@ class Player extends CharacterController {
   fire() {
     if (this.sprite.playing) return;
 
-    this.sprite.textures = this.app.spriteSheet.animations['PlayerGunShot'];
+    this.sprite.textures =
+      this.app.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.play();
 
     new Bullet(this.app, this.x, this.y, this.rotation);

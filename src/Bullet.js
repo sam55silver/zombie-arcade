@@ -20,7 +20,7 @@ class Bullet extends Container {
 
     this.speed = 10;
 
-    this.sprite = new Sprite(app.spriteSheet.textures['Bullet.png']);
+    this.sprite = new Sprite(app.spriteSheet.textures['bullet.png']);
     this.sprite.anchor.set(0.5);
 
     this.addChild(this.sprite);

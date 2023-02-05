@@ -10,8 +10,9 @@ const Game = (app) => {
 
   // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
-    const image = Sprite.from(texture);
+    const image = new Sprite(app.spriteSheet.textures[texture]);
     image.anchor.set(0.5);
+    image.scale.set(2);
     image.x = app.renderer.width / 2;
     image.y = app.renderer.height / 2;
 
@@ -24,7 +25,7 @@ const Game = (app) => {
   };
 
   // Create map
-  const map = loadImageCentered('./Art/GameWindow/map.png', [0, 17]);
+  const map = loadImageCentered('map.png', [0, 17]);
   // Calculate map dimensions
   const mapDimensions = {
     width: map.texture.baseTexture.resource.source.width,
@@ -90,14 +91,12 @@ const Game = (app) => {
   app.gameArea = gameArea;
   app.stage.addChild(gameArea);
 
+  // Create border for player to stay in
+  app.stage.addChild(loadImageCentered('arena-border.png'));
+
   const player = new Player(app);
   app.gameArea.addChild(player);
   app.player = player;
-
-  // Create border for player to stay in
-  app.stage.addChild(
-    loadImageCentered('./Art/GameWindow/GameplayAreaBorder.png')
-  );
 
   // Start the zombie spawner
   ZombieSpawner(app);

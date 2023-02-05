@@ -1,15 +1,17 @@
 import './style.css';
-import { Application } from 'pixi.js';
+import { Application, SCALE_MODES } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game';
 
 const Setup = () => {
   // Create Application
   const app = new Application({
-    width: 512,
-    height: 512,
+    width: 256,
+    height: 256,
     backgroundColor: 0x000000,
   });
+
+  app.renderer.resize(512, 512);
 
   // Append to DOM
   document.querySelector('#app').appendChild(app.view);
@@ -17,8 +19,8 @@ const Setup = () => {
   // Load Assets
   Loader(app)
     .then((spriteSheet) => {
-      // Add spriteSheet to app
       app.spriteSheet = spriteSheet;
+      spriteSheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
 
       // Start game
       Game(app);

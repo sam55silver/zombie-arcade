@@ -8,7 +8,7 @@ class Zombie extends CharacterController {
       app,
       position,
       15,
-      [app.spriteSheet.textures[`ZombieDesign${type}.png`]],
+      [app.spriteSheet.textures[`zombie-${type}.png`]],
       { x: 0.5, y: 0.9 },
       1,
       2
@@ -24,12 +24,12 @@ class Zombie extends CharacterController {
     this.dead = true;
 
     // Play death animation
-    this.velocity = new SAT.Vector(0, 0);
-    this.sprite.textures = this.app.spriteSheet.animations['Zombie 2 Death'];
-    this.sprite.animationSpeed = 0.1;
-    this.sprite.play();
+    // this.velocity = new SAT.Vector(0, 0);
+    // this.sprite.textures = this.app.spriteSheet.animations['zombie-death'];
+    // this.sprite.animationSpeed = 0.1;
+    // this.sprite.play();
 
-    console.log('Zombie died', this.velocity);
+    // console.log('Zombie died', this.velocity);
     // this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
   }
 
@@ -48,7 +48,7 @@ class Zombie extends CharacterController {
       // If this is the same zombie, skip
       if (this.app.zombies[i] == this) continue;
 
-      // Soft body collision acheck
+      // Soft body collision a check
       const response = new SAT.Response();
       if (SAT.testCircleCircle(hitBox, this.app.zombies[i].hitBox, response)) {
         this.velocity = this.velocity.sub(response.overlapV.scale(0.2));
