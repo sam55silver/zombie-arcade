@@ -3160,15 +3160,7 @@
 	"spriteSourceSize": {"x":13,"y":16,"w":14,"h":9},
 	"sourceSize": {"w":32,"h":32}
 },
-"health-ui-text.png":
-{
-	"frame": {"x":1156,"y":176,"w":53,"h":8},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":53,"h":8},
-	"sourceSize": {"w":53,"h":8}
-},
-"health-unit-0.png":
+"health-ui-0.png":
 {
 	"frame": {"x":1265,"y":476,"w":8,"h":8},
 	"rotated": false,
@@ -3176,7 +3168,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"health-unit-1.png":
+"health-ui-1.png":
 {
 	"frame": {"x":1245,"y":486,"w":8,"h":8},
 	"rotated": false,
@@ -3184,7 +3176,15 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-0.png":
+"health-ui.png":
+{
+	"frame": {"x":1156,"y":176,"w":53,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":53,"h":8},
+	"sourceSize": {"w":53,"h":8}
+},
+"kill-ui-0.png":
 {
 	"frame": {"x":1255,"y":486,"w":8,"h":8},
 	"rotated": false,
@@ -3192,7 +3192,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-1.png":
+"kill-ui-1.png":
 {
 	"frame": {"x":1265,"y":486,"w":8,"h":8},
 	"rotated": false,
@@ -3200,7 +3200,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-2.png":
+"kill-ui-2.png":
 {
 	"frame": {"x":1122,"y":502,"w":8,"h":8},
 	"rotated": false,
@@ -3208,7 +3208,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-3.png":
+"kill-ui-3.png":
 {
 	"frame": {"x":1132,"y":502,"w":8,"h":8},
 	"rotated": false,
@@ -3216,7 +3216,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-4.png":
+"kill-ui-4.png":
 {
 	"frame": {"x":1142,"y":502,"w":8,"h":8},
 	"rotated": false,
@@ -3224,7 +3224,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-5.png":
+"kill-ui-5.png":
 {
 	"frame": {"x":1227,"y":501,"w":8,"h":8},
 	"rotated": false,
@@ -3232,7 +3232,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-6.png":
+"kill-ui-6.png":
 {
 	"frame": {"x":1275,"y":486,"w":8,"h":8},
 	"rotated": false,
@@ -3240,7 +3240,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-7.png":
+"kill-ui-7.png":
 {
 	"frame": {"x":1285,"y":486,"w":8,"h":8},
 	"rotated": false,
@@ -3248,7 +3248,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-8.png":
+"kill-ui-8.png":
 {
 	"frame": {"x":1237,"y":496,"w":8,"h":8},
 	"rotated": false,
@@ -3256,7 +3256,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-count-9.png":
+"kill-ui-9.png":
 {
 	"frame": {"x":1247,"y":496,"w":8,"h":8},
 	"rotated": false,
@@ -3264,7 +3264,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
 	"sourceSize": {"w":8,"h":8}
 },
-"kill-ui-icon.png":
+"kill-ui.png":
 {
 	"frame": {"x":845,"y":448,"w":15,"h":15},
 	"rotated": false,
@@ -3770,8 +3770,8 @@
 	"deaths/player-death-6": ["deaths/player-death-6-0.png","deaths/player-death-6-1.png","deaths/player-death-6-2.png","deaths/player-death-6-3.png","deaths/player-death-6-4.png","deaths/player-death-6-5.png","deaths/player-death-6-6.png","deaths/player-death-6-7.png","deaths/player-death-6-8.png","deaths/player-death-6-9.png","deaths/player-death-6-10.png","deaths/player-death-6-11.png","deaths/player-death-6-12.png","deaths/player-death-6-13.png","deaths/player-death-6-14.png","deaths/player-death-6-15.png","deaths/player-death-6-16.png","deaths/player-death-6-17.png","deaths/player-death-6-18.png","deaths/player-death-6-19.png","deaths/player-death-6-20.png","deaths/player-death-6-21.png","deaths/player-death-6-22.png","deaths/player-death-6-23.png","deaths/player-death-6-24.png","deaths/player-death-6-25.png","deaths/player-death-6-26.png","deaths/player-death-6-27.png","deaths/player-death-6-28.png","deaths/player-death-6-29.png","deaths/player-death-6-30.png","deaths/player-death-6-31.png","deaths/player-death-6-32.png"],
 	"deaths/player-death-7": ["deaths/player-death-7-0.png","deaths/player-death-7-1.png","deaths/player-death-7-2.png","deaths/player-death-7-3.png","deaths/player-death-7-4.png","deaths/player-death-7-5.png","deaths/player-death-7-6.png","deaths/player-death-7-7.png","deaths/player-death-7-8.png","deaths/player-death-7-9.png","deaths/player-death-7-10.png","deaths/player-death-7-11.png","deaths/player-death-7-12.png","deaths/player-death-7-13.png","deaths/player-death-7-14.png","deaths/player-death-7-15.png","deaths/player-death-7-16.png","deaths/player-death-7-17.png","deaths/player-death-7-18.png","deaths/player-death-7-19.png","deaths/player-death-7-20.png","deaths/player-death-7-21.png","deaths/player-death-7-22.png","deaths/player-death-7-23.png","deaths/player-death-7-24.png","deaths/player-death-7-25.png","deaths/player-death-7-26.png","deaths/player-death-7-27.png","deaths/player-death-7-28.png","deaths/player-death-7-29.png","deaths/player-death-7-30.png","deaths/player-death-7-31.png","deaths/player-death-7-32.png","deaths/player-death-7-33.png","deaths/player-death-7-34.png","deaths/player-death-7-35.png","deaths/player-death-7-36.png","deaths/player-death-7-37.png","deaths/player-death-7-38.png","deaths/player-death-7-39.png","deaths/player-death-7-40.png","deaths/player-death-7-41.png","deaths/player-death-7-42.png","deaths/player-death-7-43.png","deaths/player-death-7-44.png","deaths/player-death-7-45.png"],
 	"deaths/player-death-8": ["deaths/player-death-8-0.png","deaths/player-death-8-1.png","deaths/player-death-8-2.png","deaths/player-death-8-3.png","deaths/player-death-8-4.png","deaths/player-death-8-5.png","deaths/player-death-8-6.png","deaths/player-death-8-7.png","deaths/player-death-8-8.png","deaths/player-death-8-9.png","deaths/player-death-8-10.png","deaths/player-death-8-11.png","deaths/player-death-8-12.png","deaths/player-death-8-13.png","deaths/player-death-8-14.png","deaths/player-death-8-15.png","deaths/player-death-8-16.png","deaths/player-death-8-17.png","deaths/player-death-8-18.png","deaths/player-death-8-19.png","deaths/player-death-8-20.png","deaths/player-death-8-21.png","deaths/player-death-8-22.png","deaths/player-death-8-23.png","deaths/player-death-8-24.png","deaths/player-death-8-25.png","deaths/player-death-8-26.png","deaths/player-death-8-27.png","deaths/player-death-8-28.png","deaths/player-death-8-29.png","deaths/player-death-8-30.png","deaths/player-death-8-31.png","deaths/player-death-8-32.png"],
-	"health-unit": ["health-unit-0.png","health-unit-1.png"],
-	"kill-count": ["kill-count-0.png","kill-count-1.png","kill-count-2.png","kill-count-3.png","kill-count-4.png","kill-count-5.png","kill-count-6.png","kill-count-7.png","kill-count-8.png","kill-count-9.png"],
+	"health-ui": ["health-ui-0.png","health-ui-1.png"],
+	"kill-ui": ["kill-ui-0.png","kill-ui-1.png","kill-ui-2.png","kill-ui-3.png","kill-ui-4.png","kill-ui-5.png","kill-ui-6.png","kill-ui-7.png","kill-ui-8.png","kill-ui-9.png"],
 	"player-gunshot-anim": ["player-gunshot-anim-0.png","player-gunshot-anim-1.png","player-gunshot-anim-2.png","player-gunshot-anim-3.png","player-gunshot-anim-4.png"],
 	"reticle": ["reticle-1.png","reticle-2.png"],
 	"zombie": ["zombie-0.png","zombie-1.png"],
@@ -3785,6 +3785,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1323,"h":511},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:508045e94183b4e48065d98da609c2ea:6d86616a788900b52f4073ab255b3234:2b5604bc88faefd55ddac16e9bce1532$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cdb840478c578bfdaa7e0b9256458bb7:10f49bd6cd4fda9ca116cb518066555f:2b5604bc88faefd55ddac16e9bce1532$"
 }
 }
