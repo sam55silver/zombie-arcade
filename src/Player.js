@@ -5,18 +5,18 @@ import { lookAt } from './Utility';
 import SAT from 'sat';
 
 class Player extends CharacterController {
-  constructor(app) {
+  constructor(scene) {
     super(
-      app,
+      scene,
       { x: 512 / 2, y: 512 / 2 },
       6,
-      app.spriteSheet.animations['player-gunshot-anim'],
+      scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
       4,
       5
     );
 
-    this.app = app;
+    this.scene = scene;
 
     this.moveDir = new SAT.Vector(0, 0);
     // input
@@ -25,13 +25,13 @@ class Player extends CharacterController {
       const stop = () => (this.moveDir[axis] = 0);
       return [move, stop];
     };
-    app.input.addInput('w', ...moveInput('y', -1));
-    app.input.addInput('s', ...moveInput('y', 1));
-    app.input.addInput('a', ...moveInput('x', -1));
-    app.input.addInput('d', ...moveInput('x', 1));
+    scene.input.addInput('w', ...moveInput('y', -1));
+    scene.input.addInput('s', ...moveInput('y', 1));
+    scene.input.addInput('a', ...moveInput('x', -1));
+    scene.input.addInput('d', ...moveInput('x', 1));
 
-    app.input.addMouseMovement(app.view, this.onMouseMove.bind(this));
-    app.input.addMouseInput(app.view, this.fire.bind(this));
+    scene.input.addMouseMovement(scene.view, this.onMouseMove.bind(this));
+    scene.input.addMouseInput(scene.view, this.fire.bind(this));
 
     this.mouseLoc = new SAT.Vector(0, 0);
 
@@ -56,17 +56,17 @@ class Player extends CharacterController {
       this.isInvulnerable = false;
     }, 1000);
 
-    this.app.playerHealth.update();
+    this.scene.playerHealth.update();
   }
 
   fire() {
     if (this.sprite.playing) return;
 
     this.sprite.textures =
-      this.app.spriteSheet.animations['player-gunshot-anim'];
+      this.scene.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.play();
 
-    new Bullet(this.app, this.x, this.y, this.rotation);
+    new Bullet(this.scene, this.x, this.y, this.rotation);
   }
 
   lookAtMouse() {
@@ -76,11 +76,13 @@ class Player extends CharacterController {
   }
 
   update(delta) {
+    console.log('update');
     // move
     this.velocity = this.moveDir.clone().normalize().scale(this.speed);
 
-    this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.app.map.walls);
+    this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
     this.lookAtMouse();
+    this.updateCharacter(delta);
   }
 }
 

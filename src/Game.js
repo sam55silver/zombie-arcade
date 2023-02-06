@@ -1,4 +1,4 @@
-import { Sprite, Container } from 'pixi.js';
+import { Sprite, Container, Ticker } from 'pixi.js';
 import Player from './Player';
 import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
@@ -6,8 +6,18 @@ import SAT from 'sat';
 import UIContainer from './UIContainer';
 
 const Game = (app) => {
+  // create scene for game to be added to
+  const scene = new Container();
+  // app.stage.addChild(scene);
+
+  // Add sprite sheet to scene
+  scene.spriteSheet = app.spriteSheet;
+
+  // Add view to scene
+  scene.view = app.view;
+
   // Add input to app
-  app.input = new Input();
+  scene.input = new Input();
 
   // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
@@ -55,7 +65,7 @@ const Game = (app) => {
     },
   };
 
-  app.map = {
+  scene.map = {
     area: mapArea,
     walls: [
       // Top wall
@@ -85,19 +95,19 @@ const Game = (app) => {
     ],
   };
 
-  app.stage.addChild(map);
+  scene.addChild(map);
 
   // add player to stage
   const gameArea = new Container();
-  app.gameArea = gameArea;
-  app.stage.addChild(gameArea);
+  scene.gameArea = gameArea;
+  scene.addChild(gameArea);
 
   // Create border for player to stay in
-  app.stage.addChild(loadImageCentered('arena-border.png'));
+  scene.addChild(loadImageCentered('arena-border.png'));
 
-  const player = new Player(app);
-  app.gameArea.addChild(player);
-  app.player = player;
+  const player = new Player(scene);
+  scene.gameArea.addChild(player);
+  scene.player = player;
 
   // add kill count
   const updateKillCount = (ui) => {
@@ -113,7 +123,7 @@ const Game = (app) => {
   };
 
   const killCount = new UIContainer(
-    app,
+    scene,
     'kill-ui',
     3,
     {
@@ -123,8 +133,8 @@ const Game = (app) => {
     updateKillCount
   );
   killCount.icon.x = -killCount.icon.width - 4;
-  app.stage.addChild(killCount);
-  app.killCount = killCount;
+  scene.addChild(killCount);
+  scene.killCount = killCount;
 
   // add Player health
   const updatePlayerHealth = (ui) => {
@@ -132,7 +142,7 @@ const Game = (app) => {
   };
 
   const playerHealth = new UIContainer(
-    app,
+    scene,
     'health-ui',
     8,
     {
@@ -142,11 +152,22 @@ const Game = (app) => {
     updatePlayerHealth
   );
   playerHealth.icon.y = playerHealth.icon.height + 6;
-  app.stage.addChild(playerHealth);
-  app.playerHealth = playerHealth;
+  scene.addChild(playerHealth);
+  scene.playerHealth = playerHealth;
 
   // Start the zombie spawner
-  ZombieSpawner(app);
+  ZombieSpawner(scene);
+
+  scene.loop = (delta) => {
+    scene.gameArea.children.forEach((child) => {
+      console.log(child);
+      if (child.update) {
+        child.update(delta);
+      }
+    });
+  };
+
+  return scene;
 };
 
 export default Game;

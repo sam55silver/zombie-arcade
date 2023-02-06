@@ -3,7 +3,7 @@ import { updateContainer } from './Utility';
 import SAT from 'sat';
 
 class Bullet extends Container {
-  constructor(app, x, y, rotation) {
+  constructor(scene, x, y, rotation) {
     super();
     const muzzleOffset = 35;
     this.rotation = rotation - Math.PI / 2;
@@ -12,7 +12,7 @@ class Bullet extends Container {
       y: Math.sin(this.rotation) * muzzleOffset,
     };
 
-    this.zombies = app.zombies;
+    this.zombies = scene.zombies;
 
     this.x = x + offset.x;
     this.y = y + offset.y;
@@ -20,25 +20,22 @@ class Bullet extends Container {
 
     this.speed = 10;
 
-    this.sprite = new Sprite(app.spriteSheet.textures['bullet.png']);
+    this.sprite = new Sprite(scene.spriteSheet.textures['bullet.png']);
     this.sprite.anchor.set(0.5);
 
     this.addChild(this.sprite);
 
-    app.gameArea.addChild(this);
-
-    this.ticker = Ticker.shared;
-    this.ticker.add(this.update, this);
+    scene.gameArea.addChild(this);
 
     this.zombiesHit = [];
 
     setTimeout(() => {
-      this.ticker.remove(this.update, this);
       this.destroy();
     }, 1000);
   }
 
   update(delta) {
+    console.log('update bullet');
     this.hitBox.pos.x += Math.cos(this.rotation) * this.speed * delta;
     this.hitBox.pos.y += Math.sin(this.rotation) * this.speed * delta;
 

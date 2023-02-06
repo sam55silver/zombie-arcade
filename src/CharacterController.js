@@ -1,11 +1,10 @@
-import { Container, Ticker, AnimatedSprite, Graphics } from 'pixi.js';
+import { Container, AnimatedSprite, Graphics } from 'pixi.js';
 import SAT from 'sat';
 
 class CharacterController extends Container {
-  constructor(app, pos, hitBoxRadius, sprite, origin, speed, health) {
+  constructor(scene, pos, hitBoxRadius, sprite, origin, speed, health) {
     super();
 
-    this.app = app;
     this.x = pos.x;
     this.y = pos.y;
     this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), hitBoxRadius);
@@ -29,11 +28,7 @@ class CharacterController extends Container {
 
     this.health = health;
 
-    this.ticker = Ticker.shared;
-    this.ticker.add(this.update, this);
-    this.ticker.add(this.updateCharacter, this);
-
-    app.gameArea.addChild(this);
+    scene.gameArea.addChild(this);
   }
 
   hit() {
