@@ -141,7 +141,6 @@ const Game = (app) => {
     const timesHit = scene.player.timesHit;
     const maxHealth = scene.player.maxHealth;
     for (let i = 1; i <= timesHit; i++) {
-      console.log('i', i);
       ui.units[maxHealth - i].update('1');
     }
   };
