@@ -160,12 +160,13 @@ const Game = (app) => {
 
   scene.loop = (delta) => {
     scene.gameArea.children.forEach((child) => {
-      console.log(child);
       if (child.update) {
         child.update(delta);
       }
     });
   };
+
+  app.ticker.add(scene.loop);
 
   return scene;
 };

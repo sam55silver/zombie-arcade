@@ -57,7 +57,7 @@ class Zombie extends CharacterController {
     }
   }
 
-  update(delta) {
+  updateCharacter(delta) {
     if (!this.dead) {
       this.velocity = this.lookAtPlayer()
         .vectorTo.normalize()

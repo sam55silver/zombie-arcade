@@ -35,7 +35,6 @@ class Bullet extends Container {
   }
 
   update(delta) {
-    console.log('update bullet');
     this.hitBox.pos.x += Math.cos(this.rotation) * this.speed * delta;
     this.hitBox.pos.y += Math.sin(this.rotation) * this.speed * delta;
 

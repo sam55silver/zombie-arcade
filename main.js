@@ -25,7 +25,6 @@ const Setup = () => {
       // Start game
       let gameScene = Game(app);
       app.stage.addChild(gameScene);
-      app.ticker.add((delta) => gameScene.loop(delta));
 
       let sceneActive = true;
 
@@ -34,14 +33,11 @@ const Setup = () => {
       sceneBtn.addEventListener('click', () => {
         if (sceneActive) {
           app.stage.removeChild(gameScene);
-          gameScene.ticker.stop();
+          app.ticker.remove(gameScene.loop);
 
           gameScene.destroy({
             children: true,
           });
-
-          gameScene = null;
-          console.log(gameScene);
 
           sceneBtn.innerHTML = 'Add Scene';
           sceneActive = false;

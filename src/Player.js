@@ -75,14 +75,12 @@ class Player extends CharacterController {
     this.rotation = angle;
   }
 
-  update(delta) {
-    console.log('update');
+  updateCharacter(delta) {
     // move
     this.velocity = this.moveDir.clone().normalize().scale(this.speed);
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
     this.lookAtMouse();
-    this.updateCharacter(delta);
   }
 }
 

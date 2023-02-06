@@ -75,11 +75,8 @@ class CharacterController extends Container {
     this.destroy();
   }
 
-  addToUpdate(update, player) {
-    this.ticker.add(update, player);
-  }
-
-  updateCharacter(delta) {
+  update(delta) {
+    if (this.updateCharacter) this.updateCharacter(delta);
     this.x += this.velocity.x * delta;
     this.y += this.velocity.y * delta;
     this.hitBox.pos.x = this.x;
