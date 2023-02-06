@@ -18,6 +18,9 @@ class Player extends CharacterController {
 
     this.scene = scene;
 
+    this.maxHealth = 8;
+    this.timesHit = 0;
+
     this.moveDir = new SAT.Vector(0, 0);
     // input
     const moveInput = (axis, dir) => {
@@ -43,20 +46,26 @@ class Player extends CharacterController {
     this.mouseLoc.y = y;
   }
 
-  getHit() {
-    if (this.isInvulnerable) return;
+  hit() {
+    if (this.isInvulnerable || this.timesHit >= this.maxHealth) return;
 
-    // Make player invulnerable for a short time
-    this.sprite.tint = 0xff0000;
-    this.sprite.alpha = 0.5;
-    this.isInvulnerable = true;
-    setTimeout(() => {
-      this.sprite.tint = 0xffffff;
-      this.sprite.alpha = 1;
-      this.isInvulnerable = false;
-    }, 1000);
-
+    this.timesHit++;
     this.scene.playerHealth.update();
+
+    if (this.timesHit >= this.maxHealth) {
+      // TO-DO: Add death animation here
+      console.log('Game Over');
+    } else {
+      // Make player invulnerable for a short time
+      this.sprite.tint = 0xff0000;
+      this.sprite.alpha = 0.5;
+      this.isInvulnerable = true;
+      setTimeout(() => {
+        this.sprite.tint = 0xffffff;
+        this.sprite.alpha = 1;
+        this.isInvulnerable = false;
+      }, 1000);
+    }
   }
 
   fire() {

@@ -2,7 +2,7 @@ import { Container, AnimatedSprite, Graphics } from 'pixi.js';
 import SAT from 'sat';
 
 class CharacterController extends Container {
-  constructor(scene, pos, hitBoxRadius, sprite, origin, speed, health) {
+  constructor(scene, pos, hitBoxRadius, sprite, origin, speed) {
     super();
 
     this.x = pos.x;
@@ -26,17 +26,7 @@ class CharacterController extends Container {
     this.speed = speed;
     this.velocity = new SAT.Vector(0, 0);
 
-    this.health = health;
-
     scene.gameArea.addChild(this);
-  }
-
-  hit() {
-    this.health--;
-    if (this.health <= 0) {
-      if (this.deathCallback) this.deathCallback();
-      this.destroyCharacter();
-    }
   }
 
   rigidBodyCollisionCheck(type, collisionObjects, callback) {
@@ -67,12 +57,6 @@ class CharacterController extends Container {
     } else {
       checkCollide(collisionObjects);
     }
-  }
-
-  destroyCharacter() {
-    this.ticker.remove(this.update, this);
-    this.ticker.remove(this.updateCharacter, this);
-    this.destroy();
   }
 
   update(delta) {

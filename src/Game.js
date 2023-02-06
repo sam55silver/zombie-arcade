@@ -111,6 +111,7 @@ const Game = (app) => {
 
   // add kill count
   const updateKillCount = (ui) => {
+    ui.count++;
     let countString = ui.count.toString();
     const zerosToAdd = 3 - countString.length;
     for (let i = 0; i < zerosToAdd; i++) {
@@ -122,29 +123,32 @@ const Game = (app) => {
     }
   };
 
-  const killCount = new UIContainer(
-    scene,
-    'kill-ui',
-    3,
-    {
-      x: mapArea.topRight.x - 50,
-      y: mapArea.topRight.y - 48,
-    },
-    updateKillCount
-  );
+  const killCount = new UIContainer(scene, 'kill-ui', 3, {
+    x: mapArea.topRight.x - 50,
+    y: mapArea.topRight.y - 48,
+  });
   killCount.icon.x = -killCount.icon.width - 4;
+
+  killCount.count = 0;
+  killCount.update = () => updateKillCount(killCount);
+
   scene.addChild(killCount);
   scene.killCount = killCount;
 
   // add Player health
   const updatePlayerHealth = (ui) => {
-    ui.units[ui.units.length - ui.count].update('1');
+    const timesHit = scene.player.timesHit;
+    const maxHealth = scene.player.maxHealth;
+    for (let i = 1; i <= timesHit; i++) {
+      console.log('i', i);
+      ui.units[maxHealth - i].update('1');
+    }
   };
 
   const playerHealth = new UIContainer(
     scene,
     'health-ui',
-    8,
+    scene.player.maxHealth,
     {
       x: mapArea.topLeft.x,
       y: mapArea.topLeft.y - 48,
@@ -152,6 +156,9 @@ const Game = (app) => {
     updatePlayerHealth
   );
   playerHealth.icon.y = playerHealth.icon.height + 6;
+
+  playerHealth.update = () => updatePlayerHealth(playerHealth);
+
   scene.addChild(playerHealth);
   scene.playerHealth = playerHealth;
 

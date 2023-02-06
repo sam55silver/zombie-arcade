@@ -3,39 +3,39 @@ import { lookAt } from './Utility';
 import SAT from 'sat';
 
 class Zombie extends CharacterController {
-  constructor(app, type, position) {
+  constructor(scene, type, position) {
     super(
-      app,
+      scene,
       position,
       15,
-      [app.spriteSheet.textures[`zombie-${type}.png`]],
+      [scene.spriteSheet.textures[`zombie-${type}.png`]],
       { x: 0.5, y: 0.9 },
       1,
       2
     );
 
-    this.app = app;
-    this.dead = false;
+    this.scene = scene;
+
+    this.health = 2;
 
     this.lookAtPlayer();
   }
 
-  deathCallback() {
-    this.dead = true;
-    this.app.killCount.update();
+  hit() {
+    this.health--;
+    if (this.health <= 0) {
+      this.scene.killCount.update();
 
-    // Play death animation
-    // this.velocity = new SAT.Vector(0, 0);
-    // this.sprite.textures = this.app.spriteSheet.animations['zombie-death'];
-    // this.sprite.animationSpeed = 0.1;
-    // this.sprite.play();
+      this.destroy({ children: true });
 
-    // console.log('Zombie died', this.velocity);
-    this.app.zombies = this.app.zombies.filter((zombie) => zombie !== this);
+      this.scene.zombies = this.scene.zombies.filter(
+        (zombie) => zombie !== this
+      );
+    }
   }
 
   lookAtPlayer() {
-    const lookAtPlayer = lookAt(this.hitBox.pos, this.app.player.hitBox.pos);
+    const lookAtPlayer = lookAt(this.hitBox.pos, this.scene.player.hitBox.pos);
     this.rotation = lookAtPlayer.angle;
 
     return lookAtPlayer;
@@ -45,29 +45,31 @@ class Zombie extends CharacterController {
     const { hitBox } = this;
 
     // Test collision with all other zombies
-    for (let i = 0; i < this.app.zombies.length; i++) {
+    for (let i = 0; i < this.scene.zombies.length; i++) {
       // If this is the same zombie, skip
-      if (this.app.zombies[i] == this) continue;
+      if (this.scene.zombies[i] == this) continue;
 
       // Soft body collision a check
       const response = new SAT.Response();
-      if (SAT.testCircleCircle(hitBox, this.app.zombies[i].hitBox, response)) {
+      if (
+        SAT.testCircleCircle(hitBox, this.scene.zombies[i].hitBox, response)
+      ) {
         this.velocity = this.velocity.sub(response.overlapV.scale(0.2));
       }
     }
   }
 
   updateCharacter(delta) {
-    if (!this.dead) {
+    if (!(this.health <= 0)) {
       this.velocity = this.lookAtPlayer()
         .vectorTo.normalize()
         .scale(this.speed);
 
       this.rigidBodyCollisionCheck(
         SAT.testCircleCircle,
-        this.app.player.hitBox,
+        this.scene.player.hitBox,
         () => {
-          this.app.player.getHit();
+          this.scene.player.hit();
         }
       );
       this.testCollideWithZombies();
