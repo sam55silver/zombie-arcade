@@ -56,7 +56,7 @@ class Player extends CharacterController {
       this.isInvulnerable = false;
     }, 1000);
 
-    this.hit();
+    this.app.playerHealth.update();
   }
 
   fire() {

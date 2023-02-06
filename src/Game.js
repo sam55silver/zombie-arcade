@@ -3,7 +3,7 @@ import Player from './Player';
 import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
-import KillCountUI from './KillCountUI';
+import UIContainer from './UIContainer';
 
 const Game = (app) => {
   // Add input to app
@@ -100,11 +100,50 @@ const Game = (app) => {
   app.player = player;
 
   // add kill count
-  const killCount = new KillCountUI(app);
-  killCount.x = mapArea.topRight.x - 76;
-  killCount.y = mapArea.topRight.y - 26;
+  const updateKillCount = (ui) => {
+    let countString = ui.count.toString();
+    const zerosToAdd = 3 - countString.length;
+    for (let i = 0; i < zerosToAdd; i++) {
+      countString = '0' + countString;
+    }
+
+    for (let i = 0; i < ui.units.length; i++) {
+      ui.units[i].update(countString[i]);
+    }
+  };
+
+  const killCount = new UIContainer(
+    app,
+    'kill-ui',
+    3,
+    {
+      x: mapArea.topRight.x - 50,
+      y: mapArea.topRight.y - 48,
+    },
+    updateKillCount
+  );
+  killCount.icon.x = -killCount.icon.width - 4;
   app.stage.addChild(killCount);
   app.killCount = killCount;
+
+  // add Player health
+  const updatePlayerHealth = (ui) => {
+    ui.units[ui.units.length - ui.count].update('1');
+  };
+
+  const playerHealth = new UIContainer(
+    app,
+    'health-ui',
+    8,
+    {
+      x: mapArea.topLeft.x,
+      y: mapArea.topLeft.y - 48,
+    },
+    updatePlayerHealth
+  );
+  playerHealth.icon.y = playerHealth.icon.height + 6;
+  app.stage.addChild(playerHealth);
+  app.playerHealth = playerHealth;
 
   // Start the zombie spawner
   ZombieSpawner(app);
