@@ -23,8 +23,8 @@ const Setup = () => {
       spriteSheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
 
       // Start game
-      let gameScene = Game(app);
-      app.stage.addChild(gameScene);
+      let scene = Game(app);
+      scene.loadScene();
 
       let sceneActive = true;
 
@@ -32,18 +32,14 @@ const Setup = () => {
       const sceneBtn = document.querySelector('#game-scene');
       sceneBtn.addEventListener('click', () => {
         if (sceneActive) {
-          app.stage.removeChild(gameScene);
-          app.ticker.remove(gameScene.loop);
-
-          gameScene.destroy({
-            children: true,
-          });
+          scene.removeScene();
 
           sceneBtn.innerHTML = 'Add Scene';
           sceneActive = false;
         } else {
-          gameScene = Game(app);
-          app.stage.addChild(gameScene);
+          scene = Game(app);
+          scene.loadScene();
+
           sceneBtn.innerHTML = 'Remove Scene';
           sceneActive = true;
         }

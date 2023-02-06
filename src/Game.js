@@ -4,10 +4,11 @@ import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
+import Scene from './Scene';
 
 const Game = (app) => {
   // create scene for game to be added to
-  const scene = new Container();
+  const scene = new Scene(app);
   // app.stage.addChild(scene);
 
   // Add sprite sheet to scene
@@ -165,7 +166,7 @@ const Game = (app) => {
   // Start the zombie spawner
   ZombieSpawner(scene);
 
-  scene.loop = (delta) => {
+  const gameLoop = (delta) => {
     scene.gameArea.children.forEach((child) => {
       if (child.update) {
         child.update(delta);
@@ -173,7 +174,7 @@ const Game = (app) => {
     });
   };
 
-  app.ticker.add(scene.loop);
+  scene.addLoop(gameLoop);
 
   return scene;
 };
