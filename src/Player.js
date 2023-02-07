@@ -22,19 +22,6 @@ class Player extends CharacterController {
     this.timesHit = 0;
 
     this.moveDir = new SAT.Vector(0, 0);
-    // input
-    const moveInput = (axis, dir) => {
-      const move = () => (this.moveDir[axis] = dir);
-      const stop = () => (this.moveDir[axis] = 0);
-      return [move, stop];
-    };
-    scene.input.addInput('w', ...moveInput('y', -1));
-    scene.input.addInput('s', ...moveInput('y', 1));
-    scene.input.addInput('a', ...moveInput('x', -1));
-    scene.input.addInput('d', ...moveInput('x', 1));
-
-    scene.input.addMouseMovement(scene.view, this.onMouseMove.bind(this));
-    scene.input.addMouseInput(scene.view, this.fire.bind(this));
 
     this.mouseLoc = new SAT.Vector(0, 0);
 
@@ -85,6 +72,29 @@ class Player extends CharacterController {
   }
 
   updateCharacter(delta) {
+    // Check inputs
+    for (let input in this.scene.input.pressed) {
+      switch (this.scene.input.pressed[input]) {
+        case 'up':
+          this.moveDir.y = -1;
+          break;
+        case 'down':
+          this.moveDir.y = 1;
+          break;
+        case 'left':
+          this.moveDir.x = -1;
+          break;
+        case 'right':
+          this.moveDir.x = 1;
+          break;
+        case 'fire':
+          this.fire();
+          break;
+        default:
+          break;
+      }
+    }
+
     // move
     this.velocity = this.moveDir.clone().normalize().scale(this.speed);
 

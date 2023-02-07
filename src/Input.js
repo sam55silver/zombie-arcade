@@ -1,64 +1,51 @@
-import { Ticker } from 'pixi.js';
-
 class Input {
   constructor() {
-    this.inputs = {};
-    this.currentInputs = [];
+    this.pressed = [];
+    this.mousePos = { x: 0, y: 0 };
 
-    document.addEventListener('keydown', this.keyDown.bind(this));
-    document.addEventListener('keyup', this.keyUp.bind(this));
+    const app = document.getElementById('app');
 
-    this.ticker = Ticker.shared;
-    this.ticker.add(this.update, this);
-  }
+    app.addEventListener('mousedown', (e) =>
+      this.inputPress(e.button == 0, 'fire')
+    );
+    app.addEventListener('mouseup', (e) =>
+      this.inputRelease(e.button == 0, 'fire')
+    );
 
-  addMouseMovement(client, callback) {
-    const rect = client.getBoundingClientRect();
-    client.addEventListener('mousemove', (e) => {
-      callback(e.clientX - rect.left, e.clientY - rect.top);
+    app.addEventListener('mousemove', (e) => {
+      const rect = app.getBoundingClientRect();
+      this.mousePos = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.repeat) return;
+      console.log('keydown', e.key);
+      this.inputPress(e.key == 'w', 'up');
+      this.inputPress(e.key == 's', 'down');
+      this.inputPress(e.key == 'a', 'left');
+      this.inputPress(e.key == 'd', 'right');
+    });
+
+    document.addEventListener('keyup', (e) => {
+      console.log('keyup', e.key);
+      this.inputRelease(e.key == 'w', 'up');
+      this.inputRelease(e.key == 's', 'down');
+      this.inputRelease(e.key == 'a', 'left');
+      this.inputRelease(e.key == 'd', 'right');
     });
   }
 
-  addMouseInput(client, callback) {
-    this.inputs['0'] = { keyDown: callback };
-
-    client.addEventListener('mousedown', (e) => {
-      if (e.button == 0) this.currentInputs.push(e.button);
-    });
-    client.addEventListener('mouseup', (e) => {
-      if (e.button == 0) {
-        this.currentInputs = this.currentInputs.filter(
-          (input) => input !== e.button
-        );
-      }
-    });
+  inputPress(keyPressed, action) {
+    if (keyPressed) this.pressed.push(action);
   }
 
-  addInput(key, keyDown, keyUp) {
-    this.inputs[key] = { keyUp, keyDown };
-  }
-
-  keyDown(e) {
-    if (this.inputs[e.key] && !this.currentInputs.includes(e.key)) {
-      this.currentInputs.push(e.key);
+  inputRelease(keyReleased, action) {
+    if (keyReleased) {
+      this.pressed = this.pressed.filter((input) => input !== action);
     }
-  }
-
-  keyUp(e) {
-    if (this.inputs[e.key]) {
-      this.currentInputs = this.currentInputs.filter(
-        (input) => input !== e.key
-      );
-      this.inputs[e.key].keyUp();
-    }
-  }
-
-  update(delta) {
-    // console.log(this.currentInputs);
-    this.currentInputs.forEach((input) => {
-      if (this.inputs[input]) this.inputs[input].keyDown(delta);
-    });
-    // console.log(this.currentInputs);
   }
 }
 

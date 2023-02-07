@@ -1,4 +1,4 @@
-import { Container, Sprite, Ticker } from 'pixi.js';
+import { Container, Sprite } from 'pixi.js';
 import { updateContainer } from './Utility';
 import SAT from 'sat';
 
@@ -30,7 +30,7 @@ class Bullet extends Container {
     this.zombiesHit = [];
 
     setTimeout(() => {
-      this.destroy();
+      this.destroy({ children: true });
     }, 1000);
   }
 
@@ -38,7 +38,7 @@ class Bullet extends Container {
     this.hitBox.pos.x += Math.cos(this.rotation) * this.speed * delta;
     this.hitBox.pos.y += Math.sin(this.rotation) * this.speed * delta;
 
-    // Update hitbox
+    // Update hit box
     updateContainer(this, this.hitBox.pos);
 
     // Check for collision with zombies
