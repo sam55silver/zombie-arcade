@@ -22,6 +22,7 @@ class Bullet extends Container {
 
     this.sprite = new Sprite(scene.spriteSheet.textures['bullet.png']);
     this.sprite.anchor.set(0.5);
+    this.sprite.scale.set(scene.spriteScale);
 
     this.addChild(this.sprite);
 

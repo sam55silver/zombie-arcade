@@ -1,10 +1,10 @@
 import { Container, AnimatedSprite, Sprite } from 'pixi.js';
 
 class Unit extends Container {
-  constructor(sprites) {
+  constructor(sprites, scale) {
     super();
     this.sprite = new AnimatedSprite(sprites);
-    this.sprite.scale.set(2);
+    this.sprite.scale.set(scale);
     this.addChild(this.sprite);
   }
 
@@ -14,14 +14,14 @@ class Unit extends Container {
 }
 
 class UIContainer extends Container {
-  constructor(scene, assetName, unitCount, position) {
+  constructor(scene, assetName, unitCount, xAxis) {
     super();
 
-    this.x = position.x;
-    this.y = position.y;
+    this.x = xAxis;
+    this.y = 6 * scene.spriteScale;
 
     this.icon = new Sprite(scene.spriteSheet.textures[assetName + '.png']);
-    this.icon.scale.set(2);
+    this.icon.scale.set(scene.spriteScale);
     this.addChild(this.icon);
 
     const sprites = scene.spriteSheet.animations[assetName];
@@ -29,9 +29,9 @@ class UIContainer extends Container {
     this.units = [];
     let offset = 0;
     for (let i = 0; i < unitCount; i++) {
-      const unit = new Unit(sprites);
+      const unit = new Unit(sprites, scene.spriteScale);
       unit.x = offset;
-      offset += unit.width + 2;
+      offset += unit.width + 1.5 * scene.spriteScale;
       this.addChild(unit);
       this.units.push(unit);
     }

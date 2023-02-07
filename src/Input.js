@@ -1,28 +1,30 @@
+import SAT from 'sat';
+
 class Input {
-  constructor() {
+  constructor(scene) {
     this.pressed = [];
-    this.mousePos = { x: 0, y: 0 };
+    this.mousePos = new SAT.Vector(0, 0);
 
-    const app = document.getElementById('app');
+    scene.interactive = true;
 
-    app.addEventListener('mousedown', (e) =>
-      this.inputPress(e.button == 0, 'fire')
-    );
-    app.addEventListener('mouseup', (e) =>
-      this.inputRelease(e.button == 0, 'fire')
-    );
+    scene.on('pointermove', (e) => {
+      this.mousePos.x = e.data.global.x;
+      this.mousePos.y = e.data.global.y;
+    });
 
-    app.addEventListener('mousemove', (e) => {
-      const rect = app.getBoundingClientRect();
-      this.mousePos = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
+    scene.on('mousedown', (e) => {
+      this.inputPress(e.button == 0, 'fire');
+    });
+    scene.on('mouseup', (e) => {
+      this.inputRelease(e.button == 0, 'fire');
+    });
+
+    scene.on('tap', (e) => {
+      this.tapInput('fire');
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.repeat) return;
-      console.log('keydown', e.key);
       this.inputPress(e.key == 'w', 'up');
       this.inputPress(e.key == 's', 'down');
       this.inputPress(e.key == 'a', 'left');
@@ -30,12 +32,18 @@ class Input {
     });
 
     document.addEventListener('keyup', (e) => {
-      console.log('keyup', e.key);
       this.inputRelease(e.key == 'w', 'up');
       this.inputRelease(e.key == 's', 'down');
       this.inputRelease(e.key == 'a', 'left');
       this.inputRelease(e.key == 'd', 'right');
     });
+  }
+
+  tapInput(action) {
+    this.pressed.push(action);
+    setTimeout(() => {
+      this.pressed = this.pressed.filter((input) => input !== action);
+    }, 100);
   }
 
   inputPress(keyPressed, action) {

@@ -5,10 +5,10 @@ import { lookAt } from './Utility';
 import SAT from 'sat';
 
 class Player extends CharacterController {
-  constructor(scene) {
+  constructor(scene, pos) {
     super(
       scene,
-      { x: 512 / 2, y: 512 / 2 },
+      pos,
       6,
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
@@ -67,11 +67,15 @@ class Player extends CharacterController {
 
   lookAtMouse() {
     // look at mouse
-    const angle = lookAt(this.hitBox.pos, this.mouseLoc).angle;
+    const angle = lookAt(this.hitBox.pos, this.scene.input.mousePos).angle;
     this.rotation = angle;
   }
 
   updateCharacter(delta) {
+    // Reset movement
+    this.moveDir.y = 0;
+    this.moveDir.x = 0;
+
     // Check inputs
     for (let input in this.scene.input.pressed) {
       switch (this.scene.input.pressed[input]) {

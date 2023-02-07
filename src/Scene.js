@@ -4,6 +4,7 @@ class Scene extends Container {
   constructor(app) {
     super();
     this.app = app;
+    this.spriteScale = app.spriteScale;
   }
 
   loadScene() {

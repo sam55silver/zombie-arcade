@@ -1,4 +1,4 @@
-import { Sprite, Container, Ticker } from 'pixi.js';
+import { Sprite, Container } from 'pixi.js';
 import Player from './Player';
 import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
@@ -18,26 +18,31 @@ const Game = (app) => {
   scene.view = app.view;
 
   // Add input to app
-  scene.input = new Input();
+  scene.input = new Input(scene);
+
+  const middleScreen = {
+    x: app.renderer.width / 2,
+    y: app.renderer.height / 2,
+  };
 
   // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
     const image = new Sprite(app.spriteSheet.textures[texture]);
     image.anchor.set(0.5);
-    image.scale.set(2);
-    image.x = app.renderer.width / 2;
-    image.y = app.renderer.height / 2;
+    image.scale.set(scene.spriteScale);
+    image.x = middleScreen.x;
+    image.y = middleScreen.y;
 
     if (offset) {
-      image.x += offset[0];
-      image.y += offset[1];
+      image.x += offset[0] * scene.spriteScale;
+      image.y += offset[1] * scene.spriteScale;
     }
 
     return image;
   };
 
   // Create map
-  const map = loadImageCentered('map.png', [0, 17]);
+  const map = loadImageCentered('map.png', [0, 8]);
   // Calculate map dimensions
   const mapDimensions = {
     width: map.width,
@@ -106,7 +111,7 @@ const Game = (app) => {
   // Create border for player to stay in
   scene.addChild(loadImageCentered('arena-border.png'));
 
-  const player = new Player(scene);
+  const player = new Player(scene, middleScreen);
   scene.gameArea.addChild(player);
   scene.player = player;
 
@@ -124,10 +129,12 @@ const Game = (app) => {
     }
   };
 
-  const killCount = new UIContainer(scene, 'kill-ui', 3, {
-    x: mapArea.topRight.x - 50,
-    y: mapArea.topRight.y - 48,
-  });
+  const killCount = new UIContainer(
+    scene,
+    'kill-ui',
+    3,
+    mapArea.topRight.x - 26 * scene.spriteScale
+  );
   killCount.icon.x = -killCount.icon.width - 4;
 
   killCount.count = 0;
@@ -149,10 +156,7 @@ const Game = (app) => {
     scene,
     'health-ui',
     scene.player.maxHealth,
-    {
-      x: mapArea.topLeft.x,
-      y: mapArea.topLeft.y - 48,
-    },
+    mapArea.topLeft.x,
     updatePlayerHealth
   );
   playerHealth.icon.y = playerHealth.icon.height + 6;
