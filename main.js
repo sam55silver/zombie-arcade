@@ -36,24 +36,24 @@ const Setup = () => {
       let scene = Game(app);
       scene.loadScene();
 
-      let sceneActive = true;
+      // let sceneActive = true;
 
-      // Remove game scene
-      const sceneBtn = document.querySelector('#game-scene');
-      sceneBtn.addEventListener('click', () => {
-        if (sceneActive) {
-          scene.removeScene();
+      // // Remove game scene
+      // const sceneBtn = document.querySelector('#game-scene');
+      // sceneBtn.addEventListener('click', () => {
+      //   if (sceneActive) {
+      //     scene.removeScene();
 
-          sceneBtn.innerHTML = 'Add Scene';
-          sceneActive = false;
-        } else {
-          scene = Game(app);
-          scene.loadScene();
+      //     sceneBtn.innerHTML = 'Add Scene';
+      //     sceneActive = false;
+      //   } else {
+      //     scene = Game(app);
+      //     scene.loadScene();
 
-          sceneBtn.innerHTML = 'Remove Scene';
-          sceneActive = true;
-        }
-      });
+      //     sceneBtn.innerHTML = 'Remove Scene';
+      //     sceneActive = true;
+      //   }
+      // });
     })
     .catch((err) => {
       console.log(err);
