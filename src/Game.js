@@ -17,9 +17,6 @@ const Game = (app) => {
   // Add view to scene
   scene.view = app.view;
 
-  // Add input to app
-  scene.input = new Input(scene);
-
   const middleScreen = {
     x: app.renderer.width / 2,
     y: app.renderer.height / 2,
@@ -162,6 +159,9 @@ const Game = (app) => {
 
   scene.addChild(playerHealth);
   scene.playerHealth = playerHealth;
+
+  // Add input to app
+  scene.input = new Input(scene);
 
   // Start the zombie spawner
   ZombieSpawner(scene);

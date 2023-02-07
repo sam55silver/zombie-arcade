@@ -73,8 +73,9 @@ class Player extends CharacterController {
 
   updateCharacter(delta) {
     // Reset movement
-    this.moveDir.y = 0;
-    this.moveDir.x = 0;
+    // TO-DO: add mobile versions here
+    // this.moveDir.y = 0;
+    // this.moveDir.x = 0;
 
     // Check inputs
     for (let input in this.scene.input.pressed) {
