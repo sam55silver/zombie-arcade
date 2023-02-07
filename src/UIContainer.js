@@ -14,11 +14,11 @@ class Unit extends Container {
 }
 
 class UIContainer extends Container {
-  constructor(scene, assetName, unitCount, xAxis) {
+  constructor(scene, assetName, unitCount, position) {
     super();
 
-    this.x = xAxis;
-    this.y = 6 * scene.spriteScale;
+    this.x = position.x;
+    this.y = position.y;
 
     this.icon = new Sprite(scene.spriteSheet.textures[assetName + '.png']);
     this.icon.scale.set(scene.spriteScale);

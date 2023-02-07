@@ -129,12 +129,10 @@ const Game = (app) => {
     }
   };
 
-  const killCount = new UIContainer(
-    scene,
-    'kill-ui',
-    3,
-    mapArea.topRight.x - 26 * scene.spriteScale
-  );
+  const killCount = new UIContainer(scene, 'kill-ui', 3, {
+    x: mapArea.topRight.x - 26 * scene.spriteScale,
+    y: mapArea.topRight.y - 24 * scene.spriteScale,
+  });
   killCount.icon.x = -killCount.icon.width - 4;
 
   killCount.count = 0;
@@ -156,8 +154,7 @@ const Game = (app) => {
     scene,
     'health-ui',
     scene.player.maxHealth,
-    mapArea.topLeft.x,
-    updatePlayerHealth
+    { x: mapArea.topLeft.x, y: mapArea.topLeft.y - 24 * scene.spriteScale }
   );
   playerHealth.icon.y = playerHealth.icon.height + 6;
 

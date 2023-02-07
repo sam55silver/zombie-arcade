@@ -17,11 +17,11 @@ const Setup = () => {
   // Resize app to fit window
   if (windowWidth > 512) {
     app.spriteScale = 2;
-    app.renderer.resize(512, 512);
   } else {
     app.spriteScale = windowWidth / 256;
-    app.renderer.resize(windowWidth, windowWidth);
   }
+
+  app.resizeTo = window;
 
   // Append to DOM
   document.querySelector('#app').appendChild(app.view);
