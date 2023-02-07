@@ -78,30 +78,33 @@ class Player extends CharacterController {
     // this.moveDir.x = 0;
 
     // Check inputs
-    for (let input in this.scene.input.pressed) {
-      switch (this.scene.input.pressed[input]) {
-        case 'up':
-          this.moveDir.y = -1;
-          break;
-        case 'down':
-          this.moveDir.y = 1;
-          break;
-        case 'left':
-          this.moveDir.x = -1;
-          break;
-        case 'right':
-          this.moveDir.x = 1;
-          break;
-        case 'fire':
-          this.fire();
-          break;
-        default:
-          break;
-      }
-    }
+    // for (let input in this.scene.input.pressed) {
+    //   switch (this.scene.input.pressed[input]) {
+    //     case 'up':
+    //       this.moveDir.y = -1;
+    //       break;
+    //     case 'down':
+    //       this.moveDir.y = 1;
+    //       break;
+    //     case 'left':
+    //       this.moveDir.x = -1;
+    //       break;
+    //     case 'right':
+    //       this.moveDir.x = 1;
+    //       break;
+    //     case 'fire':
+    //       this.fire();
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
 
     // move
-    this.velocity = this.moveDir.clone().normalize().scale(this.speed);
+    this.velocity = this.scene.input.moveDir
+      .clone()
+      .normalize()
+      .scale(this.speed);
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
     this.lookAtMouse();

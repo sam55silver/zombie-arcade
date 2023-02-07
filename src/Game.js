@@ -5,6 +5,7 @@ import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
 import Scene from './Scene';
+import MobileInput from './MobileInput';
 
 const Game = (app) => {
   // create scene for game to be added to
@@ -161,7 +162,8 @@ const Game = (app) => {
   scene.playerHealth = playerHealth;
 
   // Add input to app
-  scene.input = new Input(scene);
+  // scene.input = new Input(scene);
+  scene.input = new MobileInput(scene);
 
   // Start the zombie spawner
   ZombieSpawner(scene);
