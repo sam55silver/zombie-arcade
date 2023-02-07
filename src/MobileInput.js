@@ -1,10 +1,10 @@
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Sprite } from 'pixi.js';
 import SAT from 'sat';
 
 class JoyStick {
-  constructor(scene, pos, input, type) {
+  constructor(scene, pos, callback) {
     this.joyStickPos = new SAT.Vector(pos.x, pos.y);
-    this.joystickRadius = 28 * scene.spriteScale;
+    this.joystickRadius = 35 * scene.spriteScale;
     this.joyStickGrabRadius = 14 * scene.spriteScale;
 
     const joyStickBG = new Graphics();
@@ -32,9 +32,15 @@ class JoyStick {
     joyStickGraphic.drawCircle(0, 0, this.joyStickGrabRadius);
     joyStickGraphic.endFill();
 
+    const moveZone = new Graphics();
+    moveZone.beginFill(0x9cc7d9);
+    moveZone.alpha = 0;
+    moveZone.drawCircle(0, 0, this.joystickRadius * 1.5);
+
     this.joyStick = new Container();
     this.joyStick.x = this.joyStickPos.x;
     this.joyStick.y = this.joyStickPos.y;
+    this.joyStick.addChild(moveZone);
     this.joyStick.addChild(joyStickGraphic);
 
     this.joyStick.interactive = true;
@@ -44,7 +50,7 @@ class JoyStick {
       this.joyStick.moving = false;
       this.joyStick.x = this.joyStickPos.x;
       this.joyStick.y = this.joyStickPos.y;
-      input[type] = new SAT.Vector(0, 0);
+      callback(new SAT.Vector(0, 0));
     };
 
     this.joyStick.on('pointerdown', (e) => {
@@ -74,12 +80,12 @@ class JoyStick {
       this.joyStick.x = pos.x;
       this.joyStick.y = pos.y;
 
-      input[type] = joyToCenter.clone();
+      callback(joyToCenter.clone());
     });
 
-    scene.addChild(joyStickBG);
-    scene.addChild(joyStickOutline);
-    scene.addChild(this.joyStick);
+    scene.mobileUI.addChild(joyStickBG);
+    scene.mobileUI.addChild(joyStickOutline);
+    scene.mobileUI.addChild(this.joyStick);
   }
 }
 
@@ -87,25 +93,51 @@ class MobileInput {
   constructor(scene) {
     this.mousePos = new SAT.Vector(0, 0);
     this.moveDir = new SAT.Vector(0, 0);
+    this.reticlePos = new SAT.Vector(0, 0);
+
+    this.reticle = new Sprite(scene.spriteSheet.animations['reticle'][0]);
+    this.reticle.anchor.set(0.5);
+    this.reticle.scale.set(scene.spriteScale);
+    this.reticle.x = scene.player.x;
+    this.reticle.y = scene.player.y;
+    scene.mobileUI.addChild(this.reticle);
+
+    const changeMove = (dir) => {
+      this.moveDir = dir;
+
+      // this.mousePos = this.reticlePos;
+    };
+
+    const changeMouse = (dir) => {
+      if (dir.len() === 0) return;
+      const playerPos = new SAT.Vector(scene.player.x, scene.player.y);
+
+      this.reticlePos = playerPos.clone().add(dir.normalize().scale(80));
+
+      this.reticle.x = this.reticlePos.x;
+      this.reticle.y = this.reticlePos.y;
+
+      this.mousePos = this.reticlePos;
+    };
+
+    changeMouse(new SAT.Vector(1, 1));
 
     new JoyStick(
       scene,
       {
-        x: scene.map.area.bottomLeft.x + 20 * scene.spriteScale,
-        y: scene.map.area.bottomLeft.y + 40 * scene.spriteScale,
+        x: scene.map.area.bottomLeft.x, //+ 30 * scene.spriteScale,
+        y: scene.map.area.bottomLeft.y, //+ 45 * scene.spriteScale,
       },
-      this,
-      'moveDir'
+      changeMove
     );
 
     new JoyStick(
       scene,
       {
-        x: scene.map.area.bottomRight.x - 20 * scene.spriteScale,
-        y: scene.map.area.bottomRight.y + 40 * scene.spriteScale,
+        x: scene.map.area.bottomRight.x - 30 * scene.spriteScale,
+        y: scene.map.area.bottomRight.y + 45 * scene.spriteScale,
       },
-      this,
-      'mousePos'
+      changeMouse
     );
   }
 }

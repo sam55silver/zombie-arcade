@@ -5,10 +5,10 @@ import { lookAt } from './Utility';
 import SAT from 'sat';
 
 class Player extends CharacterController {
-  constructor(scene, pos) {
+  constructor(scene) {
     super(
       scene,
-      pos,
+      { x: 0, y: 0 },
       6,
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },

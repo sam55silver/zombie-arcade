@@ -10,7 +10,19 @@ import MobileInput from './MobileInput';
 const Game = (app) => {
   // create scene for game to be added to
   const scene = new Scene(app);
-  // app.stage.addChild(scene);
+
+  scene.game = new Container();
+  scene.game.x = app.renderer.width / 2;
+  scene.game.y = app.renderer.height / 2;
+  scene.addChild(scene.game);
+
+  // Move scene up for mobile
+  scene.game.y -= 50 * scene.spriteScale;
+
+  scene.mobileUI = new Container();
+  scene.mobileUI.x = app.renderer.width / 2;
+  scene.mobileUI.y = app.renderer.height / 2;
+  scene.addChild(scene.mobileUI);
 
   // Add sprite sheet to scene
   scene.spriteSheet = app.spriteSheet;
@@ -18,22 +30,15 @@ const Game = (app) => {
   // Add view to scene
   scene.view = app.view;
 
-  const middleScreen = {
-    x: app.renderer.width / 2,
-    y: app.renderer.height / 2,
-  };
-
   // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
     const image = new Sprite(app.spriteSheet.textures[texture]);
     image.anchor.set(0.5);
     image.scale.set(scene.spriteScale);
-    image.x = middleScreen.x;
-    image.y = middleScreen.y;
 
     if (offset) {
-      image.x += offset[0] * scene.spriteScale;
-      image.y += offset[1] * scene.spriteScale;
+      image.x = offset[0] * scene.spriteScale;
+      image.y = offset[1] * scene.spriteScale;
     }
 
     return image;
@@ -99,17 +104,17 @@ const Game = (app) => {
     ],
   };
 
-  scene.addChild(map);
+  scene.game.addChild(map);
 
   // add player to stage
   const gameArea = new Container();
   scene.gameArea = gameArea;
-  scene.addChild(gameArea);
+  scene.game.addChild(gameArea);
 
   // Create border for player to stay in
-  scene.addChild(loadImageCentered('arena-border.png'));
+  scene.game.addChild(loadImageCentered('arena-border.png'));
 
-  const player = new Player(scene, middleScreen);
+  const player = new Player(scene);
   scene.gameArea.addChild(player);
   scene.player = player;
 
@@ -136,7 +141,7 @@ const Game = (app) => {
   killCount.count = 0;
   killCount.update = () => updateKillCount(killCount);
 
-  scene.addChild(killCount);
+  scene.game.addChild(killCount);
   scene.killCount = killCount;
 
   // add Player health
@@ -158,7 +163,7 @@ const Game = (app) => {
 
   playerHealth.update = () => updatePlayerHealth(playerHealth);
 
-  scene.addChild(playerHealth);
+  scene.game.addChild(playerHealth);
   scene.playerHealth = playerHealth;
 
   // Add input to app
