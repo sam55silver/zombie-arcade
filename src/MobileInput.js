@@ -91,7 +91,7 @@ class JoyStick {
 
 class MobileInput {
   constructor(scene) {
-    this.mousePos = new SAT.Vector(0, 0);
+    this.mousePos = new SAT.Vector(50, 50);
     this.moveDir = new SAT.Vector(0, 0);
     this.reticlePos = new SAT.Vector(0, 0);
 
@@ -99,14 +99,11 @@ class MobileInput {
       this.moveDir = dir.clone();
     };
 
-    const changeMouse = (dir) => {
-      if (dir.len() === 0) return;
-      // this.mousePos = dir.clone();
-      const playerPos = new SAT.Vector(scene.player.x, scene.player.y);
-      this.mousePos = playerPos.clone().add(dir.normalize().scale(80));
-    };
-
-    changeMouse(new SAT.Vector(1, 1));
+    scene.game.interactive = true;
+    scene.game.on('pointerdown', (e) => {
+      const clickPos = new SAT.Vector(e.client.x, e.client.y);
+      this.mousePos = clickPos.sub(scene.game.position);
+    });
 
     const mobileUIY = scene.mobileUI.screenHeight * (5 / 6);
 
@@ -119,15 +116,6 @@ class MobileInput {
       changeMove
     );
 
-    new JoyStick(
-      scene,
-      {
-        x: scene.mobileUI.screenWidth * (4 / 5),
-        y: mobileUIY,
-      },
-      changeMouse
-    );
-
     const btnDimensions = {
       x: 60 * scene.spriteScale,
       y: 30 * scene.spriteScale,
@@ -137,7 +125,7 @@ class MobileInput {
     fireButton.beginFill(0xdb5e5e);
     fireButton.alpha = 0.6;
     fireButton.drawRoundedRect(
-      scene.mobileUI.screenWidth / 2 - btnDimensions.x / 2,
+      scene.mobileUI.screenWidth - btnDimensions.x * 1.5,
       mobileUIY - btnDimensions.x / 2,
       btnDimensions.x,
       btnDimensions.y,
@@ -150,7 +138,7 @@ class MobileInput {
     fireButtonOutline.alpha = 1;
     fireButtonOutline.lineStyle(3, 0xdb5e5e);
     fireButtonOutline.drawRoundedRect(
-      scene.mobileUI.screenWidth / 2 - btnDimensions.x / 2,
+      scene.mobileUI.screenWidth - btnDimensions.x * 1.5,
       mobileUIY - btnDimensions.x / 2,
       btnDimensions.x,
       btnDimensions.y,

@@ -12,12 +12,13 @@ const Game = (app) => {
   const scene = new Scene(app);
 
   scene.game = new Container();
-  scene.game.x = app.renderer.width / 2;
-  scene.game.y = app.renderer.height / 2;
+  scene.gamePos = new SAT.Vector(
+    app.renderer.width / 2,
+    app.renderer.height / 2 - 50 * scene.spriteScale
+  );
+  scene.game.x = scene.gamePos.x;
+  scene.game.y = scene.gamePos.y;
   scene.addChild(scene.game);
-
-  // Move scene up for mobile
-  scene.game.y -= 50 * scene.spriteScale;
 
   scene.mobileUI = new Container();
   scene.mobileUI.screenHeight = app.renderer.height;
