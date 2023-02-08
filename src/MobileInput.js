@@ -4,8 +4,8 @@ import SAT from 'sat';
 class JoyStick {
   constructor(scene, pos, callback) {
     this.joyStickPos = new SAT.Vector(pos.x, pos.y);
-    this.joystickRadius = 35 * scene.spriteScale;
-    this.joyStickGrabRadius = 14 * scene.spriteScale;
+    this.joystickRadius = 50 * scene.spriteScale;
+    this.joyStickGrabRadius = 20 * scene.spriteScale;
 
     const joyStickBG = new Graphics();
     joyStickBG.beginFill(0x9cc7d9);
@@ -94,15 +94,30 @@ class MobileInput {
     this.mousePos = new SAT.Vector(50, 50);
     this.moveDir = new SAT.Vector(0, 0);
     this.reticlePos = new SAT.Vector(0, 0);
+    this.isFiring = false;
 
     const changeMove = (dir) => {
       this.moveDir = dir.clone();
     };
 
-    scene.game.interactive = true;
-    scene.game.on('pointerdown', (e) => {
+    const moveReticle = (e) => {
+      this.isFiring = true;
       const clickPos = new SAT.Vector(e.client.x, e.client.y);
       this.mousePos = clickPos.sub(scene.game.position);
+    };
+
+    scene.game.interactive = true;
+    scene.game.on('pointerdown', (e) => {
+      moveReticle(e);
+    });
+    scene.game.on('pointerup', (e) => {
+      this.isFiring = false;
+    });
+    scene.game.on('pointerupoutside', (e) => {
+      this.isFiring = false;
+    });
+    scene.game.on('pointermove', (e) => {
+      moveReticle(e);
     });
 
     const mobileUIY = scene.mobileUI.screenHeight * (5 / 6);
@@ -110,46 +125,11 @@ class MobileInput {
     new JoyStick(
       scene,
       {
-        x: scene.mobileUI.screenWidth * (1 / 5),
+        x: scene.mobileUI.screenWidth * (1 / 4),
         y: mobileUIY,
       },
       changeMove
     );
-
-    const btnDimensions = {
-      x: 60 * scene.spriteScale,
-      y: 30 * scene.spriteScale,
-    };
-
-    const fireButton = new Graphics();
-    fireButton.beginFill(0xdb5e5e);
-    fireButton.alpha = 0.6;
-    fireButton.drawRoundedRect(
-      scene.mobileUI.screenWidth - btnDimensions.x * 1.5,
-      mobileUIY - btnDimensions.x / 2,
-      btnDimensions.x,
-      btnDimensions.y,
-      10
-    );
-    fireButton.endFill();
-    scene.mobileUI.addChild(fireButton);
-
-    const fireButtonOutline = new Graphics();
-    fireButtonOutline.alpha = 1;
-    fireButtonOutline.lineStyle(3, 0xdb5e5e);
-    fireButtonOutline.drawRoundedRect(
-      scene.mobileUI.screenWidth - btnDimensions.x * 1.5,
-      mobileUIY - btnDimensions.x / 2,
-      btnDimensions.x,
-      btnDimensions.y,
-      10
-    );
-    scene.mobileUI.addChild(fireButtonOutline);
-
-    fireButton.interactive = true;
-    fireButton.on('pointerdown', (e) => {
-      scene.player.fire();
-    });
   }
 }
 

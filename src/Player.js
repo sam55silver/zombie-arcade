@@ -129,6 +129,7 @@ class Player extends CharacterController {
     this.reticle.y = this.scene.input.mousePos.y;
 
     this.lookAtMouse();
+    if (this.scene.input.isFiring) this.fire();
   }
 }
 
