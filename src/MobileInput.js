@@ -101,9 +101,9 @@ class MobileInput {
 
     const changeMouse = (dir) => {
       if (dir.len() === 0) return;
-      // this.mousePos = dir.clone();
-      const playerPos = new SAT.Vector(scene.player.x, scene.player.y);
-      this.mousePos = playerPos.clone().add(dir.normalize().scale(80));
+      this.mousePos = dir.clone();
+      // const playerPos = new SAT.Vector(scene.player.x, scene.player.y);
+      // this.mousePos = playerPos.clone().add(dir.normalize().scale(80));
     };
 
     changeMouse(new SAT.Vector(1, 1));

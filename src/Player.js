@@ -104,14 +104,14 @@ class Player extends CharacterController {
     //   }
     // }
 
-    // this.rotation = Math.atan(
-    //   this.scene.input.mousePos.y / this.scene.input.mousePos.x
-    // );
-    // if (this.scene.input.mousePos.x < 0) {
-    //   this.rotation += Math.PI;
-    // }
+    this.rotation = Math.atan(
+      this.scene.input.mousePos.y / this.scene.input.mousePos.x
+    );
+    if (this.scene.input.mousePos.x < 0) {
+      this.rotation += Math.PI;
+    }
 
-    // this.rotation += (90 * Math.PI) / 180;
+    this.rotation += (90 * Math.PI) / 180;
 
     // move
     this.velocity = this.scene.input.moveDir
@@ -119,16 +119,16 @@ class Player extends CharacterController {
       .normalize()
       .scale(this.speed);
 
-    // const deg = this.rotation - (90 * Math.PI) / 180;
-    // this.reticle.x = Math.cos(deg) * 100 + this.x + this.velocity.x * delta;
-    // this.reticle.y = Math.sin(deg) * 100 + this.y + this.velocity.y * delta;
+    const deg = this.rotation - (90 * Math.PI) / 180;
+    this.reticle.x = Math.cos(deg) * 100 + this.x + this.velocity.x * delta;
+    this.reticle.y = Math.sin(deg) * 100 + this.y + this.velocity.y * delta;
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
 
-    this.reticle.x = this.scene.input.mousePos.x;
-    this.reticle.y = this.scene.input.mousePos.y;
+    // this.reticle.x = this.scene.input.mousePos.x;
+    // this.reticle.y = this.scene.input.mousePos.y;
 
-    this.lookAtMouse();
+    // this.lookAtMouse();
   }
 }
 
