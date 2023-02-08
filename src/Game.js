@@ -20,8 +20,8 @@ const Game = (app) => {
   scene.game.y -= 50 * scene.spriteScale;
 
   scene.mobileUI = new Container();
-  scene.mobileUI.x = app.renderer.width / 2;
-  scene.mobileUI.y = app.renderer.height / 2;
+  scene.mobileUI.screenHeight = app.renderer.height;
+  scene.mobileUI.screenWidth = app.renderer.width;
   scene.addChild(scene.mobileUI);
 
   // Add sprite sheet to scene

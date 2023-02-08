@@ -66,7 +66,7 @@ class JoyStick {
     this.joyStick.on('pointermove', (e) => {
       if (!this.joyStick.moving) return;
 
-      const pos = new SAT.Vector(e.screen.x, e.screen.y);
+      const pos = new SAT.Vector(e.client.x, e.client.y);
       const joyToCenter = pos.clone().sub(this.joyStickPos);
       const dist = joyToCenter.clone().len();
       if (dist > this.joystickRadius - this.joyStickGrabRadius / 2) {
@@ -95,38 +95,26 @@ class MobileInput {
     this.moveDir = new SAT.Vector(0, 0);
     this.reticlePos = new SAT.Vector(0, 0);
 
-    this.reticle = new Sprite(scene.spriteSheet.animations['reticle'][0]);
-    this.reticle.anchor.set(0.5);
-    this.reticle.scale.set(scene.spriteScale);
-    this.reticle.x = scene.player.x;
-    this.reticle.y = scene.player.y;
-    scene.mobileUI.addChild(this.reticle);
-
     const changeMove = (dir) => {
-      this.moveDir = dir;
-
-      // this.mousePos = this.reticlePos;
+      this.moveDir = dir.clone();
     };
 
     const changeMouse = (dir) => {
       if (dir.len() === 0) return;
+      // this.mousePos = dir.clone();
       const playerPos = new SAT.Vector(scene.player.x, scene.player.y);
-
-      this.reticlePos = playerPos.clone().add(dir.normalize().scale(80));
-
-      this.reticle.x = this.reticlePos.x;
-      this.reticle.y = this.reticlePos.y;
-
-      this.mousePos = this.reticlePos;
+      this.mousePos = playerPos.clone().add(dir.normalize().scale(80));
     };
 
     changeMouse(new SAT.Vector(1, 1));
 
+    const mobileUIY = scene.mobileUI.screenHeight * (5 / 6);
+
     new JoyStick(
       scene,
       {
-        x: scene.map.area.bottomLeft.x, //+ 30 * scene.spriteScale,
-        y: scene.map.area.bottomLeft.y, //+ 45 * scene.spriteScale,
+        x: scene.mobileUI.screenWidth * (1 / 5),
+        y: mobileUIY,
       },
       changeMove
     );
@@ -134,11 +122,46 @@ class MobileInput {
     new JoyStick(
       scene,
       {
-        x: scene.map.area.bottomRight.x - 30 * scene.spriteScale,
-        y: scene.map.area.bottomRight.y + 45 * scene.spriteScale,
+        x: scene.mobileUI.screenWidth * (4 / 5),
+        y: mobileUIY,
       },
       changeMouse
     );
+
+    const btnDimensions = {
+      x: 60 * scene.spriteScale,
+      y: 30 * scene.spriteScale,
+    };
+
+    const fireButton = new Graphics();
+    fireButton.beginFill(0xdb5e5e);
+    fireButton.alpha = 0.6;
+    fireButton.drawRoundedRect(
+      scene.mobileUI.screenWidth / 2 - btnDimensions.x / 2,
+      mobileUIY - btnDimensions.x / 2,
+      btnDimensions.x,
+      btnDimensions.y,
+      10
+    );
+    fireButton.endFill();
+    scene.mobileUI.addChild(fireButton);
+
+    const fireButtonOutline = new Graphics();
+    fireButtonOutline.alpha = 1;
+    fireButtonOutline.lineStyle(3, 0xdb5e5e);
+    fireButtonOutline.drawRoundedRect(
+      scene.mobileUI.screenWidth / 2 - btnDimensions.x / 2,
+      mobileUIY - btnDimensions.x / 2,
+      btnDimensions.x,
+      btnDimensions.y,
+      10
+    );
+    scene.mobileUI.addChild(fireButtonOutline);
+
+    fireButton.interactive = true;
+    fireButton.on('pointerdown', (e) => {
+      scene.player.fire();
+    });
   }
 }
 

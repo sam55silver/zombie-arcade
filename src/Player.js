@@ -1,4 +1,4 @@
-import { Graphics } from 'pixi.js';
+import { Sprite } from 'pixi.js';
 import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import { lookAt } from './Utility';
@@ -21,8 +21,12 @@ class Player extends CharacterController {
     this.maxHealth = 8;
     this.timesHit = 0;
 
-    this.moveDir = new SAT.Vector(0, 0);
+    this.reticle = new Sprite(scene.spriteSheet.animations['reticle'][0]);
+    this.reticle.anchor.set(0.5);
+    this.reticle.scale.set(scene.spriteScale);
+    scene.game.addChild(this.reticle);
 
+    this.moveDir = new SAT.Vector(0, 0);
     this.mouseLoc = new SAT.Vector(0, 0);
 
     this.isInvulnerable = false;
@@ -100,13 +104,30 @@ class Player extends CharacterController {
     //   }
     // }
 
+    // this.rotation = Math.atan(
+    //   this.scene.input.mousePos.y / this.scene.input.mousePos.x
+    // );
+    // if (this.scene.input.mousePos.x < 0) {
+    //   this.rotation += Math.PI;
+    // }
+
+    // this.rotation += (90 * Math.PI) / 180;
+
     // move
     this.velocity = this.scene.input.moveDir
       .clone()
       .normalize()
       .scale(this.speed);
 
+    // const deg = this.rotation - (90 * Math.PI) / 180;
+    // this.reticle.x = Math.cos(deg) * 100 + this.x + this.velocity.x * delta;
+    // this.reticle.y = Math.sin(deg) * 100 + this.y + this.velocity.y * delta;
+
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
+
+    this.reticle.x = this.scene.input.mousePos.x;
+    this.reticle.y = this.scene.input.mousePos.y;
+
     this.lookAtMouse();
   }
 }

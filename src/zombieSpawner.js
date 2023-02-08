@@ -86,11 +86,11 @@ const ZombieSpawner = (scene) => {
   //   }
   // });
 
-  const spawnerOn = false;
+  const spawnerOn = true;
 
   const zombieSpawnTimer = () => {
     // Start timer to Spawn the next zombie
-    const baseTime = 1000;
+    const baseTime = 2000;
     const flexTime = Math.random() * 1000; // Add small variation to spawn time
     setTimeout(() => {
       if (!spawnerOn) return;
