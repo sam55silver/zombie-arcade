@@ -29,7 +29,7 @@ const Game = (app) => {
   scene.spriteSheet = app.spriteSheet;
 
   // Add view to scene
-  scene.view = app.view;
+  scene.stage = app.stage;
 
   // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
@@ -169,7 +169,7 @@ const Game = (app) => {
 
   // Add input to app
   // scene.input = new Input(scene);
-  scene.input = new MobileInput(scene);
+  scene.input = new Input(scene);
 
   // Start the zombie spawner
   ZombieSpawner(scene);

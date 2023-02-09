@@ -21,11 +21,6 @@ class Player extends CharacterController {
     this.maxHealth = 8;
     this.timesHit = 0;
 
-    this.reticle = new Sprite(scene.spriteSheet.animations['reticle'][0]);
-    this.reticle.anchor.set(0.5);
-    this.reticle.scale.set(scene.spriteScale);
-    scene.game.addChild(this.reticle);
-
     this.moveDir = new SAT.Vector(0, 0);
     this.mouseLoc = new SAT.Vector(0, 0);
 
@@ -78,40 +73,31 @@ class Player extends CharacterController {
   updateCharacter(delta) {
     // Reset movement
     // TO-DO: add mobile versions here
-    // this.moveDir.y = 0;
-    // this.moveDir.x = 0;
+    this.moveDir.y = 0;
+    this.moveDir.x = 0;
 
     // Check inputs
-    // for (let input in this.scene.input.pressed) {
-    //   switch (this.scene.input.pressed[input]) {
-    //     case 'up':
-    //       this.moveDir.y = -1;
-    //       break;
-    //     case 'down':
-    //       this.moveDir.y = 1;
-    //       break;
-    //     case 'left':
-    //       this.moveDir.x = -1;
-    //       break;
-    //     case 'right':
-    //       this.moveDir.x = 1;
-    //       break;
-    //     case 'fire':
-    //       this.fire();
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
-
-    // this.rotation = Math.atan(
-    //   this.scene.input.mousePos.y / this.scene.input.mousePos.x
-    // );
-    // if (this.scene.input.mousePos.x < 0) {
-    //   this.rotation += Math.PI;
-    // }
-
-    // this.rotation += (90 * Math.PI) / 180;
+    for (let input in this.scene.input.pressed) {
+      switch (this.scene.input.pressed[input]) {
+        case 'up':
+          this.moveDir.y = -1;
+          break;
+        case 'down':
+          this.moveDir.y = 1;
+          break;
+        case 'left':
+          this.moveDir.x = -1;
+          break;
+        case 'right':
+          this.moveDir.x = 1;
+          break;
+        case 'fire':
+          this.fire();
+          break;
+        default:
+          break;
+      }
+    }
 
     // move
     this.velocity = this.scene.input.moveDir
@@ -119,14 +105,7 @@ class Player extends CharacterController {
       .normalize()
       .scale(this.speed);
 
-    // const deg = this.rotation - (90 * Math.PI) / 180;
-    // this.reticle.x = Math.cos(deg) * 100 + this.x + this.velocity.x * delta;
-    // this.reticle.y = Math.sin(deg) * 100 + this.y + this.velocity.y * delta;
-
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
-
-    this.reticle.x = this.scene.input.mousePos.x;
-    this.reticle.y = this.scene.input.mousePos.y;
 
     this.lookAtMouse();
     if (this.scene.input.isFiring) this.fire();
