@@ -71,44 +71,44 @@ class Player extends CharacterController {
   }
 
   updateCharacter(delta) {
-    // Reset movement
-    // TO-DO: add mobile versions here
-    this.moveDir.y = 0;
-    this.moveDir.x = 0;
+    this.lookAtMouse();
 
-    // Check inputs
-    for (let input in this.scene.input.pressed) {
-      switch (this.scene.input.pressed[input]) {
-        case 'up':
-          this.moveDir.y = -1;
-          break;
-        case 'down':
-          this.moveDir.y = 1;
-          break;
-        case 'left':
-          this.moveDir.x = -1;
-          break;
-        case 'right':
-          this.moveDir.x = 1;
-          break;
-        case 'fire':
-          this.fire();
-          break;
-        default:
-          break;
+    if (this.scene.isMobile) {
+      if (this.scene.input.pressed.includes('fire')) this.fire();
+
+      this.moveDir.y = this.scene.input.moveDir.y;
+      this.moveDir.x = this.scene.input.moveDir.x;
+    } else {
+      this.moveDir.y = 0;
+      this.moveDir.x = 0;
+
+      for (let input in this.scene.input.pressed) {
+        switch (this.scene.input.pressed[input]) {
+          case 'up':
+            this.moveDir.y = -1;
+            break;
+          case 'down':
+            this.moveDir.y = 1;
+            break;
+          case 'left':
+            this.moveDir.x = -1;
+            break;
+          case 'right':
+            this.moveDir.x = 1;
+            break;
+          case 'fire':
+            this.fire();
+            break;
+          default:
+            break;
+        }
       }
     }
 
     // move
-    this.velocity = this.scene.input.moveDir
-      .clone()
-      .normalize()
-      .scale(this.speed);
+    this.velocity = this.moveDir.clone().normalize().scale(this.speed);
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
-
-    this.lookAtMouse();
-    if (this.scene.input.isFiring) this.fire();
   }
 }
 

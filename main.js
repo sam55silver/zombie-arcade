@@ -1,5 +1,5 @@
 import './style.css';
-import { Application, SCALE_MODES } from 'pixi.js';
+import { Application, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game';
 
@@ -22,6 +22,8 @@ const Setup = () => {
   }
 
   app.resizeTo = window;
+
+  app.isMobile = utils.isMobile.any;
 
   // Append to DOM
   document.querySelector('#app').appendChild(app.view);

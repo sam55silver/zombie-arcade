@@ -5,7 +5,6 @@ import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
 import Scene from './Scene';
-import MobileInput from './MobileInput';
 
 const Game = (app) => {
   // create scene for game to be added to
@@ -14,22 +13,31 @@ const Game = (app) => {
   scene.game = new Container();
   scene.gamePos = new SAT.Vector(
     app.renderer.width / 2,
-    app.renderer.height / 2 - 50 * scene.spriteScale
+    app.renderer.height / 2
   );
+
+  if (app.isMobile) {
+    scene.gamePos.y -= 50 * scene.spriteScale;
+
+    scene.mobileUI = new Container();
+    scene.mobileUI.screenHeight = app.renderer.height;
+    scene.mobileUI.screenWidth = app.renderer.width;
+    scene.addChild(scene.mobileUI);
+  }
+
   scene.game.x = scene.gamePos.x;
   scene.game.y = scene.gamePos.y;
   scene.addChild(scene.game);
 
-  scene.mobileUI = new Container();
-  scene.mobileUI.screenHeight = app.renderer.height;
-  scene.mobileUI.screenWidth = app.renderer.width;
-  scene.addChild(scene.mobileUI);
-
   // Add sprite sheet to scene
   scene.spriteSheet = app.spriteSheet;
 
+  scene.isMobile = app.isMobile;
+
   // Add view to scene
   scene.stage = app.stage;
+
+  scene.input = new Input(scene);
 
   // Create a function to load images centered
   const loadImageCentered = (texture, offset) => {
@@ -166,10 +174,6 @@ const Game = (app) => {
 
   scene.game.addChild(playerHealth);
   scene.playerHealth = playerHealth;
-
-  // Add input to app
-  // scene.input = new Input(scene);
-  scene.input = new Input(scene);
 
   // Start the zombie spawner
   ZombieSpawner(scene);
