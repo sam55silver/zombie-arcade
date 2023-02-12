@@ -2,12 +2,23 @@ import { Container, AnimatedSprite } from 'pixi.js';
 import SAT from 'sat';
 
 class CharacterController extends Container {
-  constructor(scene, pos, hitBoxRadius, sprite, origin, speed) {
+  constructor(
+    scene,
+    pos,
+    { hitBoxRadius, hitBoxOffset },
+    sprite,
+    origin,
+    speed
+  ) {
     super();
 
     this.x = pos.x;
     this.y = pos.y;
-    this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), hitBoxRadius);
+    this.hitBox = new SAT.Circle(
+      new SAT.Vector(this.x, this.y),
+      hitBoxRadius * scene.spriteScale
+    );
+    this.hitBoxOffset = hitBoxOffset;
 
     this.sprite = new AnimatedSprite(sprite);
     this.sprite.loop = false;
@@ -62,8 +73,12 @@ class CharacterController extends Container {
 
   update(delta) {
     if (this.updateCharacter) this.updateCharacter(delta);
-    this.x += this.velocity.x * delta;
-    this.y += this.velocity.y * delta;
+    if (this.dead) {
+      this.destroy({ children: true });
+      return;
+    }
+    this.x += this.velocity.x * this.speed * delta;
+    this.y += this.velocity.y * this.speed * delta;
     this.hitBox.pos.x = this.x;
     this.hitBox.pos.y = this.y;
   }

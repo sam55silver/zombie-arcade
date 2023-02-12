@@ -7,7 +7,7 @@ class Player extends CharacterController {
     super(
       scene,
       { x: 0, y: 0 },
-      6,
+      { hitBoxRadius: 6, hitBoxOffset: { x: 0, y: 0 } },
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
       4,
@@ -61,10 +61,7 @@ class Player extends CharacterController {
     if (this.scene.input.isFiring) this.fire();
 
     // move
-    this.velocity = this.scene.input.moveDir
-      .clone()
-      .normalize()
-      .scale(this.speed);
+    this.velocity = this.scene.input.moveDir.clone().normalize();
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
   }

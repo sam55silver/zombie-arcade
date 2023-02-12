@@ -6,7 +6,7 @@ class Zombie extends CharacterController {
     super(
       scene,
       position,
-      15,
+      { hitBoxRadius: 6, hitBoxOffset: { x: 0, y: 0 } },
       [scene.spriteSheet.textures[`zombie-${type}.png`]],
       { x: 0.5, y: 0.9 },
       1,
@@ -25,11 +25,11 @@ class Zombie extends CharacterController {
     if (this.health <= 0) {
       this.scene.killCount.update();
 
-      this.destroy({ children: true });
-
       this.scene.zombies = this.scene.zombies.filter(
         (zombie) => zombie !== this
       );
+
+      this.dead = true;
     }
   }
 
@@ -63,9 +63,7 @@ class Zombie extends CharacterController {
 
   updateCharacter(delta) {
     if (!(this.health <= 0)) {
-      this.velocity = this.lookAtPlayer()
-        .vectorTo.normalize()
-        .scale(this.speed);
+      this.velocity = this.lookAtPlayer().vectorTo.normalize();
 
       this.rigidBodyCollisionCheck(
         SAT.testCircleCircle,
