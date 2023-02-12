@@ -30,23 +30,11 @@ class Input {
   };
 
   setupDesktopControls() {
-    const checkKey = (key, num) => {
-      switch (key) {
-        case 'w':
-          this.moveDir.y = -num;
-          break;
-        case 's':
-          this.moveDir.y = num;
-          break;
-        case 'a':
-          this.moveDir.x = -num;
-          break;
-        case 'd':
-          this.moveDir.x = num;
-          break;
-        default:
-          break;
-      }
+    this.pressed = [];
+
+    const checkKey = (key, isPressed) => {
+      if (isPressed) this.pressed.push(key);
+      else this.pressed = this.pressed.filter((k) => k !== key);
     };
 
     document.addEventListener('mousemove', (e) => {
@@ -61,12 +49,36 @@ class Input {
 
     document.addEventListener('keydown', (e) => {
       if (e.repeat) return;
-      checkKey(e.key, 1);
+      checkKey(e.key, true);
     });
 
     document.addEventListener('keyup', (e) => {
-      checkKey(e.key, 0);
+      checkKey(e.key, false);
     });
+  }
+
+  update() {
+    if (this.pressed) {
+      this.moveDir.x = 0;
+      this.moveDir.y = 0;
+      for (let i in this.pressed) {
+        const key = this.pressed[i];
+        switch (key) {
+          case 'w':
+            this.moveDir.y = -1;
+            break;
+          case 'a':
+            this.moveDir.x = -1;
+            break;
+          case 's':
+            this.moveDir.y = 1;
+            break;
+          case 'd':
+            this.moveDir.x = 1;
+            break;
+        }
+      }
+    }
   }
 
   setupMobileControls() {

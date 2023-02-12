@@ -188,6 +188,7 @@ const Game = (app) => {
   ZombieSpawner(scene);
 
   const gameLoop = (delta) => {
+    scene.input.update();
     scene.gameArea.children.forEach((child) => {
       if (child.update) {
         child.update(delta);
