@@ -59,6 +59,13 @@ class CharacterController extends Container {
     }
   }
 
+  lookAt = (v1, v2) => {
+    const vectorTo = v2.clone().sub(v1.clone());
+    const angle = Math.atan2(vectorTo.y, vectorTo.x) + Math.PI / 2;
+
+    return { angle, vectorTo };
+  };
+
   update(delta) {
     if (this.updateCharacter) this.updateCharacter(delta);
     this.x += this.velocity.x * delta;

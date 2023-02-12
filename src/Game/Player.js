@@ -1,7 +1,5 @@
-import { Sprite } from 'pixi.js';
 import CharacterController from './CharacterController';
 import Bullet from './Bullet';
-import { lookAt } from './Utility';
 import SAT from 'sat';
 
 class Player extends CharacterController {
@@ -21,15 +19,7 @@ class Player extends CharacterController {
     this.maxHealth = 8;
     this.timesHit = 0;
 
-    this.moveDir = new SAT.Vector(0, 0);
-    this.mouseLoc = new SAT.Vector(0, 0);
-
     this.isInvulnerable = false;
-  }
-
-  onMouseMove(x, y) {
-    this.mouseLoc.x = x;
-    this.mouseLoc.y = y;
   }
 
   hit() {
@@ -64,49 +54,17 @@ class Player extends CharacterController {
     new Bullet(this.scene, this.x, this.y, this.rotation);
   }
 
-  lookAtMouse() {
-    // look at mouse
-    const angle = lookAt(this.hitBox.pos, this.scene.input.mousePos).angle;
-    this.rotation = angle;
-  }
-
   updateCharacter(delta) {
-    this.lookAtMouse();
+    const angle = this.lookAt(this.hitBox.pos, this.scene.input.mousePos).angle;
+    this.rotation = angle;
 
-    if (this.scene.isMobile) {
-      if (this.scene.input.pressed.includes('fire')) this.fire();
-
-      this.moveDir.y = this.scene.input.moveDir.y;
-      this.moveDir.x = this.scene.input.moveDir.x;
-    } else {
-      this.moveDir.y = 0;
-      this.moveDir.x = 0;
-
-      for (let input in this.scene.input.pressed) {
-        switch (this.scene.input.pressed[input]) {
-          case 'up':
-            this.moveDir.y = -1;
-            break;
-          case 'down':
-            this.moveDir.y = 1;
-            break;
-          case 'left':
-            this.moveDir.x = -1;
-            break;
-          case 'right':
-            this.moveDir.x = 1;
-            break;
-          case 'fire':
-            this.fire();
-            break;
-          default:
-            break;
-        }
-      }
-    }
+    if (this.scene.input.isFiring) this.fire();
 
     // move
-    this.velocity = this.moveDir.clone().normalize().scale(this.speed);
+    this.velocity = this.scene.input.moveDir
+      .clone()
+      .normalize()
+      .scale(this.speed);
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
   }

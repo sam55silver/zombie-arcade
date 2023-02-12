@@ -4,7 +4,7 @@ import Input from './Input';
 import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
-import Scene from './Scene';
+import Scene from '../Scene';
 
 const Game = (app) => {
   // create scene for game to be added to
@@ -141,14 +141,18 @@ const Game = (app) => {
     }
   };
 
-  const killCount = new UIContainer(scene, 'kill-ui', 3, {
-    x: mapArea.topRight.x - 26 * scene.spriteScale,
-    y: mapArea.topRight.y - 24 * scene.spriteScale,
-  });
+  const killCount = new UIContainer(
+    scene,
+    'kill-ui',
+    3,
+    {
+      x: mapArea.topRight.x - 26 * scene.spriteScale,
+      y: mapArea.topRight.y - 24 * scene.spriteScale,
+    },
+    updateKillCount
+  );
   killCount.icon.x = -killCount.icon.width - 4;
-
   killCount.count = 0;
-  killCount.update = () => updateKillCount(killCount);
 
   scene.game.addChild(killCount);
   scene.killCount = killCount;
@@ -166,11 +170,10 @@ const Game = (app) => {
     scene,
     'health-ui',
     scene.player.maxHealth,
-    { x: mapArea.topLeft.x, y: mapArea.topLeft.y - 24 * scene.spriteScale }
+    { x: mapArea.topLeft.x, y: mapArea.topLeft.y - 24 * scene.spriteScale },
+    updatePlayerHealth
   );
   playerHealth.icon.y = playerHealth.icon.height + 6;
-
-  playerHealth.update = () => updatePlayerHealth(playerHealth);
 
   scene.game.addChild(playerHealth);
   scene.playerHealth = playerHealth;

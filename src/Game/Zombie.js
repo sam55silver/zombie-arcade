@@ -1,5 +1,4 @@
 import CharacterController from './CharacterController';
-import { lookAt } from './Utility';
 import SAT from 'sat';
 
 class Zombie extends CharacterController {
@@ -35,7 +34,10 @@ class Zombie extends CharacterController {
   }
 
   lookAtPlayer() {
-    const lookAtPlayer = lookAt(this.hitBox.pos, this.scene.player.hitBox.pos);
+    const lookAtPlayer = this.lookAt(
+      this.hitBox.pos,
+      this.scene.player.hitBox.pos
+    );
     this.rotation = lookAtPlayer.angle;
 
     return lookAtPlayer;

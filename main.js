@@ -1,7 +1,7 @@
 import './style.css';
 import { Application, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
-import Game from './src/Game';
+import Game from './src/Game/Game';
 
 const Setup = () => {
   // Create Application
@@ -37,25 +37,6 @@ const Setup = () => {
       // Start game
       let scene = Game(app);
       scene.loadScene();
-
-      // let sceneActive = true;
-
-      // // Remove game scene
-      // const sceneBtn = document.querySelector('#game-scene');
-      // sceneBtn.addEventListener('click', () => {
-      //   if (sceneActive) {
-      //     scene.removeScene();
-
-      //     sceneBtn.innerHTML = 'Add Scene';
-      //     sceneActive = false;
-      //   } else {
-      //     scene = Game(app);
-      //     scene.loadScene();
-
-      //     sceneBtn.innerHTML = 'Remove Scene';
-      //     sceneActive = true;
-      //   }
-      // });
     })
     .catch((err) => {
       console.log(err);

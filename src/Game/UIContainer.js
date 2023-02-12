@@ -14,7 +14,7 @@ class Unit extends Container {
 }
 
 class UIContainer extends Container {
-  constructor(scene, assetName, unitCount, position) {
+  constructor(scene, assetName, unitCount, position, callback) {
     super();
 
     this.x = position.x;
@@ -22,6 +22,7 @@ class UIContainer extends Container {
 
     this.icon = new Sprite(scene.spriteSheet.textures[assetName + '.png']);
     this.icon.scale.set(scene.spriteScale);
+
     this.addChild(this.icon);
 
     const sprites = scene.spriteSheet.animations[assetName];
@@ -35,6 +36,12 @@ class UIContainer extends Container {
       this.addChild(unit);
       this.units.push(unit);
     }
+
+    this.callback = callback;
+  }
+
+  update() {
+    this.callback(this);
   }
 }
 

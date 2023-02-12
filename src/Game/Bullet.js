@@ -1,5 +1,4 @@
 import { Container, Sprite } from 'pixi.js';
-import { updateContainer } from './Utility';
 import SAT from 'sat';
 
 class Bullet extends Container {
@@ -40,7 +39,8 @@ class Bullet extends Container {
     this.hitBox.pos.y += Math.sin(this.rotation) * this.speed * delta;
 
     // Update hit box
-    updateContainer(this, this.hitBox.pos);
+    this.x = this.hitBox.pos.x;
+    this.y = this.hitBox.pos.y;
 
     // Check for collision with zombies
     this.zombies.forEach((zombie) => {

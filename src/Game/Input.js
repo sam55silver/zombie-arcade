@@ -5,90 +5,86 @@ class Input {
   constructor(scene) {
     this.scene = scene;
 
-    this.pressed = [];
-
     this.mousePos = new SAT.Vector(0, 0);
     this.moveDir = new SAT.Vector(0, 0);
+
+    this.isFiring = false;
 
     this.reticle = new Sprite(scene.spriteSheet.animations['reticle'][0]);
     this.reticle.anchor.set(0.5);
     this.reticle.scale.set(scene.spriteScale);
     scene.addChild(this.reticle);
 
+    this.updateReticle({ x: scene.game.position.x, y: scene.game.position.y });
+
     if (scene.isMobile) this.setupMobileControls();
     else this.setupDesktopControls();
   }
 
-  inputPress = (keyPressed, action) => {
-    if (keyPressed) this.pressed.push(action);
-  };
+  updateReticle = (pos) => {
+    this.reticle.x = pos.x;
+    this.reticle.y = pos.y;
 
-  inputRelease = (keyReleased, action) => {
-    if (keyReleased) {
-      this.pressed = this.pressed.filter((input) => input !== action);
-    }
+    this.mousePos.x = pos.x - this.scene.game.position.x;
+    this.mousePos.y = pos.y - this.scene.game.position.y;
   };
 
   setupDesktopControls() {
-    document.addEventListener('mousemove', (e) => {
-      this.reticle.x = e.clientX;
-      this.reticle.y = e.clientY;
+    const checkKey = (key, num) => {
+      switch (key) {
+        case 'w':
+          this.moveDir.y = -num;
+          break;
+        case 's':
+          this.moveDir.y = num;
+          break;
+        case 'a':
+          this.moveDir.x = -num;
+          break;
+        case 'd':
+          this.moveDir.x = num;
+          break;
+        default:
+          break;
+      }
+    };
 
-      this.mousePos.x = e.clientX - this.scene.game.position.x;
-      this.mousePos.y = e.clientY - this.scene.game.position.y;
+    document.addEventListener('mousemove', (e) => {
+      this.updateReticle({ x: e.clientX, y: e.clientY });
     });
     document.addEventListener('mousedown', (e) => {
-      this.inputPress(e.button == 0, 'fire');
+      this.isFiring = true;
     });
     document.addEventListener('mouseup', (e) => {
-      this.inputRelease(e.button == 0, 'fire');
+      this.isFiring = false;
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.repeat) return;
-      this.inputPress(e.key == 'w', 'up');
-      this.inputPress(e.key == 's', 'down');
-      this.inputPress(e.key == 'a', 'left');
-      this.inputPress(e.key == 'd', 'right');
+      checkKey(e.key, 1);
     });
 
     document.addEventListener('keyup', (e) => {
-      this.inputRelease(e.key == 'w', 'up');
-      this.inputRelease(e.key == 's', 'down');
-      this.inputRelease(e.key == 'a', 'left');
-      this.inputRelease(e.key == 'd', 'right');
+      checkKey(e.key, 0);
     });
   }
 
   setupMobileControls() {
     this.scene.game.interactive = true;
 
-    const changeMove = (dir) => {
-      this.moveDir = dir.clone();
-    };
-
-    const moveReticle = (e) => {
-      const clickPos = new SAT.Vector(e.client.x, e.client.y);
-      this.mousePos = clickPos.sub(this.scene.game.position);
-      this.reticle.x = e.clientX;
-      this.reticle.y = e.clientY;
-
-      if (!this.pressed.includes('fire')) {
-        this.inputPress(true, 'fire');
-      }
-    };
-
     this.scene.game.on('pointerdown', (e) => {
-      moveReticle(e);
-    });
-    this.scene.game.on('pointerup', (e) => {
-      this.inputRelease(true, 'fire');
-    });
-    this.scene.game.on('pointerupoutside', (e) => {
-      this.inputRelease(true, 'fire');
+      this.updateReticle({ x: e.clientX, y: e.clientY });
+      this.isFiring = true;
     });
     this.scene.game.on('pointermove', (e) => {
-      moveReticle(e);
+      this.updateReticle({ x: e.clientX, y: e.clientY });
+      this.isFiring = true;
+    });
+    this.scene.game.on('pointerup', (e) => {
+      this.isFiring = false;
+    });
+    this.scene.game.on('pointerupoutside', (e) => {
+      this.isFiring = false;
     });
 
     this.joyStickPos = new SAT.Vector(
@@ -141,7 +137,7 @@ class Input {
       this.joyStick.moving = false;
       this.joyStick.x = this.joyStickPos.x;
       this.joyStick.y = this.joyStickPos.y;
-      changeMove(new SAT.Vector(0, 0));
+      this.moveDir = new SAT.Vector(0, 0);
     };
 
     this.joyStick.on('pointerdown', (e) => {
@@ -171,7 +167,7 @@ class Input {
       this.joyStick.x = pos.x;
       this.joyStick.y = pos.y;
 
-      changeMove(joyToCenter.clone());
+      this.moveDir = joyToCenter.clone();
     });
 
     this.scene.mobileUI.addChild(joyStickBG);
