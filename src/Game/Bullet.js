@@ -7,36 +7,22 @@ class Bullet extends CharacterController {
     super(
       scene,
       { x, y },
-      5,
+      { hitBoxRadius: 2, hitBoxOffset: { x: 0, y: 0 } },
       [scene.spriteSheet.textures['bullet.png']],
       { x: 0.5, y: 0.5 },
-      5
+      10
     );
-    const muzzleOffset = 35;
 
-    this.rotation = rotation - Math.PI / 2;
-    const offset = {
-      x: Math.cos(this.rotation) * muzzleOffset,
-      y: Math.sin(this.rotation) * muzzleOffset,
-    };
-
-    this.zombies = scene.zombies;
-
-    this.x = x + offset.x;
-    this.y = y + offset.y;
-    this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), 5);
-
-    this.speed = 10;
-
-    this.sprite = new Sprite(scene.spriteSheet.textures['bullet.png']);
-    this.sprite.rotation = Math.PI / 2;
-    this.sprite.anchor.set(0.5);
     this.sprite.scale.set(scene.spriteScale * (2 / 3));
+    this.rotation = rotation - Math.PI / 2;
+    this.sprite.rotation = Math.PI / 2;
 
-    this.addChild(this.sprite);
+    const muzzleOffset = 35;
+    this.x += Math.cos(this.rotation) * muzzleOffset;
+    this.y += Math.sin(this.rotation) * muzzleOffset;
 
-    scene.gameArea.addChild(this);
-
+    this.walls = scene.map.walls;
+    this.zombies = scene.zombies;
     this.zombiesHit = [];
 
     setTimeout(() => {
@@ -44,13 +30,10 @@ class Bullet extends CharacterController {
     }, 1000);
   }
 
-  update(delta) {
-    this.hitBox.pos.x += Math.cos(this.rotation) * this.speed * delta;
-    this.hitBox.pos.y += Math.sin(this.rotation) * this.speed * delta;
-
-    // Update hit box
-    this.x = this.hitBox.pos.x;
-    this.y = this.hitBox.pos.y;
+  updateCharacter(delta) {
+    // Move bullet
+    this.velocity.x = Math.cos(this.rotation);
+    this.velocity.y = Math.sin(this.rotation);
 
     // Check for collision with zombies
     this.zombies.forEach((zombie) => {
@@ -60,6 +43,13 @@ class Bullet extends CharacterController {
       ) {
         this.zombiesHit.push(zombie);
         zombie.hit();
+      }
+    });
+
+    // Check for collision with walls
+    this.walls.forEach((wall) => {
+      if (SAT.testCirclePolygon(this.hitBox, wall)) {
+        this.dead = true;
       }
     });
   }
