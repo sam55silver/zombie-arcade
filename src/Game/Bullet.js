@@ -20,8 +20,9 @@ class Bullet extends Container {
     this.speed = 10;
 
     this.sprite = new Sprite(scene.spriteSheet.textures['bullet.png']);
+    this.sprite.rotation = Math.PI / 2;
     this.sprite.anchor.set(0.5);
-    this.sprite.scale.set(scene.spriteScale);
+    this.sprite.scale.set(scene.spriteScale * (2 / 3));
 
     this.addChild(this.sprite);
 
