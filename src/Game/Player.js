@@ -10,8 +10,7 @@ class Player extends CharacterController {
       6,
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
-      4,
-      5
+      4
     );
 
     this.maxHealth = 8;
