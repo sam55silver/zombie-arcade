@@ -7,7 +7,7 @@ class Player extends CharacterController {
     super(
       scene,
       { x: 0, y: 0 },
-      { hitBoxRadius: 6, hitBoxOffset: { x: 0, y: 0 } },
+      6,
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
       4,

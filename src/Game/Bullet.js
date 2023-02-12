@@ -7,7 +7,7 @@ class Bullet extends CharacterController {
     super(
       scene,
       { x, y },
-      { hitBoxRadius: 2, hitBoxOffset: { x: 0, y: 0 } },
+      2,
       [scene.spriteSheet.textures['bullet.png']],
       { x: 0.5, y: 0.5 },
       10

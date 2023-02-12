@@ -6,15 +6,16 @@ class Zombie extends CharacterController {
     super(
       scene,
       position,
-      { hitBoxRadius: 6, hitBoxOffset: { x: 0, y: 0 } },
+      6,
       [scene.spriteSheet.textures[`zombie-${type}.png`]],
       { x: 0.5, y: 0.9 },
       1,
       2
     );
 
-    this.health = 2;
+    this.setHitBoxOffset({ x: 4, y: 4 });
 
+    this.health = 2;
     this.lookAtPlayer();
   }
 
