@@ -24,6 +24,7 @@ const Setup = () => {
   app.resizeTo = window;
 
   app.isMobile = utils.isMobile.any;
+  app.debug = true;
 
   // Append to DOM
   document.querySelector('#app').appendChild(app.view);

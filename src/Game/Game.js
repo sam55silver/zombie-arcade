@@ -16,18 +16,24 @@ const Game = (app) => {
     app.renderer.height / 2
   );
 
+  scene.game.x = scene.gamePos.x;
+  scene.game.y = scene.gamePos.y;
+  scene.addChild(scene.game);
+
+  // Debug mode
+  if (app.debug) {
+    scene.debug = new Container();
+    app.stage.addChild(scene.debug);
+  }
+
   if (app.isMobile) {
-    scene.gamePos.y -= 50 * scene.spriteScale;
+    scene.game.y -= 50 * scene.spriteScale;
 
     scene.mobileUI = new Container();
     scene.mobileUI.screenHeight = app.renderer.height;
     scene.mobileUI.screenWidth = app.renderer.width;
     scene.addChild(scene.mobileUI);
   }
-
-  scene.game.x = scene.gamePos.x;
-  scene.game.y = scene.gamePos.y;
-  scene.addChild(scene.game);
 
   // Add sprite sheet to scene
   scene.spriteSheet = app.spriteSheet;
