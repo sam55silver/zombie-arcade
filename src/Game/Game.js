@@ -40,21 +40,16 @@ const Game = (app) => {
   scene.input = new Input(scene);
 
   // Create a function to load images centered
-  const loadImageCentered = (texture, offset) => {
+  const loadImageCentered = (texture) => {
     const image = new Sprite(app.spriteSheet.textures[texture]);
     image.anchor.set(0.5);
     image.scale.set(scene.spriteScale);
-
-    if (offset) {
-      image.x = offset[0] * scene.spriteScale;
-      image.y = offset[1] * scene.spriteScale;
-    }
 
     return image;
   };
 
   // Create map
-  const map = loadImageCentered('map.png', [0, 8]);
+  const map = loadImageCentered('map.png');
   // Calculate map dimensions
   const mapDimensions = {
     width: map.width,

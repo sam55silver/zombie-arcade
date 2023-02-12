@@ -1,10 +1,19 @@
 import { Container, Sprite } from 'pixi.js';
+import CharacterController from './CharacterController';
 import SAT from 'sat';
 
-class Bullet extends Container {
+class Bullet extends CharacterController {
   constructor(scene, x, y, rotation) {
-    super();
+    super(
+      scene,
+      { x, y },
+      5,
+      [scene.spriteSheet.textures['bullet.png']],
+      { x: 0.5, y: 0.5 },
+      5
+    );
     const muzzleOffset = 35;
+
     this.rotation = rotation - Math.PI / 2;
     const offset = {
       x: Math.cos(this.rotation) * muzzleOffset,

@@ -1,4 +1,4 @@
-import { Container, AnimatedSprite, Graphics } from 'pixi.js';
+import { Container, AnimatedSprite } from 'pixi.js';
 import SAT from 'sat';
 
 class CharacterController extends Container {
@@ -16,12 +16,6 @@ class CharacterController extends Container {
     this.sprite.scale.set(scene.spriteScale);
     this.sprite.animationSpeed = 0.2;
     this.addChild(this.sprite);
-
-    // Collision debug
-    // const obj = new Graphics();
-    // obj.beginFill(0xff0000);
-    // obj.drawCircle(0, 0, hitBoxRadius);
-    // this.addChild(obj);
 
     this.speed = speed;
     this.velocity = new SAT.Vector(0, 0);
