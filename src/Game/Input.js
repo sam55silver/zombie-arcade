@@ -186,6 +186,10 @@ class Input {
     this.scene.mobileUI.addChild(joyStickOutline);
     this.scene.mobileUI.addChild(this.joyStick);
   }
+
+  subMoveDir(v) {
+    this.moveDir = this.moveDir.sub(v);
+  }
 }
 
 export default Input;

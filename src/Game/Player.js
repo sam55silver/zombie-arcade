@@ -10,8 +10,12 @@ class Player extends CharacterController {
       6,
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
-      4
+      3.5
     );
+
+    this.regularSpeed = 3.5;
+    this.slowSpeed = this.regularSpeed / 3;
+    this.speed = this.regularSpeed;
 
     this.maxHealth = 8;
     this.timesHit = 0;
@@ -59,6 +63,29 @@ class Player extends CharacterController {
 
     // move
     this.velocity = this.scene.input.moveDir.clone().normalize();
+
+    // Test collision with all other zombies
+    let inZombie = false;
+    for (let i = 0; i < this.scene.zombies.length; i++) {
+      // Soft body collision a check
+      const response = new SAT.Response();
+      if (
+        SAT.testCircleCircle(
+          this.hitBox,
+          this.scene.zombies[i].hitBox,
+          response
+        )
+      ) {
+        if (response.overlap > 2) {
+          inZombie = true;
+        }
+      }
+    }
+    if (inZombie) {
+      this.speed = this.slowSpeed;
+    } else {
+      this.speed = this.regularSpeed;
+    }
 
     this.rigidBodyCollisionCheck(SAT.testCirclePolygon, this.scene.map.walls);
   }

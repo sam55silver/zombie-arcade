@@ -60,7 +60,7 @@ class CharacterController extends Container {
     const checkCollide = (obj) => {
       const response = new SAT.Response();
       if (type(newHitBox, obj, response)) {
-        this.velocity = this.velocity.sub(response.overlapV);
+        this.velocity.sub(response.overlapV).scale(1 / 3);
         if (callback) callback();
 
         return true;
