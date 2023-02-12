@@ -15,7 +15,7 @@ class Input {
     this.reticle.scale.set(scene.spriteScale);
     scene.addChild(this.reticle);
 
-    this.updateReticle({ x: scene.game.position.x, y: scene.game.position.y });
+    this.updateReticle({ x: scene.game.x, y: scene.game.y });
 
     if (scene.isMobile) this.setupMobileControls();
     else this.setupDesktopControls();
@@ -25,8 +25,8 @@ class Input {
     this.reticle.x = pos.x;
     this.reticle.y = pos.y;
 
-    this.mousePos.x = pos.x - this.scene.game.position.x;
-    this.mousePos.y = pos.y - this.scene.game.position.y;
+    this.mousePos.x = pos.x;
+    this.mousePos.y = pos.y;
   };
 
   setupDesktopControls() {

@@ -13,8 +13,6 @@ class Zombie extends CharacterController {
       2
     );
 
-    this.scene = scene;
-
     this.health = 2;
 
     this.lookAtPlayer();

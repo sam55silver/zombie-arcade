@@ -14,8 +14,6 @@ class Player extends CharacterController {
       5
     );
 
-    this.scene = scene;
-
     this.maxHealth = 8;
     this.timesHit = 0;
 

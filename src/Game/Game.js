@@ -23,7 +23,7 @@ const Game = (app) => {
   // Debug mode
   if (app.debug) {
     scene.debug = new Container();
-    app.stage.addChild(scene.debug);
+    scene.addChild(scene.debug);
   }
 
   if (app.isMobile) {
@@ -84,31 +84,33 @@ const Game = (app) => {
     },
   };
 
+  const truePos = (pos) => [pos.x + scene.game.x, pos.y + scene.game.y];
+
   scene.map = {
     area: mapArea,
     walls: [
       // Top wall
       new SAT.Box(
-        new SAT.Vector(mapArea.topLeft.x, mapArea.topLeft.y - 10),
+        new SAT.Vector(...truePos(mapArea.topLeft)),
         mapDimensions.width,
-        10
+        1
       ).toPolygon(),
       // Bottom wall
       new SAT.Box(
-        new SAT.Vector(mapArea.bottomLeft.x, mapArea.bottomLeft.y),
+        new SAT.Vector(...truePos(mapArea.bottomLeft)),
         mapDimensions.width,
-        10
+        1
       ).toPolygon(),
       // Left wall
       new SAT.Box(
-        new SAT.Vector(mapArea.topLeft.x - 10, mapArea.topLeft.y),
-        10,
+        new SAT.Vector(...truePos(mapArea.topLeft)),
+        1,
         mapDimensions.height
       ).toPolygon(),
       // Right wall
       new SAT.Box(
-        new SAT.Vector(mapArea.topRight.x, mapArea.topRight.y),
-        10,
+        new SAT.Vector(...truePos(mapArea.topRight)),
+        1,
         mapDimensions.height
       ).toPolygon(),
     ],
@@ -171,7 +173,10 @@ const Game = (app) => {
     scene,
     'health-ui',
     scene.player.maxHealth,
-    { x: mapArea.topLeft.x, y: mapArea.topLeft.y - 24 * scene.spriteScale },
+    {
+      x: mapArea.topLeft.x,
+      y: mapArea.topLeft.y - 24 * scene.spriteScale,
+    },
     updatePlayerHealth
   );
   playerHealth.icon.y = playerHealth.icon.height + 6;

@@ -1,4 +1,4 @@
-import { Container, AnimatedSprite } from 'pixi.js';
+import { Container, AnimatedSprite, Graphics } from 'pixi.js';
 import SAT from 'sat';
 
 class CharacterController extends Container {
@@ -14,8 +14,10 @@ class CharacterController extends Container {
 
     this.x = pos.x;
     this.y = pos.y;
+    this.scene = scene;
+
     this.hitBox = new SAT.Circle(
-      new SAT.Vector(this.x, this.y),
+      new SAT.Vector(this.scene.game.x + this.x, this.scene.game.y + this.y),
       hitBoxRadius * scene.spriteScale
     );
     this.hitBoxOffset = hitBoxOffset;
@@ -28,6 +30,18 @@ class CharacterController extends Container {
     this.sprite.animationSpeed = 0.2;
     this.addChild(this.sprite);
 
+    if (scene.debug) {
+      this.debug = new Graphics();
+      this.debug.beginFill(0xff0000, 0.5);
+      this.debug.drawCircle(
+        this.hitBox.pos.x,
+        this.hitBox.pos.y,
+        this.hitBox.r
+      );
+      this.debug.endFill();
+      scene.debug.addChild(this.debug);
+    }
+
     this.speed = speed;
     this.velocity = new SAT.Vector(0, 0);
 
@@ -38,7 +52,10 @@ class CharacterController extends Container {
     // Rigid body collision check
     // Check where player is going to move for collision
     const newHitBox = new SAT.Circle(
-      new SAT.Vector(this.x + this.velocity.x, this.y + this.velocity.y),
+      new SAT.Vector(
+        this.hitBox.pos.x + this.velocity.x,
+        this.hitBox.pos.y + this.velocity.y
+      ),
       this.hitBox.r
     );
 
@@ -75,12 +92,24 @@ class CharacterController extends Container {
     if (this.updateCharacter) this.updateCharacter(delta);
     if (this.dead) {
       this.destroy({ children: true });
+      if (this.debug) this.debug.destroy();
       return;
     }
     this.x += this.velocity.x * this.speed * delta;
     this.y += this.velocity.y * this.speed * delta;
-    this.hitBox.pos.x = this.x;
-    this.hitBox.pos.y = this.y;
+    this.hitBox.pos.x = this.scene.game.x + this.x;
+    this.hitBox.pos.y = this.scene.game.y + this.y;
+
+    if (this.debug) {
+      this.debug.clear();
+      this.debug.beginFill(0xff0000, 0.5);
+      this.debug.drawCircle(
+        this.hitBox.pos.x,
+        this.hitBox.pos.y,
+        this.hitBox.r
+      );
+      this.debug.endFill();
+    }
   }
 }
 

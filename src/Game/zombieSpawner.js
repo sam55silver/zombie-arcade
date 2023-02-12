@@ -70,22 +70,6 @@ const ZombieSpawner = (scene) => {
     scene.gameArea.addChild(zombie);
   };
 
-  // const singleZombieButton = document.getElementById('spawn-zombie');
-  // singleZombieButton.addEventListener('click', () => {
-  //   spawnZombie();
-  // });
-
-  // const spawnerButton = document.getElementById('spawner');
-  // let spawnerOn = spawnerButton.checked;
-
-  // spawnerButton.addEventListener('click', (e) => {
-  //   spawnerOn = e.target.checked;
-
-  //   if (spawnerOn) {
-  //     zombieSpawnTimer();
-  //   }
-  // });
-
   const spawnerOn = true;
 
   const zombieSpawnTimer = () => {
