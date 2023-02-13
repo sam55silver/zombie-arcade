@@ -10,6 +10,8 @@ const Game = (app) => {
   // create scene for game to be added to
   const scene = new Scene(app);
 
+  scene.gameOver = false;
+
   scene.game = new Container();
   scene.gamePos = new SAT.Vector(
     app.renderer.width / 2,

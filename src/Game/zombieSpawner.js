@@ -77,7 +77,7 @@ const ZombieSpawner = (scene) => {
     const baseTime = 2000;
     const flexTime = Math.random() * 1000; // Add small variation to spawn time
     setTimeout(() => {
-      if (!spawnerOn) return;
+      if (!spawnerOn || scene.gameOver) return;
       spawnZombie();
       zombieSpawnTimer();
     }, baseTime + flexTime);

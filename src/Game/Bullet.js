@@ -1,4 +1,3 @@
-import { Container, Sprite } from 'pixi.js';
 import CharacterController from './CharacterController';
 import SAT from 'sat';
 

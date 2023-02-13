@@ -1,6 +1,7 @@
 import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
+import Zombie from './Zombie';
 
 class Player extends CharacterController {
   constructor(scene) {
@@ -31,7 +32,13 @@ class Player extends CharacterController {
 
     if (this.timesHit >= this.maxHealth) {
       // TO-DO: Add death animation here
-      console.log('Game Over');
+
+      this.scene.gameOver = true;
+      this.scene.zombies.forEach((zombie) => {
+        zombie.playDeathAnimation('zombie-fade', { x: 0, y: 10 });
+      });
+
+      this.scene.zombies = [];
     } else {
       // Make player invulnerable for a short time
       this.sprite.tint = 0xff0000;

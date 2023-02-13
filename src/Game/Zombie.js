@@ -28,7 +28,7 @@ class Zombie extends CharacterController {
         (zombie) => zombie !== this
       );
 
-      this.dead = true;
+      this.playDeathAnimation('zombie-death', { x: 0, y: 15 });
     }
   }
 

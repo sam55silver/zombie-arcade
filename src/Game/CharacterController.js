@@ -40,6 +40,15 @@ class CharacterController extends Container {
     scene.gameArea.addChild(this);
   }
 
+  playDeathAnimation(animation, offset) {
+    this.dead = true;
+    this.sprite.textures = this.scene.spriteSheet.animations[animation];
+    this.sprite.x += offset.x;
+    this.sprite.y += offset.y;
+    this.sprite.loop = false;
+    this.sprite.gotoAndPlay(0);
+  }
+
   setHitBoxOffset(offset) {
     this.hitBoxOffset = offset;
     this.hitBoxOffset.x *= this.scene.spriteScale;
@@ -87,12 +96,14 @@ class CharacterController extends Container {
   };
 
   update(delta) {
-    if (this.updateCharacter) this.updateCharacter(delta);
     if (this.dead) {
-      this.destroy({ children: true });
-      if (this.debug) this.debug.destroy();
+      if (!this.sprite.playing) {
+        this.destroy({ children: true });
+        if (this.debug) this.debug.destroy();
+      }
       return;
     }
+    if (this.updateCharacter) this.updateCharacter(delta);
     this.x += this.velocity.x * this.speed * delta;
     this.y += this.velocity.y * this.speed * delta;
     this.hitBox.pos.x = this.scene.game.x + this.x;
