@@ -37,24 +37,43 @@ class Input {
       else this.pressed = this.pressed.filter((k) => k !== key);
     };
 
-    document.addEventListener('mousemove', (e) => {
-      this.updateReticle({ x: e.clientX, y: e.clientY });
-    });
-    document.addEventListener('mousedown', (e) => {
-      this.isFiring = true;
-    });
-    document.addEventListener('mouseup', (e) => {
-      this.isFiring = false;
-    });
+    this.scene.eventListener = [
+      {
+        event: 'mousemove',
+        action: (e) => {
+          updateReticle({ x: e.clientX, y: e.clientY });
+        },
+      },
+      {
+        event: 'mousedown',
+        action: (e) => {
+          this.isFiring = true;
+        },
+      },
+      {
+        event: 'mouseup',
+        action: (e) => {
+          this.isFiring = false;
+        },
+      },
+      {
+        event: 'keydown',
+        action: (e) => {
+          if (e.repeat) return;
+          checkKey(e.key, true);
+        },
+      },
+      {
+        event: 'keyup',
+        action: (e) => {
+          checkKey(e.key, false);
+        },
+      },
+    ];
 
-    document.addEventListener('keydown', (e) => {
-      if (e.repeat) return;
-      checkKey(e.key, true);
-    });
-
-    document.addEventListener('keyup', (e) => {
-      checkKey(e.key, false);
-    });
+    this.scene.eventListener.forEach((listener) =>
+      document.addEventListener(listener.event, listener.action)
+    );
   }
 
   update() {

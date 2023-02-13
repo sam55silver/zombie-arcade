@@ -1,7 +1,7 @@
 import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
-import Zombie from './Zombie';
+import Game from './Game';
 
 class Player extends CharacterController {
   constructor(scene) {
@@ -31,11 +31,12 @@ class Player extends CharacterController {
     this.scene.playerHealth.update();
 
     if (this.timesHit >= this.maxHealth) {
-      // TO-DO: Add death animation here
-
       this.scene.gameOver = true;
       this.scene.zombies.forEach((zombie) => {
         zombie.playDeathAnimation('zombie-fade', { x: 0, y: 10 });
+        zombie.sprite.onComplete = () => {
+          this.scene.zombieFadeDone = true;
+        };
       });
 
       this.scene.zombies = [];
@@ -63,6 +64,27 @@ class Player extends CharacterController {
   }
 
   updateCharacter(delta) {
+    if (this.scene.gameOver) {
+      if (this.scene.zombieFadeDone) {
+        const deathNum = Math.floor(Math.random() * 7) + 1;
+        this.playDeathAnimation(`deaths/player-death-${deathNum}`, {
+          x: 0,
+          y: 10,
+        });
+
+        this.sprite.onComplete = () => {
+          if (this.scene.eventListener) {
+            this.scene.eventListener.forEach((listener) => {
+              document.removeEventListener(listener.event, listener.callback);
+            });
+          }
+          const newGame = Game(this.scene.app);
+          this.scene.changeScene(newGame);
+        };
+      }
+      return;
+    }
+
     const angle = this.lookAt(this.hitBox.pos, this.scene.input.mousePos).angle;
     this.rotation = angle;
 

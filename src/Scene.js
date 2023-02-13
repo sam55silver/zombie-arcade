@@ -22,6 +22,11 @@ class Scene extends Container {
     });
   }
 
+  changeScene(scene) {
+    this.removeScene();
+    scene.loadScene();
+  }
+
   addLoop(loopCallback) {
     this.loop = loopCallback.bind(this);
     this.app.ticker.add(this.loop);

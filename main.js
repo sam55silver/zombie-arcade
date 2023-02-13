@@ -36,7 +36,7 @@ const Setup = () => {
       spriteSheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
 
       // Start game
-      let scene = Game(app);
+      const scene = Game(app);
       scene.loadScene();
     })
     .catch((err) => {
