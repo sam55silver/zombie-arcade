@@ -2,23 +2,22 @@ import SAT from 'sat';
 import { Sprite, Graphics, Container } from 'pixi.js';
 
 class Input {
-  constructor(scene) {
-    this.scene = scene;
+  constructor(app) {
+    this.app = app;
 
     this.mousePos = new SAT.Vector(0, 0);
     this.moveDir = new SAT.Vector(0, 0);
 
     this.isFiring = false;
 
-    this.reticle = new Sprite(scene.spriteSheet.animations['reticle'][0]);
+    this.reticle = new Sprite(app.spriteSheet.animations['reticle'][0]);
     this.reticle.anchor.set(0.5);
-    this.reticle.scale.set(scene.spriteScale);
-    scene.addChild(this.reticle);
+    this.reticle.scale.set(app.spriteScale);
+    app.stage.addChild(this.reticle);
 
-    this.updateReticle({ x: scene.game.x, y: scene.game.y });
+    // this.updateReticle({ x: scene.game.x, y: scene.game.y });
 
-    if (scene.isMobile) this.setupMobileControls();
-    else this.setupDesktopControls();
+    if (!app.isMobile) this.setupDesktopControls();
   }
 
   updateReticle = (pos) => {
@@ -37,11 +36,11 @@ class Input {
       else this.pressed = this.pressed.filter((k) => k !== key);
     };
 
-    this.scene.eventListener = [
+    const eventListeners = [
       {
         event: 'mousemove',
         action: (e) => {
-          updateReticle({ x: e.clientX, y: e.clientY });
+          this.updateReticle({ x: e.clientX, y: e.clientY });
         },
       },
       {
@@ -71,7 +70,7 @@ class Input {
       },
     ];
 
-    this.scene.eventListener.forEach((listener) =>
+    eventListeners.forEach((listener) =>
       document.addEventListener(listener.event, listener.action)
     );
   }
@@ -100,30 +99,30 @@ class Input {
     }
   }
 
-  setupMobileControls() {
-    this.scene.game.interactive = true;
+  setupMobileControls(scene) {
+    scene.game.interactive = true;
 
-    this.scene.game.on('pointerdown', (e) => {
+    scene.game.on('pointerdown', (e) => {
       this.updateReticle({ x: e.clientX, y: e.clientY });
       this.isFiring = true;
     });
-    this.scene.game.on('pointermove', (e) => {
+    scene.game.on('pointermove', (e) => {
       this.updateReticle({ x: e.clientX, y: e.clientY });
       this.isFiring = true;
     });
-    this.scene.game.on('pointerup', (e) => {
+    scene.game.on('pointerup', (e) => {
       this.isFiring = false;
     });
-    this.scene.game.on('pointerupoutside', (e) => {
+    scene.game.on('pointerupoutside', (e) => {
       this.isFiring = false;
     });
 
     this.joyStickPos = new SAT.Vector(
-      this.scene.mobileUI.screenWidth * (1 / 4),
-      this.scene.mobileUI.screenHeight * (5 / 6)
+      scene.mobileUI.screenWidth * (1 / 4),
+      scene.mobileUI.screenHeight * (5 / 6)
     );
-    this.joystickRadius = 50 * this.scene.spriteScale;
-    this.joyStickGrabRadius = 20 * this.scene.spriteScale;
+    this.joystickRadius = 50 * scene.spriteScale;
+    this.joyStickGrabRadius = 20 * scene.spriteScale;
 
     const joyStickBG = new Graphics();
     joyStickBG.beginFill(0x9cc7d9);
@@ -201,9 +200,9 @@ class Input {
       this.moveDir = joyToCenter.clone();
     });
 
-    this.scene.mobileUI.addChild(joyStickBG);
-    this.scene.mobileUI.addChild(joyStickOutline);
-    this.scene.mobileUI.addChild(this.joyStick);
+    scene.mobileUI.addChild(joyStickBG);
+    scene.mobileUI.addChild(joyStickOutline);
+    scene.mobileUI.addChild(this.joyStick);
   }
 
   subMoveDir(v) {

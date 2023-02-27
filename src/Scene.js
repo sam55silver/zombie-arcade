@@ -8,11 +8,11 @@ class Scene extends Container {
   }
 
   loadScene() {
-    this.app.stage.addChild(this);
+    this.app.currentScene.addChild(this);
   }
 
   removeScene() {
-    this.app.stage.removeChild(this);
+    this.app.currentScene.removeChild(this);
     if (this.loop) {
       this.app.ticker.remove(this.loop);
     }

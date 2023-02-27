@@ -1,6 +1,6 @@
 import { Sprite, Container } from 'pixi.js';
 import Player from './Player';
-import Input from './Input';
+import Input from '../Input';
 import ZombieSpawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
@@ -9,6 +9,7 @@ import Scene from '../Scene';
 const Game = (app) => {
   // create scene for game to be added to
   const scene = new Scene(app);
+  scene.input = app.input;
 
   scene.gameOver = false;
 
@@ -35,6 +36,7 @@ const Game = (app) => {
     scene.mobileUI.screenHeight = app.renderer.height;
     scene.mobileUI.screenWidth = app.renderer.width;
     scene.addChild(scene.mobileUI);
+    scene.input.setupMobileControls(scene);
   }
 
   // Add sprite sheet to scene
@@ -44,8 +46,6 @@ const Game = (app) => {
 
   // Add view to scene
   scene.stage = app.stage;
-
-  scene.input = new Input(scene);
 
   // Create a function to load images centered
   const loadImageCentered = (texture) => {
@@ -69,7 +69,7 @@ const Game = (app) => {
   // Calculate map borders i.e. the area where zombies can spawn
   const mapArea = {
     topLeft: {
-      x: mapDimensions.x - mapDimensions.width / 2,
+      x: mapDimensions.x - mapDimensions.width / 2 - 1,
       y: mapDimensions.y - mapDimensions.height / 2,
     },
     bottomRight: {

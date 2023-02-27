@@ -1,7 +1,8 @@
 import './style.css';
-import { Application, SCALE_MODES, utils } from 'pixi.js';
+import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game/Game';
+import Input from './src/Input';
 
 const Setup = () => {
   // Create Application
@@ -32,8 +33,13 @@ const Setup = () => {
   // Load Assets
   Loader(app)
     .then((spriteSheet) => {
-      app.spriteSheet = spriteSheet;
       spriteSheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
+      app.spriteSheet = spriteSheet;
+
+      app.currentScene = new Container();
+      app.stage.addChild(app.currentScene);
+
+      app.input = new Input(app);
 
       // Start game
       const scene = Game(app);
