@@ -20,6 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: black;
+  overflow: hidden;
 }
 
 h1 {

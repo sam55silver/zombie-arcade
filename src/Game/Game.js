@@ -1,4 +1,4 @@
-import { Sprite, Container } from 'pixi.js';
+import { Sprite, Container, AnimatedSprite, Text } from 'pixi.js';
 import Player from './Player';
 import Input from '../Input';
 import ZombieSpawner from './zombieSpawner';
@@ -22,6 +22,9 @@ const Game = (app) => {
   scene.game.x = scene.gamePos.x;
   scene.game.y = scene.gamePos.y;
   scene.addChild(scene.game);
+
+  // create zombie list to add to and keep track of in app
+  scene.zombies = [];
 
   // Debug mode
   if (app.debug) {
@@ -186,8 +189,139 @@ const Game = (app) => {
   scene.game.addChild(playerHealth);
   scene.playerHealth = playerHealth;
 
-  // Start the zombie spawner
-  ZombieSpawner(scene);
+  // Show controls
+  const controls = new Container();
+  controls.y += map.height * (1 / 5);
+  scene.game.addChild(controls);
+
+  const controlsTextStyle = {
+    fontFamily: 'Arial',
+    fontSize: 24,
+    fill: 0x1fc24a,
+    align: 'center',
+    fontStyle: 'bold',
+  };
+
+  if (app.isMobile) {
+    const joystickControls = new Container();
+    joystickControls.x -= map.width * (1 / 5);
+    controls.addChild(joystickControls);
+
+    const joystick = new Sprite(app.spriteSheet.textures['joystick.png']);
+    joystick.x += joystick.width / 2;
+    joystickControls.addChild(joystick);
+
+    joystick.anchor.set(0.5);
+    joystick.scale.set(scene.spriteScale);
+
+    const spin = new Sprite(app.spriteSheet.textures['joymove.png']);
+    spin.x -= joystick.width / 2;
+    joystickControls.addChild(spin);
+
+    spin.anchor.set(0.5);
+    spin.scale.set(scene.spriteScale);
+
+    const movementText = new Text('Move', controlsTextStyle);
+    movementText.anchor.set(0.5);
+    movementText.y += movementText.height + scene.spriteScale * 1.5;
+    joystickControls.addChild(movementText);
+
+    const lookControls = new Container();
+    lookControls.x += map.width * (1 / 5);
+    controls.addChild(lookControls);
+
+    const hand = new Sprite(app.spriteSheet.textures['touch.png']);
+    hand.x += hand.width / 2;
+    lookControls.addChild(hand);
+
+    hand.anchor.set(0.5);
+    hand.scale.set(scene.spriteScale);
+
+    const movement = new Sprite(app.spriteSheet.textures['movement.png']);
+    movement.x -= movement.width / 2;
+    lookControls.addChild(movement);
+
+    movement.anchor.set(0.5);
+    movement.scale.set(scene.spriteScale);
+
+    const lookText = new Text('Shoot', controlsTextStyle);
+    lookText.anchor.set(0.5);
+    lookText.y += lookText.height + scene.spriteScale * 1.5;
+    lookControls.addChild(lookText);
+  } else {
+    const movementKeys = new Container();
+    movementKeys.x -= map.width * (2 / 7);
+    controls.addChild(movementKeys);
+
+    const wKey = new Sprite(app.spriteSheet.textures['w.png']);
+    wKey.anchor.set(0.5);
+    wKey.scale.set(scene.spriteScale);
+    wKey.y -= wKey.height;
+    movementKeys.addChild(wKey);
+
+    const aKey = new Sprite(app.spriteSheet.textures['a.png']);
+    aKey.anchor.set(0.5);
+    aKey.scale.set(scene.spriteScale);
+    aKey.x -= aKey.width;
+    movementKeys.addChild(aKey);
+
+    const sKey = new Sprite(app.spriteSheet.textures['s.png']);
+    sKey.anchor.set(0.5);
+    sKey.scale.set(scene.spriteScale);
+    movementKeys.addChild(sKey);
+
+    const dKey = new Sprite(app.spriteSheet.textures['d.png']);
+    dKey.anchor.set(0.5);
+    dKey.scale.set(scene.spriteScale);
+    dKey.x += dKey.width;
+    movementKeys.addChild(dKey);
+
+    const moveText = new Text('Move', controlsTextStyle);
+    moveText.anchor.set(0.5);
+    moveText.y += moveText.height + scene.spriteScale * 1.5;
+    movementKeys.addChild(moveText);
+
+    const lookKeys = new Container();
+    // lookKeys.y += 125 * scene.spriteScale;
+    controls.addChild(lookKeys);
+
+    const mouse = new Sprite(app.spriteSheet.textures['mouse.png']);
+    mouse.anchor.set(0.5);
+    mouse.scale.set(scene.spriteScale);
+    mouse.x += mouse.width / 2;
+    lookKeys.addChild(mouse);
+
+    const movement = new Sprite(app.spriteSheet.textures['movement.png']);
+    movement.anchor.set(0.5);
+    movement.scale.set(scene.spriteScale);
+    movement.x -= movement.width / 2;
+    lookKeys.addChild(movement);
+
+    const lookText = new Text('Look', controlsTextStyle);
+    lookText.anchor.set(0.5);
+    lookText.y += lookText.height + scene.spriteScale * 1.5;
+    lookKeys.addChild(lookText);
+
+    const shootKeys = new Container();
+    shootKeys.x += map.width * (2 / 7);
+    controls.addChild(shootKeys);
+
+    const fire = new Sprite(app.spriteSheet.textures['mouse-click.png']);
+    fire.anchor.set(0.5);
+    fire.scale.set(scene.spriteScale);
+    shootKeys.addChild(fire);
+
+    const fireText = new Text('Shoot', controlsTextStyle);
+    fireText.anchor.set(0.5);
+    fireText.y += fireText.height + scene.spriteScale * 1.5;
+    shootKeys.addChild(fireText);
+  }
+
+  // After time, remove controls and bring on the zombies!
+  setTimeout(() => {
+    scene.game.removeChild(controls);
+    ZombieSpawner(scene);
+  }, 6000);
 
   const gameLoop = (delta) => {
     scene.input.update();

@@ -57,9 +57,6 @@ const ZombieSpawner = (scene) => {
     }
   };
 
-  // create zombie list to add to and keep track of in app
-  scene.zombies = [];
-
   const spawnZombie = () => {
     // Get random int between 0 and 1
     const type = Math.floor(Math.random() * 2);
@@ -68,24 +65,17 @@ const ZombieSpawner = (scene) => {
     const zombie = new Zombie(scene, type, chooseSpawnArea());
     scene.zombies.push(zombie);
     scene.gameArea.addChild(zombie);
-  };
 
-  const spawnerOn = true;
-
-  const zombieSpawnTimer = () => {
     // Start timer to Spawn the next zombie
     const baseTime = 2000;
     const flexTime = Math.random() * 1000; // Add small variation to spawn time
     setTimeout(() => {
-      if (!spawnerOn || scene.gameOver) return;
+      if (scene.gameOver) return;
       spawnZombie();
-      zombieSpawnTimer();
     }, baseTime + flexTime);
   };
 
-  if (spawnerOn) {
-    zombieSpawnTimer();
-  }
+  spawnZombie();
 };
 
 export default ZombieSpawner;
