@@ -20,7 +20,7 @@ class Bullet extends CharacterController {
     this.x += Math.cos(this.rotation) * muzzleOffset;
     this.y += Math.sin(this.rotation) * muzzleOffset;
 
-    this.walls = scene.map.walls;
+    this.mapArea = scene.map.area;
     this.zombies = scene.zombies;
     this.zombiesHit = [];
 
@@ -45,12 +45,16 @@ class Bullet extends CharacterController {
       }
     });
 
-    // Check for collision with walls
-    this.walls.forEach((wall) => {
-      if (SAT.testCirclePolygon(this.hitBox, wall)) {
+    // Check if bullet is out of bounds
+    // TODO: add offset of game area
+    if (this.x < this.mapArea.topLeft.x || this.x > this.mapArea.topRight.x) {
+      if (
+        this.y < this.mapArea.topLeft.y ||
+        this.y > this.mapArea.bottomRight.y
+      ) {
         this.dead = true;
       }
-    });
+    }
   }
 }
 

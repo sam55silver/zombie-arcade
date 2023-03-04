@@ -65,6 +65,7 @@ class Player extends CharacterController {
 
   updateCharacter(delta) {
     if (this.scene.gameOver) {
+      this.velocity = new SAT.Vector(0, 0);
       if (this.scene.zombieFadeDone) {
         const deathNum = Math.floor(Math.random() * 7) + 1;
         this.playDeathAnimation(`deaths/player-death-${deathNum}`, {
