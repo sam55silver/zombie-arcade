@@ -89,6 +89,8 @@ const Game = (app) => {
     },
   };
 
+  console.log(mapArea);
+
   const truePos = (pos) => [pos.x + scene.game.x, pos.y + scene.game.y];
 
   scene.map = {

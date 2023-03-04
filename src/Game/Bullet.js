@@ -46,14 +46,13 @@ class Bullet extends CharacterController {
     });
 
     // Check if bullet is out of bounds
-    // TODO: add offset of game area
-    if (this.x < this.mapArea.topLeft.x || this.x > this.mapArea.topRight.x) {
-      if (
-        this.y < this.mapArea.topLeft.y ||
-        this.y > this.mapArea.bottomRight.y
-      ) {
-        this.dead = true;
-      }
+    if (
+      this.x < this.mapArea.topLeft.x ||
+      this.x > this.mapArea.topRight.x ||
+      this.y < this.mapArea.topLeft.y ||
+      this.y > this.mapArea.bottomRight.y
+    ) {
+      this.dead = true;
     }
   }
 }
