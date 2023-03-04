@@ -43,8 +43,19 @@ class CharacterController extends Container {
   playDeathAnimation(animation, offset) {
     this.dead = true;
     this.sprite.textures = this.scene.spriteSheet.animations[animation];
-    this.sprite.x += offset.x;
-    this.sprite.y += offset.y;
+
+    const anchorPos = {
+      x: this.sprite.width * this.sprite.anchor.x,
+      y: this.sprite.height * this.sprite.anchor.y,
+    };
+
+    const newPos = {
+      x: anchorPos.x - offset.x,
+      y: anchorPos.y - offset.y,
+    };
+
+    this.sprite.x += newPos.x;
+    this.sprite.y += newPos.y;
     this.sprite.loop = false;
     this.sprite.gotoAndPlay(0);
   }

@@ -22,6 +22,18 @@ class Player extends CharacterController {
     this.timesHit = 0;
 
     this.isInvulnerable = false;
+
+    this.deathOffsets = {
+      1: { x: 33, y: 53 },
+      2: { x: 16, y: 20 },
+      5: { x: 32, y: 36 },
+      'regular': { x: 16, y: 28 },
+    };
+
+    Object.keys(this.deathOffsets).forEach((offset) => {
+      this.deathOffsets[offset].x *= scene.spriteScale;
+      this.deathOffsets[offset].y *= scene.spriteScale;
+    });
   }
 
   hit() {
@@ -33,7 +45,11 @@ class Player extends CharacterController {
     if (this.timesHit >= this.maxHealth) {
       this.scene.gameOver = true;
       this.scene.zombies.forEach((zombie) => {
-        zombie.playDeathAnimation('zombie-fade', { x: 0, y: 10 });
+        const offset = {
+          x: 16 * this.scene.spriteScale,
+          y: 22 * this.scene.spriteScale,
+        };
+        zombie.playDeathAnimation('zombie-fade', offset);
         zombie.sprite.onComplete = () => {
           this.scene.zombieFadeDone = true;
         };
@@ -68,10 +84,14 @@ class Player extends CharacterController {
       this.velocity = new SAT.Vector(0, 0);
       if (this.scene.zombieFadeDone) {
         const deathNum = Math.floor(Math.random() * 7) + 1;
-        this.playDeathAnimation(`deaths/player-death-${deathNum}`, {
-          x: 0,
-          y: 10,
-        });
+        let offset = { x: 0, y: 0 };
+        if (deathNum in this.deathOffsets) {
+          offset = this.deathOffsets[deathNum];
+        } else {
+          offset = this.deathOffsets['regular'];
+        }
+        console.log(offset);
+        this.playDeathAnimation(`deaths/player-death-${deathNum}`, offset);
 
         this.sprite.onComplete = () => {
           if (this.scene.eventListener) {

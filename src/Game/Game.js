@@ -123,10 +123,13 @@ const Game = (app) => {
 
   scene.game.addChild(map);
 
+  // Layer for dead zombies
+  scene.deadZombies = new Container();
+  scene.game.addChild(scene.deadZombies);
+
   // add player to stage
-  const gameArea = new Container();
-  scene.gameArea = gameArea;
-  scene.game.addChild(gameArea);
+  scene.gameArea = new Container();
+  scene.game.addChild(scene.gameArea);
 
   // Create border for player to stay in
   scene.game.addChild(loadImageCentered('arena-border.png'));

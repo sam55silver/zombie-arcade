@@ -28,7 +28,15 @@ class Zombie extends CharacterController {
         (zombie) => zombie !== this
       );
 
-      this.playDeathAnimation('zombie-death', { x: 0, y: 15 });
+      this.scene.gameArea.removeChild(this);
+      this.scene.deadZombies.addChild(this);
+
+      const offset = {
+        x: 16 * this.scene.spriteScale,
+        y: 21 * this.scene.spriteScale,
+      };
+
+      this.playDeathAnimation('zombie-death', offset);
     }
   }
 
