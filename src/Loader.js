@@ -21,7 +21,7 @@ const Loader = (app) => {
     loadingScreen.addChild(loadingText);
 
     // Load assets
-    Assets.load('../Assets/textureAtlas.json')
+    Assets.load('../assets/textureAtlas.json')
       .then((sheet) => {
         // Update loading text
         app.stage.removeChild(loadingScreen);

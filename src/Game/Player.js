@@ -90,7 +90,7 @@ class Player extends CharacterController {
         } else {
           offset = this.deathOffsets['regular'];
         }
-        console.log(offset);
+
         this.playDeathAnimation(`deaths/player-death-${deathNum}`, offset);
 
         this.sprite.onComplete = () => {

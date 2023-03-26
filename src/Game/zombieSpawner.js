@@ -57,6 +57,14 @@ const ZombieSpawner = (scene) => {
     }
   };
 
+  // Start timer to Spawn the next zombie
+  const algo = (n) => {
+    if (n === 0) return 5000;
+    const time = Math.floor(1000 * Math.pow(0.8, n / 4) * 5);
+    console.log(time);
+    return time;
+  };
+
   const spawnZombie = () => {
     // Get random int between 0 and 1
     const type = Math.floor(Math.random() * 2);
@@ -66,13 +74,15 @@ const ZombieSpawner = (scene) => {
     scene.zombies.push(zombie);
     scene.gameArea.addChild(zombie);
 
-    // Start timer to Spawn the next zombie
-    const baseTime = 2000;
-    const flexTime = Math.random() * 1000; // Add small variation to spawn time
+    // Start timer to spawn next zombie
     setTimeout(() => {
-      if (scene.gameOver) return;
+      // Stop spawning zombies if game is over
+      if (scene.gameOver) {
+        return;
+      }
+
       spawnZombie();
-    }, baseTime + flexTime);
+    }, algo(scene.killCount.count));
   };
 
   spawnZombie();
