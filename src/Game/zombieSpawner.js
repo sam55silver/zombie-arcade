@@ -1,9 +1,15 @@
 import Zombie from './Zombie';
 
-const ZombieSpawner = (scene) => {
-  // Function to get a random point in a given vector
-  // Add offset to the point to spawn zombies outside the map
-  const spawnZombieInArea = (p1, p2, offsetDir, offsetSign) => {
+class Spawner {
+  constructor(scene) {
+    this.time = Date.now();
+    this.scene = scene;
+
+    this.spawnZombie();
+    this.setTimer();
+  }
+
+  spawnZombieInArea = (p1, p2, offsetDir, offsetSign) => {
     // Get random point in area
     const x = Math.floor(Math.random() * (p2.x - p1.x + 1)) + p1.x;
     const y = Math.floor(Math.random() * (p2.y - p1.y + 1)) + p1.y;
@@ -17,75 +23,88 @@ const ZombieSpawner = (scene) => {
   };
 
   // Choose where to spawn zombie on the map, top, right, bottom or left
-  const chooseSpawnArea = () => {
+  chooseSpawnArea = () => {
     // Random choose between top: 0, right: 1, bottom: 2, left: 3
     const spawnArea = Math.floor(Math.random() * 4);
 
     switch (spawnArea) {
       case 0:
         // spawn on top
-        return spawnZombieInArea(
-          scene.map.area.topLeft,
-          scene.map.area.topRight,
+        return this.spawnZombieInArea(
+          this.scene.map.area.topLeft,
+          this.scene.map.area.topRight,
           'y',
           -1
         );
       case 1:
         // spawn on right
-        return spawnZombieInArea(
-          scene.map.area.topRight,
-          scene.map.area.bottomRight,
+        return this.spawnZombieInArea(
+          this.scene.map.area.topRight,
+          this.scene.map.area.bottomRight,
           'x',
           1
         );
       case 2:
         // spawn on bottom
-        return spawnZombieInArea(
-          scene.map.area.bottomLeft,
-          scene.map.area.bottomRight,
+        return this.spawnZombieInArea(
+          this.scene.map.area.bottomLeft,
+          this.scene.map.area.bottomRight,
           'y',
           1
         );
       case 3:
         // spawn on left
-        return spawnZombieInArea(
-          scene.map.area.topLeft,
-          scene.map.area.bottomLeft,
+        return this.spawnZombieInArea(
+          this.scene.map.area.topLeft,
+          this.scene.map.area.bottomLeft,
           'x',
           -1
         );
     }
   };
 
-  // Start timer to Spawn the next zombie
-  const algo = (n) => {
-    if (n === 0) return 5000;
-    const time = Math.floor(1000 * Math.pow(0.8, n / 4) * 5);
-    console.log(time);
-    return time;
-  };
-
-  const spawnZombie = () => {
+  spawnZombie = () => {
     // Get random int between 0 and 1
     const type = Math.floor(Math.random() * 2);
 
     // chose area to spawn zombie
-    const zombie = new Zombie(scene, type, chooseSpawnArea());
-    scene.zombies.push(zombie);
-    scene.gameArea.addChild(zombie);
+    const zombie = new Zombie(this.scene, type, this.chooseSpawnArea());
+    this.scene.zombies.push(zombie);
+    this.scene.gameArea.addChild(zombie);
+  };
 
+  getSpawnTime() {
+    const time = (Date.now() - this.time) / 1000;
+    const spawnTime = (3 - (1 / 1000) * Math.pow(time, 2)) * 1000;
+
+    console.log(
+      `Time elapsed: ${time} mili seconds. Next spawn in: ${spawnTime}`
+    );
+
+    if (spawnTime < 1000) {
+      return 1000;
+    }
+
+    return spawnTime;
+  }
+
+  setTimer() {
     // Start timer to spawn next zombie
     setTimeout(() => {
       // Stop spawning zombies if game is over
-      if (scene.gameOver) {
+      if (this.scene.gameOver) {
         return;
       }
 
-      spawnZombie();
-    }, algo(scene.killCount.count));
-  };
+      this.spawnZombie();
+      this.setTimer();
+    }, this.getSpawnTime());
+  }
+}
 
-  spawnZombie();
+const ZombieSpawner = (scene) => {
+  const spawners = [];
+  spawners.push(new Spawner(scene));
 };
 
 export default ZombieSpawner;
