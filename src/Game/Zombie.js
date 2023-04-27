@@ -1,5 +1,6 @@
 import CharacterController from './CharacterController';
 import SAT from 'sat';
+import Coin from './Coin';
 
 class Zombie extends CharacterController {
   constructor(scene, type, position) {
@@ -22,7 +23,11 @@ class Zombie extends CharacterController {
   hit() {
     this.health--;
     if (this.health <= 0) {
-      this.scene.killCount.update();
+      const spawnPosition = {
+        x: this.hitBox.pos.x - this.scene.game.x,
+        y: this.hitBox.pos.y - this.scene.game.y,
+      };
+      new Coin(this.scene, spawnPosition);
 
       this.scene.zombies = this.scene.zombies.filter(
         (zombie) => zombie !== this

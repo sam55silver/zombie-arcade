@@ -1,10 +1,11 @@
 import { Sprite, Container, AnimatedSprite, Text } from 'pixi.js';
 import Player from './Player';
 import Input from '../Input';
-import ZombieSpawner from './zombieSpawner';
+import Spawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
 import Scene from '../Scene';
+import Collectible from './Collectible';
 
 const Game = (app) => {
   // create scene for game to be added to
@@ -320,10 +321,14 @@ const Game = (app) => {
     shootKeys.addChild(fireText);
   }
 
+  const spawners = [];
+  const spawnAtKills = 20;
+  let spawnZombie = true;
+
   // After time, remove controls and bring on the zombies!
   setTimeout(() => {
     scene.game.removeChild(controls);
-    ZombieSpawner(scene);
+    spawners.push(new Spawner(scene));
   }, 6000);
 
   const gameLoop = (delta) => {
@@ -333,6 +338,22 @@ const Game = (app) => {
         child.update(delta);
       }
     });
+
+    // check if user has kill count divisible by 40
+    if (
+      scene.killCount.count % spawnAtKills === 0 &&
+      scene.killCount.count != 0 &&
+      spawnZombie
+    ) {
+      // if so, spawn a new spawner
+      console.log('spawning new spawner');
+      spawners.push(new Spawner(scene));
+      spawnZombie = false;
+    }
+
+    if (scene.killCount.count % spawnAtKills != 0) {
+      spawnZombie = true;
+    }
   };
 
   scene.addLoop(gameLoop);

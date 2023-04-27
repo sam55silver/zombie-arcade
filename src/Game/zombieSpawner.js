@@ -102,9 +102,4 @@ class Spawner {
   }
 }
 
-const ZombieSpawner = (scene) => {
-  const spawners = [];
-  spawners.push(new Spawner(scene));
-};
-
-export default ZombieSpawner;
+export default Spawner;
