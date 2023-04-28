@@ -17,8 +17,6 @@ class Collectible extends Container {
       this.radius
     );
 
-    console.log(this.hitBox.pos);
-
     this.sprite = new Sprite(sprite);
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.scale.set((scene.spriteScale * 2) / 3);

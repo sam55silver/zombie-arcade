@@ -77,7 +77,6 @@ class Player extends CharacterController {
     this.sprite.play();
 
     new Bullet(this.scene, this.x, this.y, this.rotation);
-    console.log('player', this.hitBox.pos);
   }
 
   updateCharacter(delta) {
