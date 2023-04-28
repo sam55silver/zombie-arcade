@@ -136,6 +136,15 @@ const Game = (app) => {
   scene.collectibles = new Container();
   scene.gameArea.addChild(scene.collectibles);
 
+  // add update to collectibles
+  scene.collectibles.update = (delta) => {
+    scene.collectibles.children.forEach((child) => {
+      if (child.update) {
+        child.update(delta);
+      }
+    });
+  };
+
   // Create border for player to stay in
   scene.game.addChild(loadImageCentered('arena-border.png'));
 

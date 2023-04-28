@@ -33,7 +33,7 @@ class Collectible extends Container {
       this.addChild(this.debug);
     }
 
-    scene.gameArea.addChild(this);
+    scene.collectibles.addChild(this);
   }
 
   update(delta) {
@@ -42,8 +42,7 @@ class Collectible extends Container {
       if (this.pickup) {
         this.pickup();
       }
-      this.scene.gameArea.removeChild(this);
-      console.log('Picked up collectible');
+      this.scene.collectibles.removeChild(this);
     }
   }
 }
