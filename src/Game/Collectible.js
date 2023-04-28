@@ -9,6 +9,9 @@ class Collectible extends Container {
     this.playerHitBox = scene.player.hitBox;
     this.x = pos.x;
     this.y = pos.y;
+    this.timeout = 1000;
+    this.fade = this.timeout;
+    this.animSpeed = 0;
 
     this.radius = 5 * scene.spriteScale;
 
@@ -35,7 +38,7 @@ class Collectible extends Container {
 
     scene.startTimeout(() => {
       this.scene.collectibles.removeChild(this);
-    }, 1000);
+    }, this.timeout);
   }
 
   update(delta) {
@@ -50,6 +53,23 @@ class Collectible extends Container {
     // check if game is over
     if (this.scene.gameOver) {
       this.scene.collectibles.removeChild(this);
+    }
+
+    // Check timeout and remove if expired
+    this.fade -= delta;
+    if (this.fade <= this.timeout / 3) {
+      // Fade out
+      this.animSpeed += delta;
+
+      if (this.animSpeed > 25) {
+        if (this.sprite.alpha == 0) {
+          this.sprite.alpha = 1;
+        } else {
+          this.sprite.alpha = 0;
+        }
+
+        this.animSpeed = 0;
+      }
     }
   }
 }
