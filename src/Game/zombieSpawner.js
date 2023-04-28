@@ -86,7 +86,7 @@ class Spawner {
 
   setTimer() {
     // Start timer to spawn next zombie
-    setTimeout(() => {
+    this.scene.startTimeout(() => {
       // Stop spawning zombies if game is over
       if (this.scene.gameOver) {
         return;

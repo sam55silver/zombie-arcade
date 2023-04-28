@@ -12,6 +12,8 @@ class Scene extends Container {
   startTimeout(callback, time) {
     const execute = callback.bind(this);
 
+    console.log('timeout started', time);
+
     const timeout = (delta) => {
       if (time <= 0) {
         execute();
@@ -19,6 +21,7 @@ class Scene extends Container {
         this.app.ticker.remove(timeout);
       } else {
         time -= delta;
+        console.log('timeout', time);
       }
     };
 
