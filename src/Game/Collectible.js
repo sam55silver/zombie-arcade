@@ -1,8 +1,8 @@
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Sprite } from 'pixi.js';
 import SAT from 'sat';
 
 class Collectible extends Container {
-  constructor(scene, pos) {
+  constructor(scene, pos, sprite) {
     super();
 
     this.scene = scene;
@@ -13,16 +13,25 @@ class Collectible extends Container {
     this.radius = 5 * scene.spriteScale;
 
     this.hitBox = new SAT.Circle(
-      new SAT.Vector(this.scene.game.x + this.x, this.scene.game.y + this.y),
+      new SAT.Vector(this.x + scene.game.x, this.y + scene.game.y),
       this.radius
     );
 
-    this.hitBoxGraphic = new Graphics();
-    this.hitBoxGraphic.beginFill(0xff0000);
-    this.hitBoxGraphic.drawCircle(0, 0, this.radius);
-    this.hitBoxGraphic.endFill();
+    console.log(this.hitBox.pos);
 
-    this.addChild(this.hitBoxGraphic);
+    this.sprite = new Sprite(sprite);
+    this.sprite.anchor.set(0.5, 0.5);
+    this.sprite.scale.set((scene.spriteScale * 2) / 3);
+    this.addChild(this.sprite);
+
+    if (this.scene.debug) {
+      this.debug = new Graphics();
+      this.debug.beginFill(0xff0000);
+      this.debug.drawCircle(0, 0, this.radius);
+      this.debug.endFill();
+
+      this.addChild(this.debug);
+    }
 
     scene.gameArea.addChild(this);
   }
@@ -34,6 +43,7 @@ class Collectible extends Container {
         this.pickup();
       }
       this.scene.gameArea.removeChild(this);
+      console.log('Picked up collectible');
     }
   }
 }
