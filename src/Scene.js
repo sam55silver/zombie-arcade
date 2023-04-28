@@ -5,6 +5,25 @@ class Scene extends Container {
     super();
     this.app = app;
     this.spriteScale = app.spriteScale;
+
+    this.timeouts = [];
+  }
+
+  startTimeout(callback, time) {
+    const execute = callback.bind(this);
+
+    const timeout = (delta) => {
+      if (time <= 0) {
+        execute();
+        this.timeouts.splice(this.timeouts.indexOf(execute), 1);
+        this.app.ticker.remove(timeout);
+      } else {
+        time -= delta;
+      }
+    };
+
+    this.timeouts.push(timeout);
+    this.app.ticker.add(timeout);
   }
 
   loadScene() {
@@ -13,6 +32,12 @@ class Scene extends Container {
 
   removeScene() {
     this.app.currentScene.removeChild(this);
+    if (this.timeouts.length > 0) {
+      this.timeouts.forEach((timeout) => {
+        this.app.ticker.remove(timeout);
+      });
+      this.timeouts = [];
+    }
     if (this.loop) {
       this.app.ticker.remove(this.loop);
     }

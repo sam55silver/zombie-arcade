@@ -34,6 +34,10 @@ class Collectible extends Container {
     }
 
     scene.collectibles.addChild(this);
+
+    scene.startTimeout(() => {
+      this.scene.collectibles.removeChild(this);
+    }, 1000);
   }
 
   update(delta) {
@@ -42,6 +46,11 @@ class Collectible extends Container {
       if (this.pickup) {
         this.pickup();
       }
+      this.scene.collectibles.removeChild(this);
+    }
+
+    // check if game is over
+    if (this.scene.gameOver) {
       this.scene.collectibles.removeChild(this);
     }
   }
