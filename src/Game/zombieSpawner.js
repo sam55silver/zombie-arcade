@@ -77,10 +77,6 @@ class Spawner {
     const time = (Date.now() - this.time) / 1000;
     const spawnTime = (3 - (1 / 1000) * Math.pow(time, 2)) * 1000;
 
-    console.log(
-      `Time elapsed: ${time} mili seconds. Next spawn in: ${spawnTime}`
-    );
-
     if (spawnTime < 1000) {
       return 1000;
     }
