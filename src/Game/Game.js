@@ -135,10 +135,10 @@ const Game = (app) => {
   scene.gameArea.addChild(scene.collectibles);
 
   // add update to collectibles
-  scene.collectibles.update = (delta) => {
+  scene.collectibles.update = (delta, elapsedMS) => {
     scene.collectibles.children.forEach((child) => {
       if (child.update) {
-        child.update(delta);
+        child.update(delta, elapsedMS);
       }
     });
   };
@@ -343,10 +343,12 @@ const Game = (app) => {
   }, 6000);
 
   const gameLoop = (delta) => {
+    const elapsedMS = app.ticker.elapsedMS;
+
     scene.input.update();
     scene.gameArea.children.forEach((child) => {
       if (child.update) {
-        child.update(delta);
+        child.update(delta, elapsedMS);
       }
     });
 

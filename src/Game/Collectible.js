@@ -9,7 +9,7 @@ class Collectible extends Container {
     this.playerHitBox = scene.player.hitBox;
     this.x = pos.x;
     this.y = pos.y;
-    this.timeout = 1000;
+    this.timeout = 10000;
     this.fade = this.timeout;
     this.animSpeed = 0;
 
@@ -41,7 +41,7 @@ class Collectible extends Container {
     }, this.timeout);
   }
 
-  update(delta) {
+  update(delta, elapsedMS) {
     // Check if player is touching collectible
     if (SAT.testCircleCircle(this.hitBox, this.playerHitBox)) {
       if (this.pickup) {
@@ -56,12 +56,12 @@ class Collectible extends Container {
     }
 
     // Check timeout and remove if expired
-    this.fade -= delta;
+    this.fade -= elapsedMS;
     if (this.fade <= this.timeout / 3) {
       // Fade out
-      this.animSpeed += delta;
+      this.animSpeed += elapsedMS;
 
-      if (this.animSpeed > 25) {
+      if (this.animSpeed > 200) {
         if (this.sprite.alpha == 0) {
           this.sprite.alpha = 1;
         } else {

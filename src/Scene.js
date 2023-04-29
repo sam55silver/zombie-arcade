@@ -12,16 +12,16 @@ class Scene extends Container {
   startTimeout(callback, time) {
     const execute = callback.bind(this);
 
-    console.log('timeout started', time);
-
     const timeout = (delta) => {
+      // elapsed time in milliseconds
+      const elapsedTime = this.app.ticker.elapsedMS;
+
       if (time <= 0) {
         execute();
         this.timeouts.splice(this.timeouts.indexOf(execute), 1);
         this.app.ticker.remove(timeout);
       } else {
-        time -= delta;
-        console.log('timeout', time);
+        time -= elapsedTime;
       }
     };
 
