@@ -1,6 +1,6 @@
 import CharacterController from './CharacterController';
 import SAT from 'sat';
-import Coin from './Coin';
+import { Coin } from './Collectibles';
 
 class Zombie extends CharacterController {
   constructor(scene, type, position) {

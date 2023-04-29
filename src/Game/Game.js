@@ -4,6 +4,7 @@ import Spawner from './zombieSpawner';
 import SAT from 'sat';
 import UIContainer from './UIContainer';
 import Scene from '../Scene';
+import { CollectibleSpawner } from './Collectibles';
 
 const Game = (app) => {
   // create scene for game to be added to
@@ -182,10 +183,15 @@ const Game = (app) => {
 
   // add Player health
   const updatePlayerHealth = (ui) => {
-    const timesHit = scene.player.timesHit;
     const maxHealth = scene.player.maxHealth;
-    for (let i = 1; i <= timesHit; i++) {
-      ui.units[maxHealth - i].update('1');
+    const health = maxHealth - scene.player.timesHit;
+
+    for (let i = 0; i < maxHealth; i++) {
+      ui.units[i].update('1');
+    }
+
+    for (let i = 0; i < health; i++) {
+      ui.units[i].update('0');
     }
   };
 
@@ -337,9 +343,10 @@ const Game = (app) => {
   let spawnZombie = true;
 
   // After time, remove controls and bring on the zombies!
-  setTimeout(() => {
+  scene.startTimeout(() => {
     scene.game.removeChild(controls);
     spawners.push(new Spawner(scene));
+    new CollectibleSpawner(scene);
   }, 6000);
 
   const gameLoop = (delta) => {

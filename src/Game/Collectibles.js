@@ -13,7 +13,7 @@ class Collectible extends Container {
     this.fade = this.timeout;
     this.animSpeed = 0;
 
-    this.radius = 5 * scene.spriteScale;
+    this.radius = 10 * scene.spriteScale;
 
     this.hitBox = new SAT.Circle(
       new SAT.Vector(this.x + scene.game.x, this.y + scene.game.y),
@@ -74,4 +74,62 @@ class Collectible extends Container {
   }
 }
 
-export default Collectible;
+export class Coin extends Collectible {
+  constructor(scene, pos) {
+    super(scene, pos, scene.spriteSheet.textures['kill-ui.png']);
+  }
+
+  pickup() {
+    this.scene.killCount.update();
+  }
+}
+
+class Health extends Collectible {
+  constructor(scene, pos) {
+    super(scene, pos, scene.spriteSheet.textures['health-ui-0.png']);
+  }
+
+  pickup() {
+    this.scene.player.timesHit--;
+    if (this.scene.player.timesHit < 0) {
+      this.scene.player.timesHit = 0;
+    }
+    this.scene.playerHealth.update();
+  }
+}
+
+export class CollectibleSpawner {
+  constructor(scene) {
+    this.scene = scene;
+    this.spawnRate = 5000;
+
+    this.spawnTimer();
+  }
+
+  spawnTimer() {
+    this.scene.startTimeout(() => {
+      if (!this.scene.gameOver) {
+        this.spawn();
+        this.spawnTimer();
+      }
+    }, this.spawnRate);
+  }
+
+  spawn() {
+    // Choose random position
+    // choose point between this.scene.map.area.topLeft and this.scene.map.area.bottomRight
+    const spawnPosition = {
+      x:
+        this.scene.map.area.topLeft.x +
+        Math.random() *
+          (this.scene.map.area.bottomRight.x - this.scene.map.area.topLeft.x),
+      y:
+        this.scene.map.area.topLeft.y +
+        Math.random() *
+          (this.scene.map.area.bottomRight.y - this.scene.map.area.topLeft.y),
+    };
+
+    console.log(spawnPosition);
+    new Health(this.scene, spawnPosition);
+  }
+}
