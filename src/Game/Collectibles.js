@@ -98,6 +98,16 @@ class Health extends Collectible {
   }
 }
 
+class MachineGun extends Collectible {
+  constructor(scene, pos) {
+    super(scene, pos, scene.spriteSheet.textures['health-ui-1.png']);
+  }
+
+  pickup() {
+    this.scene.player.setFireState('machineGun', 10000);
+  }
+}
+
 export class CollectibleSpawner {
   constructor(scene) {
     this.scene = scene;
@@ -129,7 +139,15 @@ export class CollectibleSpawner {
           (this.scene.map.area.bottomRight.y - this.scene.map.area.topLeft.y),
     };
 
-    console.log(spawnPosition);
-    new Health(this.scene, spawnPosition);
+    // choose random number, 0 or 1
+    let rand = Math.random();
+    console.log('item chosen:', rand);
+    rand = 0.5;
+
+    if (rand < 0.5) {
+      new Health(this.scene, spawnPosition);
+    } else if (rand >= 0.5) {
+      new MachineGun(this.scene, spawnPosition);
+    }
   }
 }

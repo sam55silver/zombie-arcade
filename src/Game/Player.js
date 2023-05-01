@@ -18,6 +18,8 @@ class Player extends CharacterController {
     this.slowSpeed = this.regularSpeed / 3;
     this.speed = this.regularSpeed;
 
+    this.fireState = 'normal';
+
     this.maxHealth = 8;
     this.timesHit = 0;
 
@@ -69,7 +71,41 @@ class Player extends CharacterController {
     }
   }
 
+  setFireState(state, timeout) {
+    this.fireState = state;
+
+    this.scene.startTimeout(() => {
+      this.fireState = 'normal';
+    }, timeout);
+  }
+
   fire() {
+    switch (this.fireState) {
+      case 'normal':
+        this.fireNormal();
+        break;
+      case 'shotgun':
+        this.fireShotgun();
+        break;
+      case 'machineGun':
+        this.fireMachineGun();
+        break;
+    }
+  }
+
+  fireShotgun() {
+    console.log('shotgun');
+  }
+
+  fireMachineGun() {
+    this.sprite.textures =
+      this.scene.spriteSheet.animations['player-gunshot-anim'];
+    this.sprite.gotoAndStop(0);
+
+    new Bullet(this.scene, this.x, this.y, this.rotation);
+  }
+
+  fireNormal() {
     if (this.sprite.playing) return;
 
     this.sprite.textures =
