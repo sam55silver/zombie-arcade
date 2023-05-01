@@ -19,6 +19,7 @@ class Player extends CharacterController {
     this.speed = this.regularSpeed;
 
     this.fireState = 'normal';
+    this.firing = false;
 
     this.maxHealth = 8;
     this.timesHit = 0;
@@ -98,9 +99,16 @@ class Player extends CharacterController {
   }
 
   fireMachineGun() {
+    if (this.firing) return;
+    this.firing = true;
     this.sprite.textures =
       this.scene.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.gotoAndStop(0);
+
+    this.scene.startTimeout(() => {
+      this.firing = false;
+      this.sprite.play();
+    }, 50);
 
     new Bullet(this.scene, this.x, this.y, this.rotation);
   }

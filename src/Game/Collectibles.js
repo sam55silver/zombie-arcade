@@ -141,8 +141,6 @@ export class CollectibleSpawner {
 
     // choose random number, 0 or 1
     let rand = Math.random();
-    console.log('item chosen:', rand);
-    rand = 0.5;
 
     if (rand < 0.5) {
       new Health(this.scene, spawnPosition);
