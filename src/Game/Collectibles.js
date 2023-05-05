@@ -104,7 +104,17 @@ class MachineGun extends Collectible {
   }
 
   pickup() {
-    this.scene.player.setFireState('machineGun', 10000);
+    this.scene.player.setFireState('machineGun', 6000);
+  }
+}
+
+class Shotgun extends Collectible {
+  constructor(scene, pos) {
+    super(scene, pos, scene.spriteSheet.textures['bullet.png']);
+  }
+
+  pickup() {
+    this.scene.player.setFireState('shotgun', 12000);
   }
 }
 

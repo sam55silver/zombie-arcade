@@ -95,7 +95,21 @@ class Player extends CharacterController {
   }
 
   fireShotgun() {
-    console.log('shotgun');
+    if (this.sprite.playing) return;
+
+    this.sprite.textures =
+      this.scene.spriteSheet.animations['player-gunshot-anim'];
+    this.sprite.play();
+
+    // create 5 bullets to spawn
+    let rotVariation = 0.2;
+    const rotIncr = 0.2;
+    for (let i = 0; i < 3; i++) {
+      const rot = this.rotation + rotVariation;
+      rotVariation -= rotIncr;
+
+      new Bullet(this.scene, this.x, this.y, rot);
+    }
   }
 
   fireMachineGun() {
