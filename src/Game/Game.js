@@ -378,6 +378,8 @@ const Game = (app) => {
 
   scene.addLoop(gameLoop);
 
+  // new MachineGun(scene, { x: 100, y: 100 });
+
   return scene;
 };
 

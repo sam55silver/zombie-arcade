@@ -110,7 +110,21 @@ class Player extends CharacterController {
       this.sprite.play();
     }, 50);
 
-    new Bullet(this.scene, this.x, this.y, this.rotation);
+    // Add variation to rotation
+    const rotationVariation = 0.15;
+    const rand = (Math.random() - 0.5) * rotationVariation;
+
+    const newRot = this.rotation + rand;
+    console.log(
+      'regular rotation:',
+      this.rotation,
+      'New:',
+      newRot,
+      'rand:',
+      rand
+    );
+
+    new Bullet(this.scene, this.x, this.y, newRot);
   }
 
   fireNormal() {
