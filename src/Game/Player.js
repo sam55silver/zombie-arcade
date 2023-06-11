@@ -129,14 +129,6 @@ class Player extends CharacterController {
     const rand = (Math.random() - 0.5) * rotationVariation;
 
     const newRot = this.rotation + rand;
-    console.log(
-      'regular rotation:',
-      this.rotation,
-      'New:',
-      newRot,
-      'rand:',
-      rand
-    );
 
     new Bullet(this.scene, this.x, this.y, newRot);
   }

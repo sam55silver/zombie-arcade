@@ -121,7 +121,7 @@ class Shotgun extends Collectible {
 export class CollectibleSpawner {
   constructor(scene) {
     this.scene = scene;
-    this.spawnRate = 5000;
+    this.spawnRate = 15000;
 
     this.spawnTimer();
   }
@@ -149,13 +149,15 @@ export class CollectibleSpawner {
           (this.scene.map.area.bottomRight.y - this.scene.map.area.topLeft.y),
     };
 
-    // choose random number, 0 or 1
-    let rand = Math.random();
+    // choose random between 0 and 2
+    const rand = Math.floor(Math.random() * 3);
 
-    if (rand < 0.5) {
+    if (rand == 0) {
       new Health(this.scene, spawnPosition);
-    } else if (rand >= 0.5) {
+    } else if (rand == 1) {
       new MachineGun(this.scene, spawnPosition);
+    } else if (rand == 2) {
+      new Shotgun(this.scene, spawnPosition);
     }
   }
 }
