@@ -3,8 +3,13 @@ import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game/Game';
 import Input from './src/Input';
+import { get_high_scores } from './src/highscore_menu.js';
 
 const Setup = () => {
+  get_high_scores().then((high_scores) => {
+    console.log(high_scores);
+  });
+
   // Create Application
   const app = new Application({
     width: 256,
