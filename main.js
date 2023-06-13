@@ -3,7 +3,7 @@ import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game/Game';
 import Input from './src/Game/Input';
-import get_leader_board from './src/Leaderboard/getLeaderBoard';
+import displayLeaderBoard from './src/LeaderBoard/displayLeaderBoard';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from './firebaseConfig.json';
@@ -15,10 +15,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Setup = () => {
-  get_leader_board(db).then((high_scores) => {
-    console.log(high_scores);
-  });
-
   // Create Application
   const app = new Application({
     width: 256,
@@ -41,23 +37,24 @@ const Setup = () => {
   app.isMobile = utils.isMobile.any;
   app.debug = false;
 
+  app.currentScene = new Container();
+  app.stage.addChild(app.currentScene);
+
   // Append to DOM
   document.querySelector('#app').appendChild(app.view);
 
   // Load Assets
-  Loader(app)
-    .then((spriteSheet) => {
-      spriteSheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
-      app.spriteSheet = spriteSheet;
+  Loader(app, db)
+    .then(({ sheet, high_scores }) => {
+      sheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
+      app.spriteSheet = sheet;
 
-      app.currentScene = new Container();
-      app.stage.addChild(app.currentScene);
-
-      app.input = new Input(app);
+      displayLeaderBoard(app, high_scores);
 
       // Start game
-      const scene = Game(app);
-      scene.loadScene();
+      // app.input = new Input(app);
+      // const scene = Game(app);
+      // scene.loadScene();
     })
     .catch((err) => {
       console.log(err);
