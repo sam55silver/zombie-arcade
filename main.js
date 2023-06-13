@@ -2,11 +2,20 @@ import './style.css';
 import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
 import Game from './src/Game/Game';
-import Input from './src/Input';
-import { get_high_scores } from './src/highscore_menu.js';
+import Input from './src/Game/Input';
+import get_leader_board from './src/Leaderboard/getLeaderBoard';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import firebaseConfig from './firebaseConfig.json';
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
 
 const Setup = () => {
-  get_high_scores().then((high_scores) => {
+  get_leader_board(db).then((high_scores) => {
     console.log(high_scores);
   });
 

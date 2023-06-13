@@ -1,7 +1,7 @@
 import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
-import Game from './Game';
+import Game from '../Game';
 
 class Player extends CharacterController {
   constructor(scene) {

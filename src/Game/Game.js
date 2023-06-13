@@ -1,10 +1,10 @@
 import { Sprite, Container, Text } from 'pixi.js';
-import Player from './Player';
-import Spawner from './zombieSpawner';
+import Player from './Components/Player';
+import Spawner from './Components/zombieSpawner';
 import SAT from 'sat';
-import UIContainer from './UIContainer';
+import UIContainer from './Components/UIContainer';
 import Scene from '../Scene';
-import { CollectibleSpawner } from './Collectibles';
+import { CollectibleSpawner } from './Components/Collectibles';
 
 const Game = (app) => {
   // create scene for game to be added to
