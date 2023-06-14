@@ -50,7 +50,8 @@ const Setup = () => {
       app.spriteSheet = sheet;
       app.high_scores = high_scores;
 
-      displayLeaderBoard(app);
+      const leaderBoard = displayLeaderBoard(app);
+      leaderBoard.loadScene();
     })
     .catch((err) => {
       console.log(err);

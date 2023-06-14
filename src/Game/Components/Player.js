@@ -165,8 +165,13 @@ class Player extends CharacterController {
             });
           }
 
-          this.scene.removeScene();
-          GameOverScore(this.scene.app, this.scene.killCount.count);
+          this.scene.input.removeInput();
+
+          const gameOver = GameOverScore(
+            this.scene.app,
+            this.scene.killCount.count
+          );
+          this.scene.changeScene(gameOver);
         };
       }
       return;

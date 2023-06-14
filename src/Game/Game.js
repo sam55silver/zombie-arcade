@@ -5,11 +5,12 @@ import SAT from 'sat';
 import UIContainer from './Components/UIContainer';
 import Scene from '../Scene';
 import { CollectibleSpawner } from './Components/Collectibles';
+import Input from './Input';
 
 const Game = (app) => {
   // create scene for game to be added to
   const scene = new Scene(app);
-  scene.input = app.input;
+  scene.input = new Input(app);
   scene.app = app;
 
   scene.gameOver = false;

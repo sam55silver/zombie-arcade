@@ -17,7 +17,9 @@ class Input {
 
     // this.updateReticle({ x: scene.game.x, y: scene.game.y });
 
-    if (!app.isMobile) this.setupDesktopControls();
+    if (!app.isMobile) {
+      this.setupDesktopControls();
+    }
   }
 
   updateReticle = (pos) => {
@@ -36,7 +38,7 @@ class Input {
       else this.pressed = this.pressed.filter((k) => k !== key);
     };
 
-    const eventListeners = [
+    this.eventListeners = [
       {
         event: 'mousemove',
         action: (e) => {
@@ -70,9 +72,19 @@ class Input {
       },
     ];
 
-    eventListeners.forEach((listener) =>
+    this.eventListeners.forEach((listener) =>
       document.addEventListener(listener.event, listener.action)
     );
+  }
+
+  removeInput() {
+    if (this.eventListeners) {
+      this.eventListeners.forEach((listener) =>
+        document.removeEventListener(listener.event, listener.action)
+      );
+    }
+
+    this.app.stage.removeChild(this.reticle);
   }
 
   update() {

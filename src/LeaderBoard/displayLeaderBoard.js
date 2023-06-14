@@ -2,28 +2,15 @@ import { Container, Text, AnimatedSprite } from 'pixi.js';
 import Scene from '../Scene';
 import Game from '../Game/Game';
 import Input from '../Game/Input';
+import fonts from '../fonts.json';
+import Button from './button';
 
 const display_leader_board = (app) => {
   const leaderBoard = new Scene(app);
   leaderBoard.x = app.renderer.width / 2;
   //   leaderBoard.y = app.renderer.height / 2;
 
-  const headerStyle = {
-    fontFamily: 'Arial',
-    fontSize: 40,
-    fill: 0x1fc24a,
-    align: 'center',
-    fontStyle: 'bold',
-  };
-
-  const entryStyle = {
-    fontFamily: 'Arial',
-    fontSize: 20,
-    fill: 0x1fc24a,
-    align: 'center',
-  };
-
-  const leaderBoardText = new Text('Leader Board!', headerStyle);
+  const leaderBoardText = new Text('Leader Board!', fonts.headerStyle);
   leaderBoardText.anchor.set(0.5);
   leaderBoard.addChild(leaderBoardText);
   leaderBoardText.y = app.renderer.height / 4;
@@ -37,13 +24,13 @@ const display_leader_board = (app) => {
 
     let spacing_distance = 200;
 
-    let numText = new Text(`${index + 1}.`, entryStyle);
+    let numText = new Text(`${index + 1}.`, fonts.entryStyle);
     numText.x = -spacing_distance;
 
-    let nameText = new Text(`${entry.name}`, entryStyle);
+    let nameText = new Text(`${entry.name}`, fonts.entryStyle);
     nameText.x = -spacing_distance + 50;
 
-    let scoreText = new Text(`${entry.score}`, entryStyle);
+    let scoreText = new Text(`${entry.score}`, fonts.entryStyle);
     scoreText.anchor.set(1, 0);
     scoreText.x = spacing_distance - 15;
 
@@ -56,32 +43,20 @@ const display_leader_board = (app) => {
     scoresContainer.addChild(entryContainer);
   });
 
-  const button = new AnimatedSprite(app.spriteSheet.animations['buttons/play']);
-  button.anchor.set(0.5);
-  button.scale.set(app.spriteScale);
-  button.x = 0;
-  button.y = app.renderer.height * (7 / 10);
-  button.eventMode = 'dynamic';
-
-  // change cursor to pointer
-  // button.addEventListener('mouseover', () => {
-  //   document.body.style.cursor = 'pointer';
-  // });
-
-  // button.addEventListener('mouseout', () => {
-  //   document.body.style.cursor = 'default';
-  // });
-
-  button.addEventListener('pointertap', () => {
-    // Start game
-    app.input = new Input(app);
-    const game = Game(app);
-    leaderBoard.changeScene(game);
-  });
-
+  const button = Button(
+    app.spriteSheet.textures['buttons/play-0.png'],
+    0,
+    app.renderer.height * (7 / 10),
+    app.spriteScale,
+    () => {
+      // Start game
+      const game = Game(app);
+      leaderBoard.changeScene(game);
+    }
+  );
   leaderBoard.addChild(button);
 
-  leaderBoard.loadScene();
+  return leaderBoard;
 };
 
 export default display_leader_board;
