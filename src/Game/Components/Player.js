@@ -2,6 +2,7 @@ import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
 import Game from '../Game';
+import GameOverScore from '../../LeaderBoard/gameOverScore';
 
 class Player extends CharacterController {
   constructor(scene) {
@@ -163,8 +164,9 @@ class Player extends CharacterController {
               document.removeEventListener(listener.event, listener.callback);
             });
           }
-          const newGame = Game(this.scene.app);
-          this.scene.changeScene(newGame);
+
+          this.scene.removeScene();
+          GameOverScore(this.scene.app, this.scene.killCount.count);
         };
       }
       return;

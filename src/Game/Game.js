@@ -10,6 +10,7 @@ const Game = (app) => {
   // create scene for game to be added to
   const scene = new Scene(app);
   scene.input = app.input;
+  scene.app = app;
 
   scene.gameOver = false;
 

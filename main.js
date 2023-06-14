@@ -1,8 +1,6 @@
 import './style.css';
 import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
-import Game from './src/Game/Game';
-import Input from './src/Game/Input';
 import displayLeaderBoard from './src/LeaderBoard/displayLeaderBoard';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
@@ -40,6 +38,8 @@ const Setup = () => {
   app.currentScene = new Container();
   app.stage.addChild(app.currentScene);
 
+  // app.renderer.addSystem(EventSystem, 'events');
+
   // Append to DOM
   document.querySelector('#app').appendChild(app.view);
 
@@ -48,13 +48,9 @@ const Setup = () => {
     .then(({ sheet, high_scores }) => {
       sheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
       app.spriteSheet = sheet;
+      app.high_scores = high_scores;
 
-      displayLeaderBoard(app, high_scores);
-
-      // Start game
-      // app.input = new Input(app);
-      // const scene = Game(app);
-      // scene.loadScene();
+      displayLeaderBoard(app);
     })
     .catch((err) => {
       console.log(err);
