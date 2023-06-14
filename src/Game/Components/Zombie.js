@@ -18,11 +18,14 @@ class Zombie extends CharacterController {
 
     this.health = 2;
     this.lookAtPlayer();
+    this.alreadyHit = false;
   }
 
   hit() {
     this.health--;
-    if (this.health <= 0) {
+    if (this.health <= 0 && !this.alreadyHit) {
+      this.alreadyHit = true;
+
       const spawnPosition = {
         x: this.hitBox.pos.x - this.scene.game.x,
         y: this.hitBox.pos.y - this.scene.game.y,
@@ -42,6 +45,9 @@ class Zombie extends CharacterController {
       };
 
       this.playDeathAnimation('zombie-death', offset);
+      this.sprite.onComplete = () => {
+        this.scene.deadZombies.removeChild(this);
+      };
     }
   }
 
