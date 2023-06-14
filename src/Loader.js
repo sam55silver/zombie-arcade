@@ -1,7 +1,7 @@
 import { Assets, Text, Container } from 'pixi.js';
 import get_leader_board from './LeaderBoard/getLeaderBoard';
 
-const Loader = (app, db) => {
+const Loader = (app) => {
   return new Promise(async (resolve, reject) => {
     // Create a loading screen
     const loadingScreen = new Container();
@@ -24,27 +24,10 @@ const Loader = (app, db) => {
     // Load assets
     Assets.load('../assets/textureAtlas.json')
       .then((sheet) => {
-        get_leader_board(db)
-          .then((high_scores) => {
-            // Update loading text
-            app.stage.removeChild(loadingScreen);
+        // Update loading text
+        app.stage.removeChild(loadingScreen);
 
-            resolve({ sheet, high_scores });
-          })
-          .catch((err) => {
-            // Update loading text
-            loadingScreen.removeChild(loadingText);
-
-            const errorText = new Text(
-              'Error Fetching Leader Board',
-              loadingScreenStyle
-            );
-            errorText.anchor.set(0.5);
-            loadingScreen.addChild(errorText);
-
-            // Reject promise to stop execution
-            reject(err);
-          });
+        resolve(sheet);
       })
       .catch((err) => {
         // Update loading text

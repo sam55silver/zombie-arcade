@@ -20,6 +20,8 @@ const Setup = () => {
     backgroundColor: 0x000000,
   });
 
+  app.db = db;
+
   const windowWidth = window.innerWidth;
   app.spriteScale = 1;
 
@@ -44,11 +46,10 @@ const Setup = () => {
   document.querySelector('#app').appendChild(app.view);
 
   // Load Assets
-  Loader(app, db)
-    .then(({ sheet, high_scores }) => {
+  Loader(app)
+    .then((sheet) => {
       sheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
       app.spriteSheet = sheet;
-      app.high_scores = high_scores;
 
       const leaderBoard = displayLeaderBoard(app);
       leaderBoard.loadScene();
