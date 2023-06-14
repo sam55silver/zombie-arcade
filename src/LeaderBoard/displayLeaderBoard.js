@@ -50,7 +50,7 @@ const display_leader_board = (app) => {
       const button = Button(
         app.spriteSheet.textures['buttons/play-0.png'],
         0,
-        app.renderer.height * (7 / 10),
+        scoresContainer.y + scoresContainer.height + 100,
         app.spriteScale,
         () => {
           // Start game
