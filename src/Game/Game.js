@@ -237,7 +237,7 @@ const Game = (app) => {
     joystick.anchor.set(0.5);
     joystick.scale.set(scene.spriteScale);
 
-    const spin = new Sprite(app.spriteSheet.textures['joymove.png']);
+    const spin = new Sprite(app.spriteSheet.textures['rotation.png']);
     spin.x -= joystick.width / 2;
     joystickControls.addChild(spin);
 
@@ -253,14 +253,14 @@ const Game = (app) => {
     lookControls.x += map.width * (1 / 5);
     controls.addChild(lookControls);
 
-    const hand = new Sprite(app.spriteSheet.textures['touch.png']);
+    const hand = new Sprite(app.spriteSheet.textures['finger.png']);
     hand.x += hand.width / 2;
     lookControls.addChild(hand);
 
     hand.anchor.set(0.5);
     hand.scale.set(scene.spriteScale);
 
-    const movement = new Sprite(app.spriteSheet.textures['movement.png']);
+    const movement = new Sprite(app.spriteSheet.textures['move.png']);
     movement.x -= movement.width / 2;
     lookControls.addChild(movement);
 
@@ -314,7 +314,7 @@ const Game = (app) => {
     mouse.x += mouse.width / 2;
     lookKeys.addChild(mouse);
 
-    const movement = new Sprite(app.spriteSheet.textures['movement.png']);
+    const movement = new Sprite(app.spriteSheet.textures['move.png']);
     movement.anchor.set(0.5);
     movement.scale.set(scene.spriteScale);
     movement.x -= movement.width / 2;

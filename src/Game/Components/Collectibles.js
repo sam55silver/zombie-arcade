@@ -2,7 +2,7 @@ import { Container, Graphics, Sprite } from 'pixi.js';
 import SAT from 'sat';
 
 class Collectible extends Container {
-  constructor(scene, pos, sprite) {
+  constructor(scene, pos, sprite, angle) {
     super();
 
     this.scene = scene;
@@ -23,6 +23,11 @@ class Collectible extends Container {
     this.sprite = new Sprite(sprite);
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.scale.set((scene.spriteScale * 2) / 3);
+
+    if (angle) {
+      this.sprite.angle = angle;
+    }
+
     this.addChild(this.sprite);
 
     if (this.scene.debug) {
@@ -86,7 +91,7 @@ export class Coin extends Collectible {
 
 class Health extends Collectible {
   constructor(scene, pos) {
-    super(scene, pos, scene.spriteSheet.textures['health-ui-0.png']);
+    super(scene, pos, scene.spriteSheet.textures['health-pickup.png']);
   }
 
   pickup() {
@@ -100,7 +105,7 @@ class Health extends Collectible {
 
 class MachineGun extends Collectible {
   constructor(scene, pos) {
-    super(scene, pos, scene.spriteSheet.textures['health-ui-1.png']);
+    super(scene, pos, scene.spriteSheet.textures['ak.png'], 45);
   }
 
   pickup() {
@@ -110,7 +115,7 @@ class MachineGun extends Collectible {
 
 class Shotgun extends Collectible {
   constructor(scene, pos) {
-    super(scene, pos, scene.spriteSheet.textures['bullet.png']);
+    super(scene, pos, scene.spriteSheet.textures['shotgun.png'], 45);
   }
 
   pickup() {
@@ -138,16 +143,26 @@ export class CollectibleSpawner {
   spawn() {
     // Choose random position
     // choose point between this.scene.map.area.topLeft and this.scene.map.area.bottomRight
+    const gap = 20;
+
     const spawnPosition = {
       x:
         this.scene.map.area.topLeft.x +
+        gap +
         Math.random() *
-          (this.scene.map.area.bottomRight.x - this.scene.map.area.topLeft.x),
+          (this.scene.map.area.bottomRight.x -
+            gap -
+            (this.scene.map.area.topLeft.x + gap)),
       y:
         this.scene.map.area.topLeft.y +
+        gap +
         Math.random() *
-          (this.scene.map.area.bottomRight.y - this.scene.map.area.topLeft.y),
+          (this.scene.map.area.bottomRight.y -
+            gap -
+            (this.scene.map.area.topLeft.y + gap)),
     };
+
+    console.log('Spawning collectible', spawnPosition);
 
     // choose random between 0 and 2
     const rand = Math.floor(Math.random() * 3);
