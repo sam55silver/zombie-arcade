@@ -3,6 +3,7 @@ import fonts from '../fonts.json';
 
 const Button = (width, height, radius, x, y, text, spriteScale, onClick) => {
   const button = new Container();
+  button.eventMode = 'dynamic';
   button.y = y;
   button.x = x;
 
@@ -12,7 +13,7 @@ const Button = (width, height, radius, x, y, text, spriteScale, onClick) => {
     radius: radius * spriteScale,
   };
 
-  const shadowSize = 1.5 * spriteScale;
+  const shadowSize = 2 * spriteScale;
 
   const buttonRectShadow = new Graphics();
   buttonRectShadow.beginFill(0xff0000);
@@ -45,6 +46,10 @@ const Button = (width, height, radius, x, y, text, spriteScale, onClick) => {
   });
   buttonText.anchor.set(0.5);
   button.addChild(buttonText);
+
+  button.on('click', () => {
+    onClick();
+  });
 
   return button;
 };
