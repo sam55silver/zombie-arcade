@@ -1,13 +1,13 @@
 {
     "headerStyle": {
-        "fontFamily": "Arial",
+        "fontFamily": "Press Start 2P",
         "fontSize": 40,
         "fill": "0x1fc24a",
         "align": "center",
         "fontStyle": "bold"
     },
     "entryStyle": {
-        "fontFamily": "Arial",
+        "fontFamily": "Press Start 2P",
         "fontSize": 20,
         "fill": "0x1fc24a",
         "align": "center"

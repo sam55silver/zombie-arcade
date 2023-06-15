@@ -1,6 +1,16 @@
-body {
+@font-face {
+  font-family: "Press Start 2P";
+  src: url(PressStart2P-Regular.ttf);
+}
+
+/* :root {
   background-color: black;
+} */
+
+body {
   margin: 0;
+  font-family: "Press Start 2P";
+  color: #ffffff;
 }
 
 #app {

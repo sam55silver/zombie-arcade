@@ -1,4 +1,11 @@
-import { Container, Text, AnimatedSprite } from 'pixi.js';
+import {
+  Container,
+  Text,
+  AnimatedSprite,
+  Sprite,
+  Graphics,
+  RoundedRectangle,
+} from 'pixi.js';
 import Scene from '../Scene';
 import Game from '../Game/Game';
 import fonts from '../fonts.json';
@@ -14,51 +21,134 @@ const display_leader_board = (app) => {
       app.high_scores = scores;
       console.log(scores);
 
-      const leaderBoardText = new Text('Leader Board!', fonts.headerStyle);
-      leaderBoardText.anchor.set(0.5);
-      leaderBoard.addChild(leaderBoardText);
-      leaderBoardText.y = app.renderer.height / 4;
+      // const leaderBoardText = new Text('Leader Board', fonts.headerStyle);
+      // leaderBoardText.anchor.set(0.5);
+      // leaderBoard.addChild(leaderBoardText);
+      // leaderBoardText.y = app.renderer.height / 4;
+
+      const title = new Sprite(app.spriteSheet.textures['title.png']);
+      title.anchor.set(0.5);
+      title.scale.set(app.spriteScale);
+      title.y = app.renderer.height / 7;
+      leaderBoard.addChild(title);
 
       let scoresContainer = new Container();
-      scoresContainer.y = leaderBoardText.y + leaderBoardText.height;
+      // scoresContainer.y = title.y + (2 * title.height) / 3;
       leaderBoard.addChild(scoresContainer);
+
+      const header = new Container();
+      scoresContainer.addChild(header);
+
+      const horizontal_spacing = 70 * app.spriteScale;
+      const vertical_spacing = 12 * app.spriteScale;
+      const font_size = 8 * app.spriteScale;
+
+      const rankText = new Text('Rank', {
+        ...fonts.entryStyle,
+        fontSize: font_size,
+        fill: 0xffffff,
+      });
+      rankText.x = -horizontal_spacing;
+      header.addChild(rankText);
+
+      const nameText = new Text('Name', {
+        ...fonts.entryStyle,
+        fontSize: font_size,
+        align: 'center',
+        fill: 0xffffff,
+      });
+      nameText.anchor.set(0.5, 0);
+      header.addChild(nameText);
+
+      const scoreText = new Text('Score', {
+        ...fonts.entryStyle,
+        fontSize: font_size,
+        align: 'right',
+        fill: 0xffffff,
+      });
+      scoreText.anchor.set(1, 0);
+      scoreText.x = horizontal_spacing;
+      header.addChild(scoreText);
 
       app.high_scores.forEach((entry, index) => {
         let entryContainer = new Container();
 
-        let spacing_distance = 200;
+        let rankPrefix = 'TH';
+        if (index === 0) {
+          rankPrefix = 'ST';
+        } else if (index === 1) {
+          rankPrefix = 'ND';
+        } else if (index === 2) {
+          rankPrefix = 'RD';
+        }
 
-        let numText = new Text(`${index + 1}.`, fonts.entryStyle);
-        numText.x = -spacing_distance;
+        let numText = new Text(`${index + 1}${rankPrefix}`, {
+          ...fonts.entryStyle,
+          fontSize: font_size,
+        });
+        numText.x = -horizontal_spacing;
 
-        let nameText = new Text(`${entry.name}`, fonts.entryStyle);
-        nameText.x = -spacing_distance + 50;
+        let nameText = new Text(`${entry.name}`, {
+          ...fonts.entryStyle,
+          fontSize: font_size,
+          align: 'center',
+        });
+        nameText.anchor.set(0.5, 0);
 
-        let scoreText = new Text(`${entry.score}`, fonts.entryStyle);
+        let scoreText = new Text(`${entry.score}`, {
+          ...fonts.entryStyle,
+          fontSize: font_size,
+        });
         scoreText.anchor.set(1, 0);
-        scoreText.x = spacing_distance - 15;
+        scoreText.x = horizontal_spacing;
 
         entryContainer.addChild(numText);
         entryContainer.addChild(nameText);
         entryContainer.addChild(scoreText);
 
-        entryContainer.y = (index + 1) * 30;
+        entryContainer.y = (index + 1) * vertical_spacing;
 
         scoresContainer.addChild(entryContainer);
       });
 
-      const button = Button(
-        app.spriteSheet.textures['buttons/play-0.png'],
+      scoresContainer.y = app.renderer.height / 2 - scoresContainer.height / 2;
+      scoresContainer.y = scoresContainer.y - 4 * app.spriteScale;
+
+      // const button = Button(
+      //   app.spriteSheet.textures['buttons/play-0.png'],
+      //   0,
+      //   app.renderer.height / 2,
+      //   app.spriteScale,
+      //   () => {
+      //     // Start game
+      //     const game = Game(app);
+      //     leaderBoard.changeScene(game);
+      //   }
+      // );
+      // leaderBoard.addChild(button);
+
+      // make a rounded rectangle with Graphics
+      const playButton = Button(
+        75,
+        18,
+        10,
         0,
-        app.renderer.height / 2,
-        app.spriteScale,
-        () => {
-          // Start game
-          const game = Game(app);
-          leaderBoard.changeScene(game);
-        }
+        (app.renderer.height * 4) / 5,
+        'PLAY',
+        app.spriteScale
       );
-      leaderBoard.addChild(button);
+      leaderBoard.addChild(playButton);
+
+      const creditsButton = Button(
+        75,
+        18,
+        10,
+        0,
+        (app.renderer.height * 4) / 5 + playButton.height + 8 * app.spriteScale,
+        'CREDITS',
+        app.spriteScale
+      );
+      leaderBoard.addChild(creditsButton);
     })
     .catch((error) => {
       console.log(error);

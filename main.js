@@ -64,12 +64,6 @@ const Setup = () => {
       blur: 1,
     }),
 
-    new BulgePinchFilter({
-      center: [0.5, 0.5],
-      radius: 550,
-      strength: 0.08,
-    }),
-
     new CRTFilter({
       curvature: 1,
       lineWidth: 1,

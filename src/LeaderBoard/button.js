@@ -1,23 +1,50 @@
-import { Sprite } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
+import fonts from '../fonts.json';
 
-const Button = (sprite, x, y, spriteScale, onClick) => {
-  const button = new Sprite(sprite);
-  button.anchor.set(0.5);
-  button.scale.set(spriteScale);
-  button.x = x;
+const Button = (width, height, radius, x, y, text, spriteScale, onClick) => {
+  const button = new Container();
   button.y = y;
-  button.eventMode = 'dynamic';
+  button.x = x;
 
-  // change cursor to pointer
-  // button.addEventListener('mouseover', () => {
-  //   document.body.style.cursor = 'pointer';
-  // });
+  const buttonProps = {
+    width: width * spriteScale,
+    height: height * spriteScale,
+    radius: radius * spriteScale,
+  };
 
-  // button.addEventListener('mouseout', () => {
-  //   document.body.style.cursor = 'default';
-  // });
+  const shadowSize = 1.5 * spriteScale;
 
-  button.addEventListener('pointertap', onClick);
+  const buttonRectShadow = new Graphics();
+  buttonRectShadow.beginFill(0xff0000);
+  buttonRectShadow.drawRoundedRect(
+    -buttonProps.width / 2,
+    -buttonProps.height / 2 + shadowSize,
+    buttonProps.width,
+    buttonProps.height,
+    buttonProps.radius
+  );
+  buttonRectShadow.endFill();
+  button.addChild(buttonRectShadow);
+
+  const buttonRect = new Graphics();
+  buttonRect.beginFill(0xffffff);
+  buttonRect.drawRoundedRect(
+    -buttonProps.width / 2,
+    -buttonProps.height / 2,
+    buttonProps.width,
+    buttonProps.height,
+    buttonProps.radius
+  );
+  buttonRect.endFill();
+  button.addChild(buttonRect);
+
+  const buttonText = new Text(text, {
+    ...fonts.entryStyle,
+    fontSize: 8 * spriteScale,
+    fill: 0xff0000,
+  });
+  buttonText.anchor.set(0.5);
+  button.addChild(buttonText);
 
   return button;
 };
