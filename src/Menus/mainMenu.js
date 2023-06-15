@@ -16,9 +16,6 @@ const MainMenu = (app, fetchLeaderBoard = true) => {
       .then((scores) => {
         app.high_scores = scores;
         MenuDisplay(app, mainMenu);
-
-        const gameOver = GameOver(app, 140);
-        mainMenu.changeScene(gameOver);
       })
       .catch((error) => {
         console.log(error);
