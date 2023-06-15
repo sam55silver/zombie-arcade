@@ -1,18 +1,10 @@
-import {
-  Container,
-  Text,
-  AnimatedSprite,
-  Sprite,
-  Graphics,
-  RoundedRectangle,
-} from 'pixi.js';
+import { Container, Text, Sprite } from 'pixi.js';
 import Scene from '../Scene';
-import Game from '../Game/Game';
 import fonts from '../fonts.json';
 import Button from './button';
-import get_leader_board from './getLeaderBoard';
+import get_leader_board from '../LeaderBoard/getLeaderBoard';
 
-const display_leader_board = (app) => {
+const MainMenu = (app) => {
   const leaderBoard = new Scene(app);
   leaderBoard.x = app.renderer.width / 2;
 
@@ -20,11 +12,6 @@ const display_leader_board = (app) => {
     .then((scores) => {
       app.high_scores = scores;
       console.log(scores);
-
-      // const leaderBoardText = new Text('Leader Board', fonts.headerStyle);
-      // leaderBoardText.anchor.set(0.5);
-      // leaderBoard.addChild(leaderBoardText);
-      // leaderBoardText.y = app.renderer.height / 4;
 
       const title = new Sprite(app.spriteSheet.textures['title.png']);
       title.anchor.set(0.5);
@@ -114,24 +101,10 @@ const display_leader_board = (app) => {
       scoresContainer.y = app.renderer.height / 2 - scoresContainer.height / 2;
       scoresContainer.y = scoresContainer.y - 4 * app.spriteScale;
 
-      // const button = Button(
-      //   app.spriteSheet.textures['buttons/play-0.png'],
-      //   0,
-      //   app.renderer.height / 2,
-      //   app.spriteScale,
-      //   () => {
-      //     // Start game
-      //     const game = Game(app);
-      //     leaderBoard.changeScene(game);
-      //   }
-      // );
-      // leaderBoard.addChild(button);
-
-      // make a rounded rectangle with Graphics
       const playButton = Button(
         75,
         18,
-        10,
+        5,
         0,
         (app.renderer.height * 4) / 5,
         'PLAY',
@@ -142,7 +115,7 @@ const display_leader_board = (app) => {
       const creditsButton = Button(
         75,
         18,
-        10,
+        5,
         0,
         (app.renderer.height * 4) / 5 + playButton.height + 8 * app.spriteScale,
         'CREDITS',
@@ -166,4 +139,4 @@ const display_leader_board = (app) => {
   return leaderBoard;
 };
 
-export default display_leader_board;
+export default MainMenu;

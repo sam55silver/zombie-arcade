@@ -1,12 +1,12 @@
-import { Container, Text, AnimatedSprite } from 'pixi.js';
+import { Container, Text } from 'pixi.js';
 import Scene from '../Scene';
 import Game from '../Game/Game';
 import fonts from '../fonts.json';
 import Button from './button';
-import display_leader_board from './displayLeaderBoard';
-import post_leader_board from './postLeaderBoard';
+import display_leader_board from './mainMenu';
+import post_leader_board from '../LeaderBoard/postLeaderBoard';
 
-const GameOverScore = (app, killCount) => {
+const GameOver = (app, killCount) => {
   const scene = new Scene(app);
   scene.x = app.renderer.width / 2;
 
@@ -155,4 +155,4 @@ const ShowScore = (app, scene) => {
   return container;
 };
 
-export default GameOverScore;
+export default GameOver;

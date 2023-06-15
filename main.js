@@ -1,18 +1,11 @@
 import './style.css';
-import {
-  Application,
-  Container,
-  NoiseFilter,
-  SCALE_MODES,
-  utils,
-} from 'pixi.js';
+import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
-import displayLeaderBoard from './src/LeaderBoard/displayLeaderBoard';
+import MainMenu from './src/Menus/mainMenu';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from './firebaseConfig.json';
 import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom';
-import { BulgePinchFilter } from '@pixi/filter-bulge-pinch';
 import { CRTFilter } from '@pixi/filter-crt';
 
 // Initialize Firebase
@@ -85,8 +78,8 @@ const Setup = () => {
       sheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
       app.spriteSheet = sheet;
 
-      const leaderBoard = displayLeaderBoard(app);
-      leaderBoard.loadScene();
+      const mainMenu = MainMenu(app);
+      mainMenu.loadScene();
     })
     .catch((err) => {
       console.log(err);

@@ -2,7 +2,7 @@ import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
 import Game from '../Game';
-import GameOverScore from '../../LeaderBoard/gameOverScore';
+import GameOverScore from '../../Menus/gameOver';
 
 class Player extends CharacterController {
   constructor(scene) {
