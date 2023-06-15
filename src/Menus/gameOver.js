@@ -1,45 +1,43 @@
-import { Container, Text } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import Scene from '../Scene';
 import Game from '../Game/Game';
 import fonts from '../fonts.json';
 import Button from './button';
 import display_leader_board from './mainMenu';
 import post_leader_board from '../LeaderBoard/postLeaderBoard';
+import MainMenu from './mainMenu';
 
 const GameOver = (app, killCount) => {
   const scene = new Scene(app);
   scene.x = app.renderer.width / 2;
+  scene.y = app.renderer.height / 2;
 
   const headerText = new Text('Game Over', {
     ...fonts.headerStyle,
-    'fontSize': 30,
-    'fill': '0xc7383c',
+    'fontSize': 15 * app.spriteScale,
+    'fill': '0xffffff',
   });
   headerText.anchor.set(0.5);
-  headerText.y = app.renderer.height / 3 - 50;
+  headerText.y = -40 * app.spriteScale;
 
   scene.addChild(headerText);
 
   const score = new Text(killCount, {
     ...fonts.headerStyle,
-    'fontSize': 40,
+    'fontSize': 25 * app.spriteScale,
     'fill': '0xc7383c',
   });
-
   score.anchor.set(0.5);
-  score.y = headerText.y + 50;
-
   scene.addChild(score);
 
   const highScorePosition = HighScorePosition(app.high_scores, killCount);
 
   if (highScorePosition) {
-    scene.addChild(NewHighScore(app, killCount, highScorePosition, scene));
+    NewHighScore(app, killCount, highScorePosition, scene);
   } else {
-    scene.addChild(ShowScore(app, scene));
+    ShowScore(app, scene);
   }
 
-  //   scene.loadScene();
   return scene;
 };
 
@@ -57,8 +55,6 @@ const HighScorePosition = (high_scores, killCount) => {
 };
 
 const NewHighScore = (app, killCount, highScorePosition, scene) => {
-  const container = new Container();
-
   const whiteEntryStyle = {
     ...fonts.entryStyle,
     'fill': '0xffffff',
@@ -66,93 +62,110 @@ const NewHighScore = (app, killCount, highScorePosition, scene) => {
 
   const highScoreText = new Text('New High Score!', whiteEntryStyle);
   highScoreText.anchor.set(0.5);
-  highScoreText.y = app.renderer.height / 2 - 60;
-  container.addChild(highScoreText);
+  highScoreText.y = 30 * app.spriteScale;
+  scene.addChild(highScoreText);
 
-  const inputText = new Text(
-    `Enter a name to insert into ${highScorePosition}/9`,
-    whiteEntryStyle
-  );
-  inputText.anchor.set(0.5);
-  inputText.y = app.renderer.height / 2 + 60;
-  container.addChild(inputText);
+  // Input
+  const input = new Container();
+  scene.addChild(input);
 
-  let input = document.createElement('input');
-  input.setAttribute('type', 'text');
-  input.classList.add('input-name');
-  input.maxLength = 6;
-  document.body.appendChild(input);
+  const width = 150 * app.spriteScale;
+  const height = 20 * app.spriteScale;
+  const radius = 5 * app.spriteScale;
+  const y = 60 * app.spriteScale;
 
-  const inputButton = Button(
-    app.spriteSheet.textures['buttons/credits-0.png'],
-    0,
-    (app.renderer.height * 2) / 3 + 20,
-    app.spriteScale,
-    () => {
-      //   const leaderBoard = display_leader_board(app);
-      //   scene.changeScene(leaderBoard);
+  const inputArea = new Graphics();
+  inputArea.beginFill(0xffffff);
+  inputArea.drawRoundedRect(-width / 2, -height / 2 + y, width, height, radius);
+  inputArea.endFill();
+  input.addChild(inputArea);
 
-      let name = input.value.toUpperCase().trim();
+  // const inputText = new Text(
+  //   `Enter a name to insert into ${highScorePosition}/9`,
+  //   whiteEntryStyle
+  // );
+  // inputText.anchor.set(0.5);
+  // inputText.y = app.renderer.height / 2 + 60;
+  // scene.addChild(inputText);
 
-      if (!name) {
-        inputText.text = 'Enter a name';
-        inputText.style.fill = '0xff0000';
-      } else {
-        inputText.text = 'Posting...';
-        inputText.style.fill = '0xff0000';
+  // let input = document.createElement('input');
+  // input.setAttribute('type', 'text');
+  // input.classList.add('input-name');
+  // input.maxLength = 6;
+  // document.body.appendChild(input);
 
-        container.removeChild(inputButton);
+  // const inputButton = Button(
+  //   75,
+  //   18,
+  //   8,
+  //   0,
+  //   (app.renderer.height * 2) / 3,
+  //   'POST',
+  //   app.spriteScale,
+  //   () => {
+  //     //   const leaderBoard = display_leader_board(app);
+  //     //   scene.changeScene(leaderBoard);
 
-        post_leader_board(app.db, name, killCount)
-          .then(() => {
-            // remove input
-            document.body.removeChild(input);
+  //     let name = input.value.toUpperCase().trim();
 
-            const leaderBoard = display_leader_board(app);
-            scene.changeScene(leaderBoard);
-          })
-          .catch((error) => {
-            inputText.text = 'Error posting score. Please Try again.';
-            console.log(error);
-            container.addChild(inputButton);
-          });
-      }
-    }
-  );
-  container.addChild(inputButton);
+  //     if (!name) {
+  //       inputText.text = 'Enter a name';
+  //       inputText.style.fill = '0xff0000';
+  //     } else {
+  //       inputText.text = 'Posting...';
+  //       inputText.style.fill = '0xff0000';
 
-  return container;
+  //       scene.removeChild(inputButton);
+
+  //       post_leader_board(app.db, name, killCount)
+  //         .then(() => {
+  //           // remove input
+  //           document.body.removeChild(input);
+
+  //           const leaderBoard = display_leader_board(app);
+  //           scene.changeScene(leaderBoard);
+  //         })
+  //         .catch((error) => {
+  //           inputText.text = 'Error posting score. Please Try again.';
+  //           console.log(error);
+  //           scene.addChild(inputButton);
+  //         });
+  //     }
+  //   }
+  // );
+  // scene.addChild(inputButton);
 };
 
 const ShowScore = (app, scene) => {
-  const container = new Container();
-
   const retryButton = Button(
-    app.spriteSheet.textures['buttons/retry-0.png'],
+    75,
+    18,
+    8,
     0,
-    app.renderer.height / 2,
+    40 * app.spriteScale,
+    'RETRY',
     app.spriteScale,
     () => {
-      // Start game
       const game = Game(app);
       scene.changeScene(game);
     }
   );
-  container.addChild(retryButton);
+  scene.addChild(retryButton);
 
-  const menuButton = Button(
-    app.spriteSheet.textures['buttons/death-screen-menu-0.png'],
+  const mainMenuButton = Button(
+    75,
+    18,
+    8,
     0,
-    app.renderer.height / 2 + 100,
+    retryButton.y + retryButton.height + 8 * app.spriteScale,
+    'MENU',
     app.spriteScale,
     () => {
-      const leaderBoard = display_leader_board(app);
-      scene.changeScene(leaderBoard);
+      const mainMenu = MainMenu(app);
+      scene.changeScene(mainMenu);
     }
   );
-  container.addChild(menuButton);
-
-  return container;
+  scene.addChild(mainMenuButton);
 };
 
 export default GameOver;
