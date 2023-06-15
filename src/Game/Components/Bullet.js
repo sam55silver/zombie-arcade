@@ -9,7 +9,7 @@ class Bullet extends CharacterController {
       2,
       [scene.spriteSheet.textures['bullet.png']],
       { x: 0.5, y: 0.5 },
-      10
+      8
     );
 
     this.sprite.scale.set(scene.spriteScale * (2 / 3));

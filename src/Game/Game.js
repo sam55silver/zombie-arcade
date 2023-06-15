@@ -18,7 +18,7 @@ const Game = (app) => {
   scene.game = new Container();
   scene.gamePos = new SAT.Vector(
     app.renderer.width / 2,
-    app.renderer.height / 2
+    app.renderer.height / 2 + 10 * scene.spriteScale
   );
 
   scene.game.x = scene.gamePos.x;

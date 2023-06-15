@@ -115,8 +115,8 @@ class CharacterController extends Container {
       return;
     }
     if (this.updateCharacter) this.updateCharacter(delta);
-    this.x += this.velocity.x * this.speed * delta;
-    this.y += this.velocity.y * this.speed * delta;
+    this.x += this.velocity.x * this.speed * delta * this.scene.spriteScale;
+    this.y += this.velocity.y * this.speed * delta * this.scene.spriteScale;
     this.hitBox.pos.x = this.scene.game.x + this.x;
     this.hitBox.pos.y = this.scene.game.y + this.y;
 

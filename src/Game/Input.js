@@ -42,7 +42,11 @@ class Input {
       {
         event: 'mousemove',
         action: (e) => {
-          this.updateReticle({ x: e.clientX, y: e.clientY });
+          const canvas = this.app.view.getBoundingClientRect();
+          const x = e.clientX - canvas.left;
+          const y = e.clientY - canvas.top;
+
+          this.updateReticle({ x, y });
         },
       },
       {

@@ -10,8 +10,7 @@ class Zombie extends CharacterController {
       6,
       [scene.spriteSheet.textures[`zombie-${type}.png`]],
       { x: 0.5, y: 0.9 },
-      1,
-      2
+      0.8
     );
 
     this.setHitBoxOffset({ x: 4, y: 4 });

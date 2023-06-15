@@ -12,10 +12,10 @@ class Player extends CharacterController {
       6,
       scene.spriteSheet.animations['player-gunshot-anim'],
       { x: 0.5, y: 0.9 },
-      3.5
+      2
     );
 
-    this.regularSpeed = 3.5;
+    this.regularSpeed = 2;
     this.slowSpeed = this.regularSpeed / 3;
     this.speed = this.regularSpeed;
 
