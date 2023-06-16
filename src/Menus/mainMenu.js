@@ -5,7 +5,6 @@ import fonts from '../fonts.json';
 import Button from './button';
 import get_leader_board from '../LeaderBoard/getLeaderBoard';
 import Credits from './credits';
-import GameOver from './gameOver';
 
 const MainMenu = (app, fetchLeaderBoard = true) => {
   const mainMenu = new Scene(app);

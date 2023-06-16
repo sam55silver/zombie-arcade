@@ -22,7 +22,13 @@ class Input {
     }
   }
 
-  updateReticle = (pos) => {
+  updateReticle = (e) => {
+    const canvas = this.app.view.getBoundingClientRect();
+    const pos = {
+      x: e.clientX - canvas.left,
+      y: e.clientY - canvas.top,
+    };
+
     this.reticle.x = pos.x;
     this.reticle.y = pos.y;
 
@@ -42,11 +48,7 @@ class Input {
       {
         event: 'mousemove',
         action: (e) => {
-          const canvas = this.app.view.getBoundingClientRect();
-          const x = e.clientX - canvas.left;
-          const y = e.clientY - canvas.top;
-
-          this.updateReticle({ x, y });
+          this.updateReticle(e);
         },
       },
       {
@@ -119,11 +121,11 @@ class Input {
     scene.game.interactive = true;
 
     scene.game.on('pointerdown', (e) => {
-      this.updateReticle({ x: e.clientX, y: e.clientY });
+      this.updateReticle(e);
       this.isFiring = true;
     });
     scene.game.on('pointermove', (e) => {
-      this.updateReticle({ x: e.clientX, y: e.clientY });
+      this.updateReticle(e);
       this.isFiring = true;
     });
     scene.game.on('pointerup', (e) => {
@@ -133,12 +135,13 @@ class Input {
       this.isFiring = false;
     });
 
-    this.joyStickPos = new SAT.Vector(
-      scene.mobileUI.screenWidth * (1 / 4),
-      scene.mobileUI.screenHeight * (5 / 6)
-    );
     this.joystickRadius = 50 * scene.spriteScale;
     this.joyStickGrabRadius = 20 * scene.spriteScale;
+
+    this.joyStickPos = new SAT.Vector(
+      this.joystickRadius + 15 * scene.spriteScale,
+      scene.mobileUI.screenHeight - this.joystickRadius - 18 * scene.spriteScale
+    );
 
     const joyStickBG = new Graphics();
     joyStickBG.beginFill(0x9cc7d9);
@@ -199,7 +202,13 @@ class Input {
     this.joyStick.on('pointermove', (e) => {
       if (!this.joyStick.moving) return;
 
-      const pos = new SAT.Vector(e.client.x, e.client.y);
+      const canvas = this.app.view.getBoundingClientRect();
+      const mosPos = {
+        x: e.clientX - canvas.left,
+        y: e.clientY - canvas.top,
+      };
+
+      const pos = new SAT.Vector(mosPos.x, mosPos.y);
       const joyToCenter = pos.clone().sub(this.joyStickPos);
       const dist = joyToCenter.clone().len();
       if (dist > this.joystickRadius - this.joyStickGrabRadius / 2) {

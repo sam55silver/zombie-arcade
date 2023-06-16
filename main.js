@@ -45,6 +45,13 @@ const Setup = () => {
   app.isMobile = utils.isMobile.any;
   app.debug = false;
 
+  if (app.isMobile) {
+    app.renderer.resize(
+      app.renderer.width,
+      app.renderer.height + 125 * app.spriteScale
+    );
+  }
+
   app.currentScene = new Container();
   app.stage.addChild(app.currentScene);
 

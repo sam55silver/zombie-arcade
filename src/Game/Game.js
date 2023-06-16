@@ -7,6 +7,7 @@ import Scene from '../Scene';
 import { CollectibleSpawner } from './Components/Collectibles';
 import Input from './Input';
 import { BulgePinchFilter } from '@pixi/filter-bulge-pinch';
+import fonts from '../fonts.json';
 
 const Game = (app) => {
   // create scene for game to be added to
@@ -15,13 +16,13 @@ const Game = (app) => {
   scene.app = app;
 
   // add filter
-  scene.filters = [
-    new BulgePinchFilter({
-      center: [0.5, 0.5],
-      radius: 550,
-      strength: 0.08,
-    }),
-  ];
+  // scene.filters = [
+  //   new BulgePinchFilter({
+  //     center: [0.5, 0.5],
+  //     radius: 550,
+  //     strength: 0.08,
+  //   }),
+  // ];
 
   scene.gameOver = false;
 
@@ -45,7 +46,7 @@ const Game = (app) => {
   }
 
   if (app.isMobile) {
-    scene.game.y -= 50 * scene.spriteScale;
+    scene.game.y -= 55 * scene.spriteScale;
 
     scene.mobileUI = new Container();
     scene.mobileUI.screenHeight = app.renderer.height;
@@ -228,12 +229,14 @@ const Game = (app) => {
   scene.game.addChild(controls);
 
   const controlsTextStyle = {
-    fontFamily: 'Arial',
-    fontSize: 24,
-    fill: 0x1fc24a,
-    align: 'center',
-    fontStyle: 'bold',
+    ...fonts.entryStyle,
+    fontSize: 10 * scene.spriteScale,
   };
+
+  const vertical_spacing = 24 * scene.spriteScale;
+  const horizontal_spacing = 65 * scene.spriteScale;
+  const mobile_horizontal_spacing = 12 * scene.spriteScale;
+  const mobile_scale = 1.5 * scene.spriteScale;
 
   if (app.isMobile) {
     const joystickControls = new Container();
@@ -241,22 +244,22 @@ const Game = (app) => {
     controls.addChild(joystickControls);
 
     const joystick = new Sprite(app.spriteSheet.textures['joystick.png']);
-    joystick.x += joystick.width / 2;
+    joystick.x += mobile_horizontal_spacing;
     joystickControls.addChild(joystick);
 
     joystick.anchor.set(0.5);
-    joystick.scale.set(scene.spriteScale);
+    joystick.scale.set(mobile_scale);
 
     const spin = new Sprite(app.spriteSheet.textures['rotation.png']);
-    spin.x -= joystick.width / 2;
+    spin.x -= mobile_horizontal_spacing;
     joystickControls.addChild(spin);
 
     spin.anchor.set(0.5);
-    spin.scale.set(scene.spriteScale);
+    spin.scale.set(mobile_scale);
 
-    const movementText = new Text('Move', controlsTextStyle);
+    const movementText = new Text('MOVE', controlsTextStyle);
     movementText.anchor.set(0.5);
-    movementText.y += movementText.height + scene.spriteScale * 1.5;
+    movementText.y += vertical_spacing;
     joystickControls.addChild(movementText);
 
     const lookControls = new Container();
@@ -264,89 +267,92 @@ const Game = (app) => {
     controls.addChild(lookControls);
 
     const hand = new Sprite(app.spriteSheet.textures['finger.png']);
-    hand.x += hand.width / 2;
+    hand.x += mobile_horizontal_spacing * 1.1;
     lookControls.addChild(hand);
 
     hand.anchor.set(0.5);
-    hand.scale.set(scene.spriteScale);
+    hand.scale.set(mobile_scale);
 
     const movement = new Sprite(app.spriteSheet.textures['move.png']);
-    movement.x -= movement.width / 2;
+    movement.x -= mobile_horizontal_spacing * 1.1;
     lookControls.addChild(movement);
 
     movement.anchor.set(0.5);
-    movement.scale.set(scene.spriteScale);
+    movement.scale.set(mobile_scale);
 
-    const lookText = new Text('Shoot', controlsTextStyle);
+    const lookText = new Text('SHOOT', controlsTextStyle);
     lookText.anchor.set(0.5);
-    lookText.y += lookText.height + scene.spriteScale * 1.5;
+    lookText.y += vertical_spacing;
     lookControls.addChild(lookText);
   } else {
     const movementKeys = new Container();
-    movementKeys.x -= map.width * (2 / 7);
+    movementKeys.x -= horizontal_spacing;
     controls.addChild(movementKeys);
+
+    const keys = new Container();
+    keys.y += 4 * scene.spriteScale;
+    movementKeys.addChild(keys);
 
     const wKey = new Sprite(app.spriteSheet.textures['w.png']);
     wKey.anchor.set(0.5);
     wKey.scale.set(scene.spriteScale);
     wKey.y -= wKey.height;
-    movementKeys.addChild(wKey);
+    keys.addChild(wKey);
 
     const aKey = new Sprite(app.spriteSheet.textures['a.png']);
     aKey.anchor.set(0.5);
     aKey.scale.set(scene.spriteScale);
     aKey.x -= aKey.width;
-    movementKeys.addChild(aKey);
+    keys.addChild(aKey);
 
     const sKey = new Sprite(app.spriteSheet.textures['s.png']);
     sKey.anchor.set(0.5);
     sKey.scale.set(scene.spriteScale);
-    movementKeys.addChild(sKey);
+    keys.addChild(sKey);
 
     const dKey = new Sprite(app.spriteSheet.textures['d.png']);
     dKey.anchor.set(0.5);
     dKey.scale.set(scene.spriteScale);
     dKey.x += dKey.width;
-    movementKeys.addChild(dKey);
+    keys.addChild(dKey);
 
-    const moveText = new Text('Move', controlsTextStyle);
+    const moveText = new Text('MOVE', controlsTextStyle);
     moveText.anchor.set(0.5);
-    moveText.y += moveText.height + scene.spriteScale * 1.5;
+    moveText.y += vertical_spacing;
     movementKeys.addChild(moveText);
 
     const lookKeys = new Container();
-    // lookKeys.y += 125 * scene.spriteScale;
     controls.addChild(lookKeys);
 
     const mouse = new Sprite(app.spriteSheet.textures['mouse.png']);
     mouse.anchor.set(0.5);
-    mouse.scale.set(scene.spriteScale);
+    mouse.scale.set(scene.spriteScale * 1.2);
     mouse.x += mouse.width / 2;
     lookKeys.addChild(mouse);
 
     const movement = new Sprite(app.spriteSheet.textures['move.png']);
     movement.anchor.set(0.5);
-    movement.scale.set(scene.spriteScale);
+    movement.scale.set(scene.spriteScale * 1.2);
     movement.x -= movement.width / 2;
     lookKeys.addChild(movement);
 
-    const lookText = new Text('Look', controlsTextStyle);
+    const lookText = new Text('LOOK', controlsTextStyle);
     lookText.anchor.set(0.5);
-    lookText.y += lookText.height + scene.spriteScale * 1.5;
+    lookText.y += vertical_spacing;
     lookKeys.addChild(lookText);
 
     const shootKeys = new Container();
-    shootKeys.x += map.width * (2 / 7);
+    shootKeys.x += horizontal_spacing;
     controls.addChild(shootKeys);
 
     const fire = new Sprite(app.spriteSheet.textures['mouse-click.png']);
     fire.anchor.set(0.5);
-    fire.scale.set(scene.spriteScale);
+    fire.scale.set(scene.spriteScale * 1.2);
     shootKeys.addChild(fire);
 
-    const fireText = new Text('Shoot', controlsTextStyle);
+    const fireText = new Text('SHOOT', controlsTextStyle);
     fireText.anchor.set(0.5);
-    fireText.y += fireText.height + scene.spriteScale * 1.5;
+    fireText.y += vertical_spacing;
     shootKeys.addChild(fireText);
   }
 
