@@ -38,6 +38,9 @@ const Setup = () => {
   } else if (windowWidth > 512 && windowHeight > 512) {
     app.renderer.resize(512, 512);
     app.spriteScale = 2;
+  } else {
+    app.renderer.resize(windowWidth, windowWidth);
+    app.spriteScale = windowWidth / 256;
   }
 
   console.log(app.spriteScale);
@@ -66,7 +69,7 @@ const Setup = () => {
 
     new CRTFilter({
       curvature: 1,
-      lineWidth: 1,
+      lineWidth: 3 / app.spriteScale,
       lineContrast: 0.4,
       noise: 0.1,
       noiseSize: 1,

@@ -47,7 +47,7 @@ const Button = (width, height, radius, x, y, text, spriteScale, onClick) => {
   buttonText.anchor.set(0.5);
   button.addChild(buttonText);
 
-  button.on('click', () => {
+  button.on('pointerdown', () => {
     onClick();
   });
 

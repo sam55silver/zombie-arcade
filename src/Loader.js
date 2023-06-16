@@ -1,5 +1,6 @@
 import { Assets, Text, Container } from 'pixi.js';
 import get_leader_board from './LeaderBoard/getLeaderBoard';
+import fonts from './fonts.json';
 
 const Loader = (app) => {
   return new Promise(async (resolve, reject) => {
@@ -9,15 +10,10 @@ const Loader = (app) => {
     loadingScreen.y = app.renderer.height / 2;
     app.stage.addChild(loadingScreen);
 
-    const loadingScreenStyle = {
-      fontFamily: 'Arial',
-      fontSize: 40,
-      fill: 0x1fc24a,
-      align: 'center',
-      fontStyle: 'bold',
-    };
-
-    const loadingText = new Text('Loading...', loadingScreenStyle);
+    const loadingText = new Text('Loading...', {
+      ...fonts.headerStyle,
+      fontSize: 12 * app.spriteScale,
+    });
     loadingText.anchor.set(0.5);
     loadingScreen.addChild(loadingText);
 

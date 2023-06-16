@@ -183,7 +183,7 @@ const NewHighScore = (app, killCount, scene) => {
             console.log(error);
           });
       } else {
-        highScoreText.text = 'Please enter a name!';
+        highScoreText.text = 'Enter a name!';
         highScoreText.style.fill = '0xc7383c';
       }
     }
