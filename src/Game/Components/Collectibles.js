@@ -68,17 +68,11 @@ class Collectible extends Container {
     //   this.scaleMultiplier -= elapsedMS / 5000;
     // }
 
-    const scaleBy = 0.0002 * delta * this.scene.spriteScale;
+    const scaleBy = Math.sin(elapsedMS / 500) + 1;
 
-    if (this.scaleMultiplier >= 1.1) {
-      this.scaleMultiplier += scaleBy;
-    } else if (this.scaleMultiplier <= 0.9) {
-      this.scaleMultiplier -= scaleBy;
-    }
+    console.log(scaleBy);
 
-    console.log(this.scaleMultiplier);
-
-    this.sprite.scale.set(this.sprite.scale.x * this.scaleMultiplier);
+    this.sprite.scale.set(this.sprite.scale.x * scaleBy);
 
     // Check timeout and remove if expired
     this.fade -= elapsedMS;
