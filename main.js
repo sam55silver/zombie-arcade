@@ -43,8 +43,6 @@ const Setup = () => {
     app.spriteScale = windowWidth / 256;
   }
 
-  console.log(app.spriteScale);
-
   app.isMobile = utils.isMobile.any;
   app.debug = false;
 
