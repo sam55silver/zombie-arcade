@@ -39,7 +39,7 @@ const MenuDisplay = (app, scene) => {
   const title = new Sprite(app.spriteSheet.textures['title.png']);
   title.anchor.set(0.5);
   title.scale.set(app.spriteScale);
-  title.y = app.renderer.height / 7;
+  title.y = app.renderer.height / 2 - 90 * app.spriteScale;
   scene.addChild(title);
 
   let scoresContainer = new Container();
@@ -129,7 +129,7 @@ const MenuDisplay = (app, scene) => {
     18,
     8,
     0,
-    (app.renderer.height * 4) / 5,
+    app.renderer.height / 2 + scoresContainer.height / 2 + 15 * app.spriteScale,
     'PLAY',
     app.spriteScale,
     () => {
@@ -144,7 +144,7 @@ const MenuDisplay = (app, scene) => {
     18,
     8,
     0,
-    (app.renderer.height * 4) / 5 + playButton.height + 8 * app.spriteScale,
+    app.renderer.height / 2 + scoresContainer.height / 2 + 40 * app.spriteScale,
     'CREDITS',
     app.spriteScale,
     () => {

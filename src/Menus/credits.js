@@ -19,7 +19,7 @@ const Credits = (app) => {
     18,
     8,
     0,
-    (app.renderer.height * 4) / 5,
+    app.renderer.height / 2 + 90 * app.spriteScale,
     'PLAY',
     app.spriteScale,
     () => {
@@ -34,7 +34,7 @@ const Credits = (app) => {
     18,
     8,
     0,
-    (app.renderer.height * 4) / 5 + playButton.height + 8 * app.spriteScale,
+    app.renderer.height / 2 + 115 * app.spriteScale,
     'MAIN',
     app.spriteScale,
     () => {
