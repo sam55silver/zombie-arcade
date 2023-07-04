@@ -16,7 +16,7 @@ class Bullet extends CharacterController {
     this.rotation = rotation - Math.PI / 2;
     this.sprite.rotation = Math.PI / 2;
 
-    const muzzleOffset = 35;
+    const muzzleOffset = 21 * scene.spriteScale;
     this.x += Math.cos(this.rotation) * muzzleOffset;
     this.y += Math.sin(this.rotation) * muzzleOffset;
 
