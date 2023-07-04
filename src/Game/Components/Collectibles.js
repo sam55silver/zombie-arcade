@@ -11,6 +11,8 @@ class Collectible extends Container {
     this.y = pos.y;
     this.timeout = 10000;
     this.fade = this.timeout;
+    this.scaleMultiplier = 1;
+    this.scaleUp = true;
     this.animSpeed = 0;
 
     this.radius = 10 * scene.spriteScale;
@@ -59,6 +61,24 @@ class Collectible extends Container {
     if (this.scene.gameOver) {
       this.scene.collectibles.removeChild(this);
     }
+
+    // if (this.scaleUp) {
+    //   this.scaleMultiplier += elapsedMS / 5000;
+    // } else {
+    //   this.scaleMultiplier -= elapsedMS / 5000;
+    // }
+
+    const scaleBy = 0.0002 * delta * this.scene.spriteScale;
+
+    if (this.scaleMultiplier >= 1.1) {
+      this.scaleMultiplier += scaleBy;
+    } else if (this.scaleMultiplier <= 0.9) {
+      this.scaleMultiplier -= scaleBy;
+    }
+
+    console.log(this.scaleMultiplier);
+
+    this.sprite.scale.set(this.sprite.scale.x * this.scaleMultiplier);
 
     // Check timeout and remove if expired
     this.fade -= elapsedMS;
