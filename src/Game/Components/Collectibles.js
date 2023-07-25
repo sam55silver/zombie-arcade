@@ -11,9 +11,9 @@ class Collectible extends Container {
     this.y = pos.y;
     this.timeout = 10000;
     this.fade = this.timeout;
-    this.scaleMultiplier = 1;
     this.scaleUp = true;
     this.animSpeed = 0;
+    this.aliveTime = 0;
 
     this.radius = 10 * scene.spriteScale;
 
@@ -25,6 +25,8 @@ class Collectible extends Container {
     this.sprite = new Sprite(sprite);
     this.sprite.anchor.set(0.5, 0.5);
     this.sprite.scale.set((scene.spriteScale * 2) / 3);
+    // this.sprite.scale.y and x will be the same
+    this.spriteNormScale = this.sprite.scale.x;
 
     if (angle) {
       this.sprite.angle = angle;
@@ -49,6 +51,8 @@ class Collectible extends Container {
   }
 
   update(delta, elapsedMS) {
+    this.aliveTime += elapsedMS;
+    
     // Check if player is touching collectible
     if (SAT.testCircleCircle(this.hitBox, this.playerHitBox)) {
       if (this.pickup) {
@@ -62,18 +66,19 @@ class Collectible extends Container {
       this.scene.collectibles.removeChild(this);
     }
 
-    // if (this.scaleUp) {
-    //   this.scaleMultiplier += elapsedMS / 5000;
-    // } else {
-    //   this.scaleMultiplier -= elapsedMS / 5000;
-    // }
+    const animLength = 450;
+    const scaleVariation = 0.4
+    const scaleBy = Math.sin(this.aliveTime / animLength) * scaleVariation + 1.2;
 
-    const scaleBy = Math.sin(elapsedMS / 500) + 1;
+    this.sprite.scale.set(scaleBy * this.spriteNormScale);
 
-    console.log(scaleBy);
+    // spin
+    const spinLength = 200
+    const spinVariation = 0.2
+    const rotateBy = Math.sin(this.aliveTime / spinLength) * spinVariation
 
-    this.sprite.scale.set(this.sprite.scale.x * scaleBy);
-
+    this.rotation = rotateBy
+    
     // Check timeout and remove if expired
     this.fade -= elapsedMS;
     if (this.fade <= this.timeout / 3) {
