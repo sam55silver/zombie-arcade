@@ -55,7 +55,17 @@ class Zombie extends CharacterController {
       this.hitBox.pos,
       this.scene.player.hitBox.pos
     );
-    this.rotation = lookAtPlayer.angle;
+
+    const rads = lookAtPlayer.angle - Math.PI / 2
+
+    if (lookAtPlayer.angle != this.rotation) {
+      console.log("zombir angle:", rads, "2pi", Math.PI)
+
+
+    }
+
+
+
 
     return lookAtPlayer;
   }
@@ -80,8 +90,9 @@ class Zombie extends CharacterController {
 
   updateCharacter(delta) {
     if (!(this.health <= 0)) {
-      this.velocity = this.lookAtPlayer().vectorTo.normalize();
-
+      this.lookAtPlayer()
+      // this.velocity = this.lookAtPlayer().vectorTo.normalize();
+      //
       this.rigidBodyCollisionCheck(
         SAT.testCircleCircle,
         this.scene.player.hitBox,

@@ -9,6 +9,8 @@ import Input from './Input';
 import { BulgePinchFilter } from '@pixi/filter-bulge-pinch';
 import fonts from '../fonts.json';
 
+import Zombie from './Components/Zombie'
+
 const Game = (app) => {
   // create scene for game to be added to
   const scene = new Scene(app);
@@ -358,14 +360,20 @@ const Game = (app) => {
 
   const spawners = [];
   const spawnAtKills = 20;
-  let spawnZombie = true;
+  let spawnZombie = false;
+
+  const zombie = new Zombie(scene, 1, {"x": 100, "y":0});
+  scene.zombies.push(zombie)
+  scene.gameArea.addChild(zombie);
+
+  scene.game.removeChild(controls)
 
   // After time, remove controls and bring on the zombies!
-  scene.startTimeout(() => {
-    scene.game.removeChild(controls);
-    spawners.push(new Spawner(scene));
-    new CollectibleSpawner(scene);
-  }, 6000);
+  // scene.startTimeout(() => {
+  //   scene.game.removeChild(controls);
+  //   spawners.push(new Spawner(scene));
+  //   new CollectibleSpawner(scene);
+  // }, 6000);
 
   const gameLoop = (delta) => {
     const elapsedMS = app.ticker.elapsedMS;
@@ -378,20 +386,20 @@ const Game = (app) => {
     });
 
     // check if user has kill count divisible by 40
-    if (
-      scene.killCount.count % spawnAtKills === 0 &&
-      scene.killCount.count != 0 &&
-      spawnZombie
-    ) {
-      // if so, spawn a new spawner
-      console.log('spawning new spawner');
-      spawners.push(new Spawner(scene));
-      spawnZombie = false;
-    }
-
-    if (scene.killCount.count % spawnAtKills != 0) {
-      spawnZombie = true;
-    }
+    // if (
+    //   scene.killCount.count % spawnAtKills === 0 &&
+    //   scene.killCount.count != 0 &&
+    //   spawnZombie
+    // ) {
+    //   // if so, spawn a new spawner
+    //   console.log('spawning new spawner');
+    //   spawners.push(new Spawner(scene));
+    //   spawnZombie = false;
+    // }
+    //
+    // if (scene.killCount.count % spawnAtKills != 0) {
+    //   spawnZombie = true;
+    // }
   };
 
   scene.addLoop(gameLoop);

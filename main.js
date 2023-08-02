@@ -8,6 +8,8 @@ import firebaseConfig from './firebaseConfig.json';
 import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom';
 import { CRTFilter } from '@pixi/filter-crt';
 
+import Game from './src/Game/Game';
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
@@ -86,8 +88,11 @@ const Setup = () => {
       sheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
       app.spriteSheet = sheet;
 
-      const mainMenu = MainMenu(app);
-      mainMenu.loadScene();
+      // const mainMenu = MainMenu(app);
+      // mainMenu.loadScene();
+
+      const game = Game(app)
+      game.loadScene()
     })
     .catch((err) => {
       console.log(err);
