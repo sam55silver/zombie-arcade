@@ -6,7 +6,6 @@ import UIContainer from './Components/UIContainer';
 import Scene from '../Scene';
 import { CollectibleSpawner } from './Components/Collectibles';
 import Input from './Input';
-import { BulgePinchFilter } from '@pixi/filter-bulge-pinch';
 import fonts from '../fonts.json';
 
 const Game = (app) => {
@@ -14,15 +13,6 @@ const Game = (app) => {
   const scene = new Scene(app);
   scene.input = new Input(app);
   scene.app = app;
-
-  // add filter
-  // scene.filters = [
-  //   new BulgePinchFilter({
-  //     center: [0.5, 0.5],
-  //     radius: 550,
-  //     strength: 0.08,
-  //   }),
-  // ];
 
   scene.gameOver = false;
 

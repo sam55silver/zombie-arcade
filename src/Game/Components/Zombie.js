@@ -1,6 +1,7 @@
 import CharacterController from './CharacterController';
 import SAT from 'sat';
 import { Coin } from './Collectibles';
+import { AnimatedSprite } from 'pixi.js';
 
 class Zombie extends CharacterController {
   constructor(scene, type, position) {
@@ -28,6 +29,20 @@ class Zombie extends CharacterController {
 
   hit() {
     this.health--;
+
+    const splat = new AnimatedSprite(this.scene.spriteSheet.animations["blood_splat_1"]) 
+    splat.scale.set(this.scene.spriteScale);
+    splat.anchor.set(0.5,1)
+    splat.rotation = -Math.PI / 2
+    splat.animationSpeed = 0.3;
+    splat.loop = false
+    splat.onComplete = () => {
+      splat.destroy()
+    }
+
+    this.addChild(splat)
+    splat.play()
+
     if (this.health <= 0 && !this.alreadyHit) {
       this.alreadyHit = true;
 
@@ -95,7 +110,7 @@ class Zombie extends CharacterController {
     }
   }
 
-  updateCharacter(delta) {
+  updateCharacter() {
     if (!(this.health <= 0)) {
       this.lookAtPlayer()
 
