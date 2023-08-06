@@ -45,8 +45,8 @@ class Zombie extends CharacterController {
       this.scene.deadZombies.addChild(this);
 
       const offset = {
-        x: 16 * this.scene.spriteScale,
-        y: 21 * this.scene.spriteScale,
+        x: 24 * this.scene.spriteScale,
+        y: 29 * this.scene.spriteScale,
       };
 
       this.playDeathAnimation('zombie-death', offset);
@@ -101,13 +101,9 @@ class Zombie extends CharacterController {
 
       const x = Math.cos(this.rotation)
       const y = Math.sin(this.rotation)
-      console.log(x, y, this.hitBox.pos)
 
       this.velocity = new SAT.Vector(x,y)
 
-
-      // this.velocity = this.lookAtPlayer().vectorTo.normalize();
-      //
       this.rigidBodyCollisionCheck(
         SAT.testCircleCircle,
         this.scene.player.hitBox,

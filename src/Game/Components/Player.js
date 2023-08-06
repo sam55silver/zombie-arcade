@@ -1,7 +1,6 @@
 import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
-import Game from '../Game';
 import GameOverScore from '../../Menus/gameOver';
 
 class Player extends CharacterController {
@@ -50,8 +49,8 @@ class Player extends CharacterController {
       this.scene.gameOver = true;
       this.scene.zombies.forEach((zombie) => {
         const offset = {
-          x: 16 * this.scene.spriteScale,
-          y: 22 * this.scene.spriteScale,
+          x: 23 * this.scene.spriteScale,
+          y: 29 * this.scene.spriteScale,
         };
         zombie.playDeathAnimation('zombie-fade', offset);
         zombie.sprite.onComplete = () => {
@@ -144,7 +143,7 @@ class Player extends CharacterController {
     new Bullet(this.scene, this.x, this.y, this.rotation);
   }
 
-  updateCharacter(delta) {
+  updateCharacter() {
     if (this.scene.gameOver) {
       this.velocity = new SAT.Vector(0, 0);
       if (this.scene.zombieFadeDone) {
