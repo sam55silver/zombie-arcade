@@ -181,8 +181,6 @@ export class CollectibleSpawner {
             (this.scene.map.area.topLeft.y + gap)),
     };
 
-    console.log('Spawning collectible', spawnPosition);
-
     // choose random between 0 and 2
     const rand = Math.floor(Math.random() * 3);
 

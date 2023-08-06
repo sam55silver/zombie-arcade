@@ -384,7 +384,6 @@ const Game = (app) => {
       spawnZombie
     ) {
       // if so, spawn a new spawner
-      console.log('spawning new spawner');
       spawners.push(new Spawner(scene));
       spawnZombie = false;
     }
