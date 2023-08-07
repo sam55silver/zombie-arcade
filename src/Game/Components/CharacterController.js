@@ -9,6 +9,8 @@ class CharacterController extends Container {
     this.y = pos.y;
     this.scene = scene;
 
+    this.hitBoxRadius = hitBoxRadius
+
     this.hitBox = new SAT.Circle(
       new SAT.Vector(this.scene.game.x + this.x, this.scene.game.y + this.y),
       hitBoxRadius * scene.spriteScale

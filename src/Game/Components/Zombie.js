@@ -30,10 +30,13 @@ class Zombie extends CharacterController {
   hit() {
     this.health--;
 
-    const splat = new AnimatedSprite(this.scene.spriteSheet.animations["blood_splat_1"]) 
+    // Get random int between 0 and 2
+    const type = Math.floor(Math.random() * 3) + 1;
+
+    const splat = new AnimatedSprite(this.scene.spriteSheet.animations["blood_splat_" + type]) 
     splat.scale.set(this.scene.spriteScale);
     splat.anchor.set(0.5,1)
-    splat.rotation = -Math.PI / 2
+    splat.rotation = -Math.PI / 2 
     splat.animationSpeed = 0.3;
     splat.loop = false
     splat.onComplete = () => {

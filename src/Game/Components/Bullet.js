@@ -29,7 +29,7 @@ class Bullet extends CharacterController {
     }, 1000);
   }
 
-  updateCharacter(delta) {
+  updateCharacter() {
     // Move bullet
     this.velocity.x = Math.cos(this.rotation);
     this.velocity.y = Math.sin(this.rotation);
