@@ -171,6 +171,7 @@ const Game = (app) => {
   const killCount = new UIContainer(
     scene,
     'kill-ui',
+    'kill-ui',
     3,
     {
       x: mapArea.topRight.x - 26 * scene.spriteScale,
@@ -201,17 +202,36 @@ const Game = (app) => {
   const playerHealth = new UIContainer(
     scene,
     'health-ui',
+    'health-ui',
     scene.player.maxHealth,
     {
       x: mapArea.topLeft.x,
       y: mapArea.topLeft.y - 24 * scene.spriteScale,
-    },
+    },  
     updatePlayerHealth
-  );
+  );  
   playerHealth.icon.y = playerHealth.icon.height + 6;
 
   scene.game.addChild(playerHealth);
   scene.playerHealth = playerHealth;
+
+  const collectibleUI = new UIContainer(
+    scene,
+    'ak',
+    'health-ui',
+    5,
+    {
+      x: (mapArea.topRight.x + mapArea.topLeft.x) / 2 + 14 * scene.spriteScale,
+      y: mapArea.topRight.y - 24 * scene.spriteScale,
+    },
+    (ui) => {
+     console.log(ui) 
+    }
+  )
+  collectibleUI.icon.x = -collectibleUI.icon.width - 4;
+  collectibleUI.icon.y -= 6 * scene.spriteScale
+  collectibleUI.icon.rotation = Math.PI / 4
+  scene.game.addChild(collectibleUI)
 
   // Show controls
   const controls = new Container();

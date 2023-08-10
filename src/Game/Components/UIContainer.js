@@ -14,18 +14,18 @@ class Unit extends Container {
 }
 
 class UIContainer extends Container {
-  constructor(scene, assetName, unitCount, position, callback) {
+  constructor(scene, icon, item, unitCount, position, callback) {
     super();
 
     this.x = position.x;
     this.y = position.y;
 
-    this.icon = new Sprite(scene.spriteSheet.textures[assetName + '.png']);
+    this.icon = new Sprite(scene.spriteSheet.textures[icon + '.png']);
     this.icon.scale.set(scene.spriteScale);
 
     this.addChild(this.icon);
 
-    const sprites = scene.spriteSheet.animations[assetName];
+    const sprites = scene.spriteSheet.animations[item];
 
     this.units = [];
     let offset = 0;
