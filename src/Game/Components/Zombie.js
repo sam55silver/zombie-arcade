@@ -8,7 +8,7 @@ class Zombie extends CharacterController {
     super(
       scene,
       position,
-      6,
+      10,
       [scene.spriteSheet.textures[`zombie-${type}.png`]],
       { x: 0.5, y: 0.9 },
       0.6

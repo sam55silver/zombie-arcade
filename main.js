@@ -7,6 +7,7 @@ import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from './firebaseConfig.json';
 import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom';
 import { CRTFilter } from '@pixi/filter-crt';
+import {Howl, Howler} from 'howler'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -55,6 +56,10 @@ const Setup = () => {
 
   app.currentScene = new Container();
   app.stage.addChild(app.currentScene);
+  
+  app.music = new Howl({src: ['fight_looped.wav'], loop: true})
+  app.music.play()
+  app.music.fade(0,0.2,4000) 
 
   // add filter to app
   app.currentScene.filters = [

@@ -2,6 +2,7 @@ import CharacterController from './CharacterController';
 import Bullet from './Bullet';
 import SAT from 'sat';
 import GameOverScore from '../../Menus/gameOver';
+import {Howl, Howler} from 'howler'
 
 class Player extends CharacterController {
   constructor(scene) {
@@ -26,6 +27,9 @@ class Player extends CharacterController {
     this.maxHealth = 8;
     this.timesHit = 0;
 
+    this.footsteps = new Howl({src: ['steps.wav'], loop: true, volume: 0})
+    this.footsteps.play()
+    this.footstepsVolume = 0.2
 
     this.isInvulnerable = false;
 
@@ -78,6 +82,12 @@ class Player extends CharacterController {
   setFireState(state) {
     this.fireState = state;
 
+    this.scene.game.removeChild(this.scene.shotgunUI)
+    this.scene.game.removeChild(this.scene.akUI)
+
+    this.bullets = 0
+    this.maxBullets = 0
+    
     if (state == 'machineGun') {
       const bullets = this.scene.akUI.unitCount
       this.bullets = bullets
@@ -92,12 +102,6 @@ class Player extends CharacterController {
       
       this.scene.shotgunUI.update()
       this.scene.game.addChild(this.scene.shotgunUI)
-    } else {
-      this.scene.game.removeChild(this.scene.shotgunUI)
-      this.scene.game.removeChild(this.scene.akUI)
-
-      this.bullets = 0
-      this.maxBullets = 0
     }
   }
 
@@ -216,6 +220,15 @@ class Player extends CharacterController {
 
     // move
     this.velocity = this.scene.input.moveDir.clone().normalize();
+    const squaredSum = this.velocity.x ** 2 + this.velocity.y ** 2;
+
+    if ((squaredSum > 0) && !this.footsteps.playing()) {
+      this.footsteps.fade(this.footstepsVolume, 0, 1000)
+    }
+    
+    if ((squaredSum == 0) && this.footsteps.playing()) {
+      this.footsteps.fade(0, this.footstepsVolume, 1000)
+    }
 
     // Test collision with all other zombies
     let inZombie = false;

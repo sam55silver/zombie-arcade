@@ -17,6 +17,7 @@
     "@pixi/filter-crt": "^5.1.1",
     "firebase": "^9.22.2",
     "fontfaceobserver": "^2.3.0",
+    "howler": "^2.2.3",
     "pixi.js": "^7.2.4",
     "sat": "^0.9.0"
   }

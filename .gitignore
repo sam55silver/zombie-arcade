@@ -2,3 +2,4 @@
 node_modules
 dist
 firebaseConfig.json
+public/sounds

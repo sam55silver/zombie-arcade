@@ -16,7 +16,7 @@ class Spawner {
     let point = { x, y };
 
     // add offset to point
-    const offset = 35;
+    const offset = 30 * this.scene.spriteScale;
     point[offsetDir] = point[offsetDir] + offsetSign * offset;
 
     return point;
