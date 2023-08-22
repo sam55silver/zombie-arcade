@@ -7,7 +7,7 @@ class Bullet extends CharacterController {
       scene,
       { x, y },
       2,
-      [scene.spriteSheet.textures['bullet.png']],
+      [scene.spriteSheet.textures['bullet-0.png']],
       { x: 0.5, y: 0.5 },
       8
     );

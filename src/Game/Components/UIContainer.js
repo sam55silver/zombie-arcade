@@ -4,7 +4,7 @@ class Unit extends Container {
   constructor(sprites, scale) {
     super();
     this.sprite = new AnimatedSprite(sprites);
-    this.sprite.scale.set(scale);
+    this.sprite.scale.set(scale.x, scale.y);
     this.addChild(this.sprite);
   }
 
@@ -14,7 +14,7 @@ class Unit extends Container {
 }
 
 class UIContainer extends Container {
-  constructor(scene, icon, item, unitCount, position, callback) {
+  constructor(scene, icon, item, unitCount, position, callback, scale) {
     super();
 
     this.x = position.x;
@@ -26,18 +26,33 @@ class UIContainer extends Container {
     this.addChild(this.icon);
 
     const sprites = scene.spriteSheet.animations[item];
+    
+    this.unitCount = unitCount
 
     this.units = [];
-    let offset = 0;
+    let offsetX = 0;
+    let offsetY = 0;
     for (let i = 0; i < unitCount; i++) {
-      const unit = new Unit(sprites, scene.spriteScale);
-      unit.x = offset;
-      offset += unit.width + 1.5 * scene.spriteScale;
+      const unit = new Unit(sprites, scale);
+      unit.x = offsetX;
+      unit.y = offsetY;
+      
+      offsetX += unit.width + 1.5 * scene.spriteScale;
+
+      if (unitCount > 19 && i == unitCount / 2 - 1) {
+        offsetY = unit.height + 1.5 * scene.spriteScale
+        offsetX = 0
+      }
+
       this.addChild(unit);
       this.units.push(unit);
     }
 
     this.callback = callback;
+  }
+
+  setUnits() {
+
   }
 
   update() {

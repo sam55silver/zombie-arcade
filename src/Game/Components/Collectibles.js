@@ -128,7 +128,7 @@ class MachineGun extends Collectible {
   }
 
   pickup() {
-    this.scene.player.setFireState('machineGun', 6000);
+    this.scene.player.setFireState('machineGun');
   }
 }
 
@@ -138,7 +138,7 @@ class Shotgun extends Collectible {
   }
 
   pickup() {
-    this.scene.player.setFireState('shotgun', 12000);
+    this.scene.player.setFireState('shotgun');
   }
 }
 
@@ -182,7 +182,7 @@ export class CollectibleSpawner {
     };
 
     // choose random between 0 and 2
-    const rand = Math.floor(Math.random() * 3);
+    let rand = Math.floor(Math.random() * 3);
 
     if (rand == 0) {
       new Health(this.scene, spawnPosition);

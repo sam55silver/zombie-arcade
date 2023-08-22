@@ -20,9 +20,12 @@ class Player extends CharacterController {
 
     this.fireState = 'normal';
     this.firing = false;
+    this.bullets = 0
+    this.maxBullets = 0
 
     this.maxHealth = 8;
     this.timesHit = 0;
+
 
     this.isInvulnerable = false;
 
@@ -72,12 +75,30 @@ class Player extends CharacterController {
     }
   }
 
-  setFireState(state, timeout) {
+  setFireState(state) {
     this.fireState = state;
 
-    this.scene.startTimeout(() => {
-      this.fireState = 'normal';
-    }, timeout);
+    if (state == 'machineGun') {
+      const bullets = this.scene.akUI.unitCount
+      this.bullets = bullets
+      this.maxBullets = bullets
+
+      this.scene.akUI.update()
+      this.scene.game.addChild(this.scene.akUI)
+    } else if (state == 'shotgun') {
+      const bullets = this.scene.shotgunUI.unitCount
+      this.bullets = bullets
+      this.maxBullets = bullets
+      
+      this.scene.shotgunUI.update()
+      this.scene.game.addChild(this.scene.shotgunUI)
+    } else {
+      this.scene.game.removeChild(this.scene.shotgunUI)
+      this.scene.game.removeChild(this.scene.akUI)
+
+      this.bullets = 0
+      this.maxBullets = 0
+    }
   }
 
   fire() {
@@ -110,6 +131,12 @@ class Player extends CharacterController {
 
       new Bullet(this.scene, this.x, this.y, rot);
     }
+    this.bullets -= 1
+    this.scene.shotgunUI.update()
+
+    if (this.bullets <= 0) {
+      this.setFireState('normal', 0)
+    }
   }
 
   fireMachineGun() {
@@ -131,6 +158,12 @@ class Player extends CharacterController {
     const newRot = this.rotation + rand;
 
     new Bullet(this.scene, this.x, this.y, newRot);
+    this.bullets -= 1
+    this.scene.akUI.update()
+
+    if (this.bullets <= 0) {
+      this.setFireState('normal', 0)
+    }
   }
 
   fireNormal() {

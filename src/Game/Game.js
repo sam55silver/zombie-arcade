@@ -177,7 +177,8 @@ const Game = (app) => {
       x: mapArea.topRight.x - 26 * scene.spriteScale,
       y: mapArea.topRight.y - 24 * scene.spriteScale,
     },
-    updateKillCount
+    updateKillCount,
+    {x: scene.spriteScale, y: scene.spriteScale}
   );
   killCount.icon.x = -killCount.icon.width - 4;
   killCount.count = 0;
@@ -208,31 +209,61 @@ const Game = (app) => {
       x: mapArea.topLeft.x,
       y: mapArea.topLeft.y - 24 * scene.spriteScale,
     },  
-    updatePlayerHealth
+    updatePlayerHealth,
+    {x: scene.spriteScale, y: scene.spriteScale}
   );  
   playerHealth.icon.y = playerHealth.icon.height + 6;
 
   scene.game.addChild(playerHealth);
   scene.playerHealth = playerHealth;
 
-  const collectibleUI = new UIContainer(
+  const updateCollectibleUI = (ui) => {
+    const maxBullets = scene.player.maxBullets;
+    const bullets = scene.player.bullets;
+
+    for (let i = 0; i < maxBullets; i++) {
+      ui.units[i].update('1');
+    }
+
+    for (let i = 0; i < bullets; i++) {
+      ui.units[i].update('0');
+    }
+  }
+
+  const akUI = new UIContainer(
     scene,
     'ak',
-    'health-ui',
-    5,
+    'bullet',
+    24,
     {
-      x: (mapArea.topRight.x + mapArea.topLeft.x) / 2 + 14 * scene.spriteScale,
+      x: (mapArea.topRight.x + mapArea.topLeft.x) / 2 + 12 * scene.spriteScale,
       y: mapArea.topRight.y - 24 * scene.spriteScale,
     },
-    (ui) => {
-     console.log(ui) 
-    }
+    updateCollectibleUI,
+    {x: scene.spriteScale / 2, y: scene.spriteScale}
   )
-  collectibleUI.icon.x = -collectibleUI.icon.width - 4;
-  collectibleUI.icon.y -= 6 * scene.spriteScale
-  collectibleUI.icon.rotation = Math.PI / 4
-  scene.game.addChild(collectibleUI)
-
+  akUI.icon.x -= 24 * scene.spriteScale;
+  akUI.icon.y -= 6 * scene.spriteScale
+  akUI.icon.rotation = Math.PI / 4
+  scene.akUI = akUI
+  
+  const shotgunUI = new UIContainer(
+    scene,
+    'shotgun',
+    'bullet',
+    8,
+    {
+      x: (mapArea.topRight.x + mapArea.topLeft.x) / 2 + 6 * scene.spriteScale,
+      y: mapArea.topRight.y - 24 * scene.spriteScale,
+    },
+    updateCollectibleUI,
+    {x: scene.spriteScale, y: scene.spriteScale}
+  )
+  shotgunUI.icon.x -= 16 * scene.spriteScale;
+  shotgunUI.icon.y -= 8 * scene.spriteScale
+  shotgunUI.icon.rotation = Math.PI / 4
+  scene.shotgunUI = shotgunUI
+  
   // Show controls
   const controls = new Container();
   controls.y += map.height * (1 / 5);
