@@ -11,7 +11,7 @@ const MainMenu = (app, fetchLeaderBoard = true) => {
   mainMenu.x = app.renderer.width / 2;
 
   if (fetchLeaderBoard) {
-    get_leader_board(app.db)
+    get_leader_board()
       .then((scores) => {
         app.high_scores = scores;
         MenuDisplay(app, mainMenu);
@@ -22,7 +22,7 @@ const MainMenu = (app, fetchLeaderBoard = true) => {
         mainMenu.y = app.renderer.height / 2;
 
         const errorText = new Text(
-          'Error loading leader board',
+          'Error loading\nleader board',
           fonts.headerStyle
         );
         errorText.anchor.set(0.5);

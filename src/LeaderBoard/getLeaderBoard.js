@@ -1,23 +1,19 @@
-import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
+const get_leader_board = async () => {
+  const endpoint = 'http://localhost:8070/leaderboard'
 
-const get_leader_board = async (db) => {
-  const high_scores = [];
+  try {
+    const response = await fetch(endpoint);
 
-  const docRef = collection(db, 'high_scores');
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-  const q = query(
-    docRef,
-    orderBy('score', 'desc'),
-    orderBy('createdAt'),
-    limit(9)
-  );
-
-  const querySnapshot = await getDocs(q).catch((error) => console.log(error));
-  querySnapshot.forEach((doc) => {
-    high_scores.push(doc.data());
-  });
-
-  return high_scores;
+    const highScores = await response.json();
+    return highScores.scores;
+  } catch (error) {
+    console.error("Error fetching high scores:", error);
+    throw error;
+  }
 };
 
 export default get_leader_board;

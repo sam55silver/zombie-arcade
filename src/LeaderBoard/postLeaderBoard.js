@@ -1,15 +1,30 @@
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
-
-const post_leader_board = (db, name, score) => {
-  const docRef = collection(db, 'high_scores');
+const post_leader_board = async (name, score) => {
+  const endpoint = 'http://localhost:8070/leaderboard'
 
   const entry = {
     name: name,
     score: score,
-    createdAt: new Date(),
   };
 
-  return addDoc(docRef, entry);
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+      body: JSON.stringify(entry), // Convert the data to JSON format
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json(); // Parse the response JSON
+    return responseData.message;
+  } catch (error) {
+    console.error("Error making POST request:", error);
+    throw error;
+  }
 };
 
 export default post_leader_board;
