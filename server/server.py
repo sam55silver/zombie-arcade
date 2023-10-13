@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import argparse
 import psycopg2
 
@@ -52,13 +53,14 @@ def create_high_scores_table():
    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Run a Flask application as a daemon.")
-    parser.add_argument('--host', type=str, default='0.0.0.0', help='Host for the Flask application (default: 0.0.0.0)')
-    parser.add_argument('--port', type=int, default=8070, help='Port for the Flask application (default: 5000)')
-    parser.add_argument('--db-database', type=str, default='leaderboard', help='Port for the Flask application (default: 5000)')
-    parser.add_argument('--db-user', type=str, default='zombie', help='Port for the Flask application (default: 5000)')
-    parser.add_argument('--db-password', type=str, default='arcade', help='Port for the Flask application (default: 5000)')
-    parser.add_argument('--db-host', type=str, default='0.0.0.0', help='Port for the Flask application (default: 5000)')
-    parser.add_argument('--db-port', type=int, default=5432, help='Port for the Flask application (default: 5000)')
+    parser.add_argument('--host', type=str, default='0.0.0.0', help='Host for the Flask application')
+    parser.add_argument('--port', type=int, default=8070, help='Port for the Flask application')
+    parser.add_argument('--debug', action="store_true", help='Start flask in debug mode')
+    parser.add_argument('--db-database', type=str, default='leaderboard', help='Name of postgres database')
+    parser.add_argument('--db-user', type=str, default='zombie', help='Name of postgres user.')
+    parser.add_argument('--db-password', type=str, default='arcade', help='Password of postgres user')
+    parser.add_argument('--db-host', type=str, default='0.0.0.0', help='Host of database')
+    parser.add_argument('--db-port', type=int, default=5432, help='Port number of database')
     args = parser.parse_args()
 
     db_params = {
@@ -71,7 +73,8 @@ if __name__ == '__main__':
 
     try:
         create_high_scores_table()
-        app.run(host=args.host, port=args.port)
+        CORS(app)
+        app.run(host=args.host, port=args.port, debug=args.debug)
     except psycopg2.Error as e:
         print(f"Error creating table: {e}")
 
