@@ -148,8 +148,6 @@ export class CollectibleSpawner {
     this.spawnRate = 15000;
 
     this.spawnTimer();
-    this.spawn()
-    this.spawn()
   }
 
   spawnTimer() {
