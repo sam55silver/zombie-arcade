@@ -29,9 +29,11 @@ class Player extends CharacterController {
 
     this.footsteps = new Howl({src: ['sounds/steps.wav'], loop: true, volume: 0})
     this.footsteps.play()
-    this.footstepsVolume = 0.01
+    this.footstepsVolume = 0.04
 
-    this.gunNoise = new Howl({src: ['sounds/fire.mp3'], volume: 0.08})
+    this.gunVolume = 0.08
+    this.shotgunVolume = 0.16
+    this.gunNoise = new Howl({src: ['sounds/fire.mp3'], volume: this.gunVolume})    
 
     this.isInvulnerable = false;
 
@@ -90,7 +92,7 @@ class Player extends CharacterController {
 
     this.bullets = 0
     this.maxBullets = 0
-    
+
     if (state == 'machineGun') {
       const bullets = this.scene.akUI.unitCount
       this.bullets = bullets
@@ -129,13 +131,15 @@ class Player extends CharacterController {
       this.scene.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.play();
 
+    this.gunNoise.volume(this.shotgunVolume)
+    this.gunNoise.play()
+
     // create 5 bullets to spawn
     let rotVariation = 0.2;
     const rotIncr = 0.2;
     for (let i = 0; i < 3; i++) {
       const rot = this.rotation + rotVariation;
       rotVariation -= rotIncr;
-      this.gunNoise.play()
 
       new Bullet(this.scene, this.x, this.y, rot);
     }
@@ -153,6 +157,7 @@ class Player extends CharacterController {
     this.sprite.textures =
       this.scene.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.gotoAndStop(0);
+    this.gunNoise.volume(this.gunVolume)
     this.gunNoise.play()
 
     this.scene.startTimeout(() => {
@@ -180,6 +185,7 @@ class Player extends CharacterController {
 
     this.sprite.textures =
       this.scene.spriteSheet.animations['player-gunshot-anim'];
+    this.gunNoise.volume(this.gunVolume)
     this.sprite.play();
 
     this.gunNoise.play()
