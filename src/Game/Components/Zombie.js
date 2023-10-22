@@ -2,6 +2,7 @@ import CharacterController from './CharacterController';
 import SAT from 'sat';
 import { Coin } from './Collectibles';
 import { AnimatedSprite } from 'pixi.js';
+import { Howl } from 'howler'
 
 class Zombie extends CharacterController {
   constructor(scene, type, position) {
@@ -17,6 +18,11 @@ class Zombie extends CharacterController {
     this.setHitBoxOffset({ x: 4, y: 4 });
 
     this.sprite.rotation = Math.PI / 2
+
+    this.actionSound = new Howl({src: ['sounds/zombie/pain.wav'], volume: 0.2})
+
+    this.deathSound1 = new Howl({src: ['sounds/zombie/pain.wav'], volume: 0.2})
+    this.deathSound2 = new Howl({src: ['sounds/zombie/death.wav'], volume: 0.2})
 
     this.health = 2;
     this.alreadyHit = false;
@@ -71,6 +77,14 @@ class Zombie extends CharacterController {
       this.sprite.onComplete = () => {
         this.scene.deadZombies.removeChild(this);
       };
+
+      const randDeath = Math.floor(Math.random() * 2) + 1;
+      console.log("randDeath", randDeath)
+      if (randDeath == 1) {
+        this.deathSound1.play()
+      } else {
+        this.deathSound2.play()
+      }
     }
   }
  
@@ -130,6 +144,12 @@ class Zombie extends CharacterController {
         }
       );
       this.testCollideWithZombies();
+
+      const dist = (this.scene.player.hitBox.pos.y - this.hitBox.pos.y)**2 + (this.scene.player.hitBox.pos.x - this.hitBox.pos.x)**2
+      console.log(dist)
+      if (dist < 20000) {
+        this.actionSound.play()
+      }
     }
   }
 }
