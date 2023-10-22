@@ -30,6 +30,7 @@ const GameOver = (app, killCount) => {
   scene.addChild(score);
 
   const highScorePosition = HighScorePosition(app.high_scores, killCount);
+  console.log("High Scores:", app.high_scores, "new score?", highScorePosition)
 
   if (highScorePosition) {
     NewHighScore(app, killCount, scene);
@@ -42,7 +43,7 @@ const GameOver = (app, killCount) => {
 
 const HighScorePosition = (high_scores, killCount) => {
   for (let i = 0; i < high_scores.length; i++) {
-    if (killCount > high_scores[i].score) {
+    if (high_scores[i].score == "N/A" || killCount > high_scores[i].score) {
       return true;
     }
   }
@@ -172,7 +173,7 @@ const NewHighScore = (app, killCount, scene) => {
         highScoreText.text = 'Posting...';
         highScoreText.style.fill = '0xc7383c';
 
-        post_leader_board(app.db, name, killCount)
+        post_leader_board(name, killCount)
           .then(() => {
             const mainMenu = MainMenu(app);
             scene.changeScene(mainMenu);

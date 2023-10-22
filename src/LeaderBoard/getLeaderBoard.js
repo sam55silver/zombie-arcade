@@ -9,6 +9,10 @@ const get_leader_board = async () => {
     }
 
     const highScores = await response.json();
+    while (highScores.scores.length < 10) {
+      highScores.scores.push({"name": "-----", "score": "N/A"})
+    }
+
     return highScores.scores;
   } catch (error) {
     console.error("Error fetching high scores:", error);

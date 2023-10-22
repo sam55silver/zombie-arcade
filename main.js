@@ -2,18 +2,9 @@ import './style.css';
 import { Application, Container, SCALE_MODES, utils } from 'pixi.js';
 import Loader from './src/Loader';
 import MainMenu from './src/Menus/mainMenu';
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import firebaseConfig from './firebaseConfig.json';
 import { AdvancedBloomFilter } from '@pixi/filter-advanced-bloom';
 import { CRTFilter } from '@pixi/filter-crt';
 import {Howl, Howler} from 'howler'
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
 
 const Setup = () => {
   // Create Application
@@ -22,8 +13,6 @@ const Setup = () => {
     height: 256,
     backgroundColor: 0x000000,
   });
-
-  app.db = db;
 
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
