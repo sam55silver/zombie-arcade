@@ -27,9 +27,11 @@ class Player extends CharacterController {
     this.maxHealth = 8;
     this.timesHit = 0;
 
-    this.footsteps = new Howl({src: ['steps.wav'], loop: true, volume: 0})
+    this.footsteps = new Howl({src: ['sounds/steps.wav'], loop: true, volume: 0})
     this.footsteps.play()
-    this.footstepsVolume = 0.2
+    this.footstepsVolume = 0.01
+
+    this.gunNoise = new Howl({src: ['sounds/fire.mp3'], volume: 0.08})
 
     this.isInvulnerable = false;
 
@@ -53,6 +55,7 @@ class Player extends CharacterController {
     this.scene.playerHealth.update();
 
     if (this.timesHit >= this.maxHealth) {
+      this.footsteps.stop()
       this.scene.gameOver = true;
       this.scene.zombies.forEach((zombie) => {
         const offset = {
@@ -132,6 +135,7 @@ class Player extends CharacterController {
     for (let i = 0; i < 3; i++) {
       const rot = this.rotation + rotVariation;
       rotVariation -= rotIncr;
+      this.gunNoise.play()
 
       new Bullet(this.scene, this.x, this.y, rot);
     }
@@ -149,6 +153,7 @@ class Player extends CharacterController {
     this.sprite.textures =
       this.scene.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.gotoAndStop(0);
+    this.gunNoise.play()
 
     this.scene.startTimeout(() => {
       this.firing = false;
@@ -176,6 +181,8 @@ class Player extends CharacterController {
     this.sprite.textures =
       this.scene.spriteSheet.animations['player-gunshot-anim'];
     this.sprite.play();
+
+    this.gunNoise.play()
 
     new Bullet(this.scene, this.x, this.y, this.rotation);
   }

@@ -46,9 +46,9 @@ const Setup = () => {
   app.currentScene = new Container();
   app.stage.addChild(app.currentScene);
   
-  app.music = new Howl({src: ['fight_looped.wav'], loop: true})
+  app.music = new Howl({src: ['sounds/music.wav'], loop: true})
   app.music.play()
-  app.music.fade(0,0.2,4000) 
+  app.music.fade(0,0.05,4000) 
 
   // add filter to app
   app.currentScene.filters = [
