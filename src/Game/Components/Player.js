@@ -27,10 +27,6 @@ class Player extends CharacterController {
     this.maxHealth = 8;
     this.timesHit = 0;
 
-    this.footsteps = new Howl({src: ['sounds/steps.wav'], loop: true, volume: 0})
-    this.footsteps.play()
-    this.footstepsVolume = 0.04
-
     this.gunVolume = 0.08
     this.shotgunVolume = 0.16
     this.gunNoise = new Howl({src: ['sounds/fire.mp3'], volume: this.gunVolume})    
@@ -57,7 +53,6 @@ class Player extends CharacterController {
     this.scene.playerHealth.update();
 
     if (this.timesHit >= this.maxHealth) {
-      this.footsteps.stop()
       this.scene.gameOver = true;
       this.scene.zombies.forEach((zombie) => {
         const offset = {
@@ -233,15 +228,6 @@ class Player extends CharacterController {
 
     // move
     this.velocity = this.scene.input.moveDir.clone().normalize();
-    const squaredSum = this.velocity.x ** 2 + this.velocity.y ** 2;
-
-    if ((squaredSum > 0) && !this.footsteps.playing()) {
-      this.footsteps.fade(this.footstepsVolume, 0, 1000)
-    }
-    
-    if ((squaredSum == 0) && this.footsteps.playing()) {
-      this.footsteps.fade(0, this.footstepsVolume, 1000)
-    }
 
     // Test collision with all other zombies
     let inZombie = false;
