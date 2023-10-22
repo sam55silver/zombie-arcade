@@ -76,9 +76,10 @@ const Setup = () => {
 
   // Load Assets
   Loader(app)
-    .then((sheet) => {
+    .then(({sheet, scores}) => {
       sheet.baseTexture.setStyle(SCALE_MODES.NEAREST);
       app.spriteSheet = sheet;
+      app.high_scores = scores
 
       const mainMenu = MainMenu(app);
       mainMenu.loadScene();

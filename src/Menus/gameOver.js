@@ -30,7 +30,6 @@ const GameOver = (app, killCount) => {
   scene.addChild(score);
 
   const highScorePosition = HighScorePosition(app.high_scores, killCount);
-  console.log("High Scores:", app.high_scores, "new score?", highScorePosition)
 
   if (highScorePosition) {
     NewHighScore(app, killCount, scene);
@@ -113,7 +112,6 @@ const NewHighScore = (app, killCount, scene) => {
     }
 
     if (e.key === 'Enter') {
-      console.log('Enter');
       removeCaptureInput();
     }
 
