@@ -4,7 +4,7 @@ import argparse
 import sqlite3
 
 app = Flask(__name__)
-db_name = "zombie-leader-board.db"
+db_name = "zombie-leaderboard.db"
 
 def add_high_score(db, cur, score, name):
     cur.execute("INSERT INTO high_scores (score, name) VALUES (?, ?);", (score, name))
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Run a Flask application as a daemon.")
     parser.add_argument('--host', type=str, default='0.0.0.0', help='Host for the Flask application')
     parser.add_argument('--port', type=int, default=8070, help='Port for the Flask application')
-    parser.add_argument('--db', type=str, default="zombie-leader-board", help='Name of database file for leaderboard')
+    parser.add_argument('--db', type=str, default="zombie-leaderboard", help='Name of database file for leaderboard')
     parser.add_argument('--debug', action="store_true", help='Start flask in debug mode')
     args = parser.parse_args()
 

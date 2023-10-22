@@ -1,5 +1,5 @@
 .DS_Store
 node_modules
 dist
-firebaseConfig.json
 public/sounds
+zombie-leaderboard.db
