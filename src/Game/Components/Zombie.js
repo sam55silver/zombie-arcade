@@ -19,10 +19,8 @@ class Zombie extends CharacterController {
 
     this.sprite.rotation = Math.PI / 2
 
-    this.actionSound = new Howl({src: ['sounds/zombie/pain.wav'], volume: 0.2})
-
-    this.deathSound1 = new Howl({src: ['sounds/zombie/pain.wav'], volume: 0.2})
-    this.deathSound2 = new Howl({src: ['sounds/zombie/death.wav'], volume: 0.2})
+    this.sound1 = new Howl({src: ['sounds/zombie/pain.wav'], volume: 0.2})
+    this.sound2 = new Howl({src: ['sounds/zombie/death.wav'], volume: 0.2})
 
     this.health = 2;
     this.alreadyHit = false;
@@ -31,6 +29,16 @@ class Zombie extends CharacterController {
       this.hitBox.pos,
       this.scene.player.hitBox.pos
     ).angle - Math.PI / 2;
+    this.playSound()
+  }
+
+  playSound() {
+    const randDeath = Math.floor(Math.random() * 2) + 1;
+    if (randDeath == 1) {
+      this.sound1.play()
+    } else {
+      this.sound2.play()
+    }
   }
 
   hit() {
@@ -77,14 +85,7 @@ class Zombie extends CharacterController {
       this.sprite.onComplete = () => {
         this.scene.deadZombies.removeChild(this);
       };
-
-      const randDeath = Math.floor(Math.random() * 2) + 1;
-      console.log("randDeath", randDeath)
-      if (randDeath == 1) {
-        this.deathSound1.play()
-      } else {
-        this.deathSound2.play()
-      }
+      this.playSound()
     }
   }
  
@@ -144,12 +145,6 @@ class Zombie extends CharacterController {
         }
       );
       this.testCollideWithZombies();
-
-      const dist = (this.scene.player.hitBox.pos.y - this.hitBox.pos.y)**2 + (this.scene.player.hitBox.pos.x - this.hitBox.pos.x)**2
-      console.log(dist)
-      if (dist < 20000) {
-        this.actionSound.play()
-      }
     }
   }
 }
