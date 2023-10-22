@@ -1,5 +1,6 @@
 import { Container, Graphics, Sprite } from 'pixi.js';
 import SAT from 'sat';
+import { Howl } from 'howler'
 
 class Collectible extends Container {
   constructor(scene, pos, sprite, angle) {
@@ -27,6 +28,8 @@ class Collectible extends Container {
     this.sprite.scale.set((scene.spriteScale * 2) / 3);
     // this.sprite.scale.y and x will be the same
     this.spriteNormScale = this.sprite.scale.x;
+    
+    this.pickupSound = new Howl({src: ['sounds/pickup.wav'], volume: 0.1})
 
     if (angle) {
       this.sprite.angle = angle;
@@ -58,6 +61,7 @@ class Collectible extends Container {
       if (this.pickup) {
         this.pickup();
       }
+      this.pickupSound.play()
       this.scene.collectibles.removeChild(this);
     }
 
