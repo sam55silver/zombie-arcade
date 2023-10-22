@@ -20,7 +20,7 @@ const Loader = (app) => {
     loadingScreen.addChild(loadingText);
 
     // Load assets
-    Assets.load('../assets/textureAtlas.json')
+    Assets.load('textures/textureAtlas.json')
       .then((sheet) => {
         get_leader_board()
           .then((scores) => {
