@@ -53,6 +53,9 @@ class Player extends CharacterController {
     this.scene.playerHealth.update();
 
     if (this.timesHit >= this.maxHealth) {
+      this.scene.app.musicFadeOut()
+      this.scene.app.gameoverMusic.play()
+
       this.scene.gameOver = true;
       this.scene.zombies.forEach((zombie) => {
         const offset = {

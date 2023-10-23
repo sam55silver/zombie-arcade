@@ -48,7 +48,21 @@ const Setup = () => {
   
   app.music = new Howl({src: ['sounds/music.wav'], loop: true})
   app.music.play()
-  app.music.fade(0,0.05,4000) 
+
+  const musicVolume = 0.05 
+  const fadeDuration = 4000
+
+  app.musicFadeIn = () => {
+    app.music.fade(0, musicVolume, fadeDuration) 
+  }
+
+  app.musicFadeOut = () => {  
+    app.music.fade(musicVolume, 0, fadeDuration) 
+  }
+
+  app.musicFadeIn()
+  
+  app.gameoverMusic = new Howl({src: ['sounds/gameover.wav'], volume: 0.1})
 
   // add filter to app
   app.currentScene.filters = [

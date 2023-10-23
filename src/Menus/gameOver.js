@@ -173,6 +173,7 @@ const NewHighScore = (app, killCount, scene) => {
 
         post_leader_board(name, killCount)
           .then(() => {
+            app.musicFadeIn()
             const mainMenu = MainMenu(app);
             scene.changeScene(mainMenu);
           })
@@ -200,6 +201,7 @@ const ShowScore = (app, scene) => {
     'RETRY',
     app.spriteScale,
     () => {
+      app.musicFadeIn()
       const game = Game(app);
       scene.changeScene(game);
     }
@@ -215,6 +217,7 @@ const ShowScore = (app, scene) => {
     'MENU',
     app.spriteScale,
     () => {
+      app.musicFadeIn()
       const mainMenu = MainMenu(app);
       scene.changeScene(mainMenu);
     }
