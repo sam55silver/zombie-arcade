@@ -31,10 +31,10 @@ const GameOver = (app, killCount) => {
 
   const highScorePosition = HighScorePosition(app.high_scores, killCount);
 
-  if (highScorePosition) {
-    NewHighScore(app, killCount, scene);
-  } else {
+  if (highScorePosition == -1) {
     ShowScore(app, scene);
+  } else {
+    NewHighScore(app, killCount, highScorePosition, scene);
   }
 
   return scene;
@@ -43,14 +43,14 @@ const GameOver = (app, killCount) => {
 const HighScorePosition = (high_scores, killCount) => {
   for (let i = 0; i < high_scores.length; i++) {
     if (high_scores[i].score == "N/A" || killCount > high_scores[i].score) {
-      return true;
+      return i;
     }
   }
 
-  return false;
+  return -1;
 };
 
-const NewHighScore = (app, killCount, scene) => {
+const NewHighScore = (app, killCount, highScorePosition, scene) => {
   scene.y = scene.y - 30 * app.spriteScale;
 
   const highScoreText = new Text('New High Score!', {
@@ -174,6 +174,9 @@ const NewHighScore = (app, killCount, scene) => {
         post_leader_board(name, killCount)
           .then(() => {
             app.musicFadeIn()
+
+            app.high_scores.splice(highScorePosition, 0, {name: name, score: killCount})
+
             const mainMenu = MainMenu(app);
             scene.changeScene(mainMenu);
           })

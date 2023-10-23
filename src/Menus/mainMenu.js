@@ -75,6 +75,8 @@ const MenuDisplay = (app, scene) => {
     header.addChild(scoreText);
 
     app.high_scores.forEach((entry, index) => {
+      if (index > 9) return
+
       let entryContainer = new Container();
 
       let rankPrefix = 'TH';
