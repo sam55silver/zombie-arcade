@@ -23,9 +23,12 @@ jobs:
 
       - name: Build project
         run: npm run build
-
-      - name: Copy files to server
+      - name: RSync Build Contents
+        uses: burnett01/rsync-deployments@6.0.0
         with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: rsync -avz --progress ./dist/ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:${{ secrets.FINAL_DEST }}
-        
+          switches: -avzr --delete
+          path: ./dest/
+          remote_path: ${{ secrets.FINAL_DEST }}
+          remote_host: ${{ secrets.SERVER_HOST }}
+          remote_user: ${{ secrets.SERVER_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }} 
