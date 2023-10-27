@@ -26,7 +26,7 @@ jobs:
       - name: RSync Build Contents
         uses: burnett01/rsync-deployments@6.0.0
         with:
-          switches: -avzr --delete
+          switches: -avzr
           path: dist/
           remote_path: ${{ secrets.FINAL_DEST }}
           remote_host: ${{ secrets.SERVER_HOST }}
