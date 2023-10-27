@@ -2,4 +2,5 @@
 node_modules
 dist
 public/sounds
+public/fonts
 zombie-leaderboard.db
