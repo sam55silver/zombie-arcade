@@ -74,6 +74,13 @@ def close_db(exception):
     db = getattr(g, '_db', None)
     if db is not None:
         db.close()
+
+def create_app():
+    with app.app_context():
+        create_leaderboard()
+
+    CORS(app)
+    return app
     
    
 if __name__ == '__main__':
@@ -86,10 +93,7 @@ if __name__ == '__main__':
 
     db_name = args.db + ".db"
 
-    with app.app_context():
-        create_leaderboard()
-
-    CORS(app)
-    app.run(host=args.host, port=args.port, debug=args.debug)
+    main_app = create_app()
+    main_app.run(host=args.host, port=args.port, debug=args.debug)
 
 

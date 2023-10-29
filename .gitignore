@@ -5,3 +5,4 @@ public/sounds
 public/fonts
 zombie-leaderboard.db
 venv
+__pycache__
