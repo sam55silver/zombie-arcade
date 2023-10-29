@@ -4,3 +4,4 @@ dist
 public/sounds
 public/fonts
 zombie-leaderboard.db
+venv
