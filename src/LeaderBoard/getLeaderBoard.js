@@ -1,5 +1,6 @@
 const get_leader_board = async () => {
-  const endpoint = 'http://localhost:8070/leaderboard'
+  const uri = import.meta.env.PROD ? 'https://zombies.samsilver.ca' : 'http://localhost:8070'
+  const endpoint = uri + "/leaderboard"
 
   try {
     const response = await fetch(endpoint);
