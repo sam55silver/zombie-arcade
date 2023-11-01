@@ -19,8 +19,13 @@ class Player extends CharacterController {
     this.slowSpeed = this.regularSpeed / 3;
     this.speed = this.regularSpeed;
 
-    this.fireState = 'normal';
+    this.fireState = 'start';
     this.firing = false;
+
+    scene.startTimeout(() => {
+      this.fireState = 'normal'
+    }, 100)
+
     this.bullets = 0
     this.maxBullets = 0
 
@@ -118,6 +123,8 @@ class Player extends CharacterController {
         break;
       case 'machineGun':
         this.fireMachineGun();
+        break;
+      case 'start':
         break;
     }
   }
