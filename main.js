@@ -18,6 +18,8 @@ const Setup = () => {
   const windowHeight = window.innerHeight;
   app.spriteScale = 1;
 
+  console.log(app.view.height)
+
   // Resize app to fit window
   if (windowWidth > 1024 && windowHeight > 1024) {
     app.renderer.resize(1024, 1024);
@@ -49,7 +51,7 @@ const Setup = () => {
   app.music = new Howl({src: ['sounds/music.wav'], loop: true})
   app.music.play()
 
-  const musicVolume = 0.05 
+  const musicVolume = 0.08 
   const fadeDuration = 4000
 
   app.musicFadeIn = () => {
