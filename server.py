@@ -33,10 +33,22 @@ def highscore():
             data = request.get_json()
             entry_score = data["score"]
             entry_name = data["name"]
+
+            if type(entry_score) != int:
+                return jsonify({"message": "entry_score not int"}), 500
+
+            if type(entry_name) != str:
+                return jsonify({"message": "entry_name not str"}), 500
+
+            if len(entry_name) > 6 or len(entry_name) < 1:
+                return jsonify({"message": "entry_name needs to be 1-6 characters"}), 500
+
             add_high_score(db, cur, entry_score, entry_name)
             return jsonify({"message": "High score updated"})
 
     except sqlite3.Error as e:
+        return jsonify({"message": e}), 500
+    except KeyError as e:
         return jsonify({"message": e}), 500
     finally:
         cur.close()

@@ -74,6 +74,7 @@ const NewHighScore = (app, killCount, highScorePosition, scene) => {
 
   const inputElem = document.createElement("input")
   inputElem.classList.add("input-name")
+  inputElem.maxLength = "6"
 
   const canvas = app.view.getBoundingClientRect();
 
