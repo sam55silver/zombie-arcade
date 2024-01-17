@@ -7,3 +7,8 @@ variable "app_name" {
   description = "Application Name"
   default     = "zombie-arcade"
 }
+
+variable "environment" {
+  description = "Environment of Deployment"
+  default     = "development"
+}
