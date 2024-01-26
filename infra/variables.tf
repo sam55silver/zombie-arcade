@@ -12,3 +12,8 @@ variable "environment" {
   description = "Environment of Deployment"
   default     = "development"
 }
+
+variable "gateway_stage" {
+  description = "Gateway Stage"
+  default     = "dev"
+}
