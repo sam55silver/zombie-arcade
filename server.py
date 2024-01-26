@@ -4,7 +4,7 @@ import argparse
 import sqlite3
 
 app = Flask(__name__)
-db_name = "zombie-leaderboard.db"
+db_name = "./data/zombie-leaderboard.db"
 
 def add_high_score(db, cur, score, name):
     cur.execute("INSERT INTO high_scores (score, name) VALUES (?, ?);", (score, name))
