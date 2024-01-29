@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify, g
+from flask import Flask, request, jsonify, g, send_from_directory
 from flask_cors import CORS
 import argparse
 import sqlite3
 
 app = Flask(__name__)
-db_name = "zombie-leaderboard.db"
+db_name = "./data/zombie-leaderboard.db"
 
 def add_high_score(db, cur, score, name):
     cur.execute("INSERT INTO high_scores (score, name) VALUES (?, ?);", (score, name))
@@ -53,6 +53,13 @@ def highscore():
     finally:
         cur.close()
 
+@app.route('/', methods=['GET'])
+def index():
+    return send_from_directory('./dist', 'index.html')
+
+@app.route('/<path:path>', methods=['GET'])
+def static_proxy(path):
+    return send_from_directory('./dist', path)
 
 def create_leaderboard():
     db = get_db()
