@@ -1,6 +1,5 @@
 const post_leader_board = async (name, score) => {
-  const uri = import.meta.env.PROD ? 'https://zombies.samsilver.ca' : 'http://100.127.228.154:8070'
-  const endpoint = uri + "/leaderboard"
+  const endpoint = window.location.href + "/leaderboard"
 
   const entry = {
     name: name,
