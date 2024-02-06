@@ -23,4 +23,5 @@ jobs:
         deployment_mode: docker-compose
         args: up -d
         docker_prune: 'true'
+        stack_file_name: docker-compose.yml
         pull_images_first: 'true'
