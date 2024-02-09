@@ -21,6 +21,7 @@ jobs:
           remote_path: /home/git/${{ github.repository }}/${{ github.ref }}
           remote_host: ${{ secrets.PROD_SERVER_HOST }}
           remote_user: git
+          remote_password: ${{ secrets.SSH_USER_PASSWORD }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: SSH into development server and run Docker Compose
@@ -28,6 +29,7 @@ jobs:
         with:
           host: ${{ secrets.PROD_SERVER_HOST }}
           username: git
+          password: ${{ secrets.SSH_USER_PASSWORD }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/git/${{ github.repository }}/${{ github.ref }}
