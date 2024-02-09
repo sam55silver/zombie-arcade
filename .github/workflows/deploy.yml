@@ -2,26 +2,33 @@ name: Deploy Project
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1 
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Start Deployment
-      uses: wshihadeh/docker-deployment-action@v1
-      with:
-        remote_docker_host: git@5.161.112.116
-        ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-        ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-        deployment_mode: docker-compose
-        args: up -d
-        docker_prune: 'true'
-        stack_file_name: docker-compose.yml
-        pull_images_first: 'true'
+      - name: Rsync to prod server
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --delete
+          path: ./
+          remote_path: /home/git/${{ github.repository }}/${{ github.ref }}
+          remote_host: ${{ secrets.PROD_SERVER_HOST }}
+          remote_user: git
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: SSH into development server and run Docker Compose
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROD_SERVER_HOST }}
+          username: git
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/git/${{ github.repository }}/${{ github.ref }}
+            docker-compose up -d
