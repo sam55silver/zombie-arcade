@@ -20,7 +20,7 @@ const Loader = (app) => {
     loadingScreen.addChild(loadingText);
 
     // Load assets
-    Assets.load('textures/textureAtlas.json')
+    Assets.load("https://assets.samsilver.ca/zombie-arcade/textureAtlas.json")
       .then((sheet) => {
         get_leader_board()
           .then((scores) => {

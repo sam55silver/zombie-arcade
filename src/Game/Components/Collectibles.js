@@ -29,7 +29,7 @@ class Collectible extends Container {
     // this.sprite.scale.y and x will be the same
     this.spriteNormScale = this.sprite.scale.x;
     
-    this.pickupSound = new Howl({src: ['sounds/pickup.wav'], volume: 0.1})
+    this.pickupSound = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/pickup.wav'], volume: 0.1})
 
     if (angle) {
       this.sprite.angle = angle;
