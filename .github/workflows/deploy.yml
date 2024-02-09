@@ -39,5 +39,5 @@ jobs:
           username: git
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/git/${{ github.repository }}/${{ github.ref }}
+            cd /home/git/${{ github.repository }}/${{ github.ref_name }}
             docker compose up -d

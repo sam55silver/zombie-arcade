@@ -10,5 +10,6 @@ RUN npm install
 RUN npm run build
 
 VOLUME /app/data
+VOLUME /app/public
 EXPOSE 8000
 CMD ["gunicorn", "--workers=5", "-b", "0.0.0.0:8000", "server:create_app()"]
