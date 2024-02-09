@@ -40,4 +40,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/git/${{ github.repository }}/${{ github.ref }}
-            docker-compose up -d
+            docker compose up -d
