@@ -1,8 +1,8 @@
 .DS_Store
 node_modules
 dist
-public/sounds
-public/fonts
+public
+public
 zombie-leaderboard.db
 venv
 __pycache__
