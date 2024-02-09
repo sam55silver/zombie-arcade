@@ -13,6 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: SSH into development server and mkdir
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROD_SERVER_HOST }}
+          username: git
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/git/${{ github.repository }}/${{ github.ref }}
+
       - name: Rsync to prod server
         uses: burnett01/rsync-deployments@6.0.0
         with:
