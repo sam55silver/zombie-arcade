@@ -13,12 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: SSH into development server and create directory
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROD_SERVER_HOST }}
+          username: git
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/git/${{ github.repository }}/${{ github.ref_name }}
+
       - name: Rsync to prod server
         uses: burnett01/rsync-deployments@6.0.0
         with:
           switches: -avzr --delete
           path: ./
-          remote_path: /home/git/${{ github.repository }}/${{ github.ref }}
+          remote_path: /home/git/${{ github.repository }}/${{ github.ref_name }}
           remote_host: ${{ secrets.PROD_SERVER_HOST }}
           remote_user: git
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -30,5 +39,5 @@ jobs:
           username: git
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/git/${{ github.repository }}/${{ github.ref }}
+            cd /home/git/${{ github.repository }}/${{ github.ref_name }}
             docker-compose up -d
