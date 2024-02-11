@@ -1,8 +1,12 @@
 version: '3'
 services:
   zombies:
-    build: .
+    image: "sam55silver/zombie-arcade"
     ports:
       - "8000:8000"
     volumes:
-      - ./data:/app/data
+      - /home/ssilver/data/zombie-arcade:/app/data
+    labels:
+      - "traefik.http.routers.zombies.tls=true"
+      - "traefik.http.routers.zombies.rule=Host(`zombies.samsilver.ca`)"
+    network_mode: bridge
