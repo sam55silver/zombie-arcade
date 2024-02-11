@@ -1,6 +1,6 @@
 # Beatrice 999
 
-![Beatrice 999 logo (a pixelated eye)](./icon.svg =125x125)
+![Beatrice 999 logo (a pixelated eye)](./icon.svg | width=100)
 
 Beatrice 999 is a top down twin stick zombie shooter made by Sam Silver and Will Bowie. Try to top the leaderboard by fighting through an ever growing horde of zombies with the assistance of special pickups! Art made by Will Bowie, scripts by Sam Silver, and design by both!
 
