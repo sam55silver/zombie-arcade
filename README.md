@@ -22,5 +22,7 @@ Special thanks to the below creators for their assets which helped make this gam
 - [Gun shot sound](https://opengameart.org/content/light-machine-gun) by [KuraiWolf](https://opengameart.org/users/kuraiwolf), License: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - [Pick up sound](https://opengameart.org/content/10-8bit-coin-sounds) by [Luke.RUSTLTD](https://opengameart.org/users/lukerustltd), License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 - [AK and Shotgun pickups](https://vladpenn.itch.io/weapon) by [VladPenn](https://vladpenn.itch.io), License: N/A (Author allows use for Free/Commercial Game)
+- [Font](https://fonts.google.com/specimen/Press+Start+2P) by [CodeMan38](https://fonts.google.com/?query=CodeMan38), License: [Open Font License](https://openfontlicense.org/)
+- [UI Input Prompts](https://www.kenney.nl/assets/input-prompts-pixel-16) by [Kenny](https://www.kenney.nl/), License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ![Beatrice 999 logo (a pixelated eye)](./icon.svg)
