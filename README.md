@@ -1,11 +1,24 @@
-# Zombie Arcade Web Version
+# Zombie Arcade
 
-A Zombie Arcade game made by Sam Silver and Will Bowie. All art and music was made by Will Bowie. Scripts and Sound effects were made by Sam Silver.
+A top down twin stick zombie shooter made by Sam Silver and Will Bowie. Try to top the leaderboard by fighting through an ever growing horde of zombies with the assistance of special pickups! Art made by Will Bowie, scripts by Sam Silver, and design by both!
 
-## PixiJS Version
+## Features
 
-This is the main version of the on going Web port!
+- Leaderboard!
+- Playable on mobile and desktop!
+- 7 special death animations!
+- Multiple special pick ups:
+    - Machine gun
+    - Shotgun
+    - Health
+- An exponential growth of zombie spawns!
+- Arcade bloom and CRT effects!
 
-Implementations:
-- Mobile and desktop broswer supoort
-- Highscore system
+## Extra Credits
+
+Special thanks to the below creators for their assets which helped make this game pop!
+- [Game Music](https://opengameart.org/content/fast-fight-battle-music) by [Ville Nousiainen](https://soundcloud.com/mutkanto), License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+- [Zombie sounds](https://opengameart.org/content/zombies-sound-pack) by [artisticdude](https://opengameart.org/users/artisticdude), License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+- [Gun shot sound](https://opengameart.org/content/light-machine-gun) by [KuraiWolf](https://opengameart.org/users/kuraiwolf), License: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- [Pick up sound](https://opengameart.org/content/10-8bit-coin-sounds) by [Luke.RUSTLTD](https://opengameart.org/users/lukerustltd), License: [CC0](https://creativecommons.org/publicdomain/zero/1.0/)
+- [AK and Shotgun pickups](https://vladpenn.itch.io/weapon) by [VladPenn](https://vladpenn.itch.io), License: Free/Commercial Game
