@@ -151,6 +151,11 @@ const MenuDisplay = (app, scene) => {
   );
   scene.addChild(creditsButton);
 
+  const githubTexture = Sprite.from("https://assets.samsilver.ca/zombie-arcade/socials/github.png");
+  githubTexture.anchor.set(0.5);
+  githubTexture.scale.set(app.spriteScale);
+  scene.addChild(githubTexture);
+
   return scene;
 };
 

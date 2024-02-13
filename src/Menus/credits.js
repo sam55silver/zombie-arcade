@@ -1,8 +1,9 @@
-import { Sprite } from 'pixi.js';
+import { Sprite, Text } from 'pixi.js';
 import Scene from '../Scene';
 import Game from '../Game/Game';
 import Button from './button';
 import MainMenu from './mainMenu';
+import fonts from "../fonts.json"
 
 const Credits = (app) => {
   const credits = new Scene(app);
@@ -13,6 +14,8 @@ const Credits = (app) => {
   creditsBase.scale.set(app.spriteScale);
   creditsBase.y = app.renderer.height / 2;
   credits.addChild(creditsBase);
+
+
 
   const playButton = Button(
     75,
@@ -43,6 +46,15 @@ const Credits = (app) => {
     }
   );
   credits.addChild(mainMenuButton);
+
+  const moreCreditsText = new Text("See GitHub for more credits!", {
+    ...fonts.entryStyle,
+    fontSize: 5 * app.spriteScale,
+    fill: 0xffffff,
+  })
+  moreCreditsText.anchor.set(0.5)
+  moreCreditsText.y = playButton.y - 20 * app.spriteScale
+  credits.addChild(moreCreditsText)
 
   return credits;
 };
