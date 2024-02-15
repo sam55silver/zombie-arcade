@@ -5,10 +5,12 @@ import fonts from '../fonts.json';
 import Button from './button';
 import get_leader_board from '../LeaderBoard/getLeaderBoard';
 import Credits from './credits';
+import Socials from './socials';
 
 const MainMenu = (app) => {
   const mainMenu = new Scene(app);
   mainMenu.x = app.renderer.width / 2;
+  mainMenu.y -= 20 * app.spriteScale;
   MenuDisplay(app, mainMenu);
 
   return mainMenu;
@@ -151,10 +153,9 @@ const MenuDisplay = (app, scene) => {
   );
   scene.addChild(creditsButton);
 
-  const githubTexture = Sprite.from("https://assets.samsilver.ca/zombie-arcade/socials/github.png");
-  githubTexture.anchor.set(0.5);
-  githubTexture.scale.set(app.spriteScale);
-  scene.addChild(githubTexture);
+  const socials = Socials(app.spriteScale);
+  socials.y = creditsButton.y + 28 * app.spriteScale;
+  scene.addChild(socials);
 
   return scene;
 };

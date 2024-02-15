@@ -1,5 +1,6 @@
 const get_leader_board = async () => {
-  const endpoint = window.location.href + "/leaderboard"
+  const url = import.meta.env.PROD ? window.location.href : "http://localhost:8070";
+  const endpoint = url + "/leaderboard";
 
   try {
     const response = await fetch(endpoint);

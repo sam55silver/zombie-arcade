@@ -4,6 +4,7 @@ import Game from '../Game/Game';
 import Button from './button';
 import MainMenu from './mainMenu';
 import fonts from "../fonts.json"
+import Socials from './socials';
 
 const Credits = (app) => {
   const credits = new Scene(app);
@@ -15,29 +16,21 @@ const Credits = (app) => {
   creditsBase.y = app.renderer.height / 2;
   credits.addChild(creditsBase);
 
-
-
-  const playButton = Button(
-    75,
-    18,
-    8,
-    0,
-    app.renderer.height / 2 + 90 * app.spriteScale,
-    'PLAY',
-    app.spriteScale,
-    () => {
-      const game = Game(app);
-      credits.changeScene(game);
-    }
-  );
-  credits.addChild(playButton);
+  const moreCreditsText = new Text("See GitHub for more credits!", {
+    ...fonts.entryStyle,
+    fontSize: 5 * app.spriteScale,
+    fill: 0xffffff,
+  })
+  moreCreditsText.anchor.set(0.5)
+  moreCreditsText.y = creditsBase.y + 68 * app.spriteScale
+  credits.addChild(moreCreditsText)
 
   const mainMenuButton = Button(
     75,
     18,
     8,
     0,
-    app.renderer.height / 2 + 115 * app.spriteScale,
+    app.renderer.height / 2 + 86 * app.spriteScale,
     'MAIN',
     app.spriteScale,
     () => {
@@ -47,14 +40,9 @@ const Credits = (app) => {
   );
   credits.addChild(mainMenuButton);
 
-  const moreCreditsText = new Text("See GitHub for more credits!", {
-    ...fonts.entryStyle,
-    fontSize: 5 * app.spriteScale,
-    fill: 0xffffff,
-  })
-  moreCreditsText.anchor.set(0.5)
-  moreCreditsText.y = playButton.y - 20 * app.spriteScale
-  credits.addChild(moreCreditsText)
+  const socials = Socials(app.spriteScale);
+  socials.y = mainMenuButton.y + 28 * app.spriteScale;
+  credits.addChild(socials);
 
   return credits;
 };

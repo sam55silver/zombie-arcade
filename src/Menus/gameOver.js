@@ -5,6 +5,7 @@ import fonts from '../fonts.json';
 import Button from './button';
 import post_leader_board from '../LeaderBoard/postLeaderBoard';
 import MainMenu from './mainMenu';
+import Socials from './socials';
 
 const GameOver = (app, killCount) => {
   const scene = new Scene(app);
@@ -55,7 +56,7 @@ const NewHighScore = (app, killCount, highScorePosition, scene) => {
 
   const highScoreText = new Text('New High Score!', {
     ...fonts.entryStyle,
-    'fontSize': 12 * app.spriteScale,
+    'fontSize': 10 * app.spriteScale,
     'fill': '0xffffff',
   });
   highScoreText.anchor.set(0.5);
@@ -120,7 +121,7 @@ const NewHighScore = (app, killCount, highScorePosition, scene) => {
           })
           .catch((error) => {
             posting = false;
-            highScoreText.text = 'Error posting score. Please Try again.';
+            highScoreText.text = 'Error posting score.\nPlease Try again.';
             console.log(error);
           });
       } else {
@@ -138,7 +139,7 @@ const ShowScore = (app, scene) => {
     18,
     8,
     0,
-    40 * app.spriteScale,
+    30 * app.spriteScale,
     'RETRY',
     app.spriteScale,
     () => {
@@ -154,7 +155,7 @@ const ShowScore = (app, scene) => {
     18,
     8,
     0,
-    retryButton.y + retryButton.height + 8 * app.spriteScale,
+    retryButton.y + retryButton.height + 4 * app.spriteScale,
     'MENU',
     app.spriteScale,
     () => {
@@ -164,6 +165,10 @@ const ShowScore = (app, scene) => {
     }
   );
   scene.addChild(mainMenuButton);
+
+  const socials = Socials(app.spriteScale);
+  socials.y = mainMenuButton.y + mainMenuButton.height + 8 * app.spriteScale;
+  scene.addChild(socials);
 };
 
 export default GameOver;
