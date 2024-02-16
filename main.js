@@ -51,7 +51,7 @@ const Setup = () => {
   app.music = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/music.wav'], loop: true})
   app.music.play()
 
-  const musicVolume = 0.08 
+  const musicVolume = 0.045 
   const fadeDuration = 4000
 
   app.musicFadeIn = () => {
