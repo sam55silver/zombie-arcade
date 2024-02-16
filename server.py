@@ -1,7 +1,10 @@
+import logging
 from flask import Flask, request, jsonify, g, send_from_directory
 from flask_cors import CORS
 import argparse
 import sqlite3
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 db_name = "./data/zombie-leaderboard.db"
@@ -10,14 +13,12 @@ def add_high_score(db, cur, score, name):
     cur.execute("INSERT INTO high_scores (score, name) VALUES (?, ?);", (score, name))
     db.commit()
 
-
 def get_top_scores(cur, limit=10):
     cur.execute("SELECT * FROM high_scores ORDER BY score DESC LIMIT ?;", (limit,))
     top_scores = cur.fetchall()
     scores = [{"name": name, "score": score} for (_, name, score) in top_scores]
     
     return scores
-
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
 def highscore():
@@ -27,6 +28,7 @@ def highscore():
     try:
         if request.method == 'GET':
             top_scores = get_top_scores(cur)
+            logging.info("Top scores retrieved")
             return jsonify({"scores": top_scores})
 
         if request.method == 'POST':
@@ -35,26 +37,33 @@ def highscore():
             entry_name = data["name"]
 
             if type(entry_score) != int:
+                logging.error("entry_score not int")
                 return jsonify({"message": "entry_score not int"}), 500
 
             if type(entry_name) != str:
+                logging.error("entry_name not str")
                 return jsonify({"message": "entry_name not str"}), 500
 
             if len(entry_name) > 6 or len(entry_name) < 1:
+                logging.error("entry_name needs to be 1-6 characters")
                 return jsonify({"message": "entry_name needs to be 1-6 characters"}), 500
 
             add_high_score(db, cur, entry_score, entry_name)
+            logging.info(f"Added high score - name: {entry_name}, score: {entry_score}")
             return jsonify({"message": "High score updated"})
 
     except sqlite3.Error as e:
+        logging.error(f"Error with database: {e}")
         return jsonify({"message": e}), 500
     except KeyError as e:
+        logging.error(f"Error with request: {e}")
         return jsonify({"message": e}), 500
     finally:
         cur.close()
 
 @app.route('/', methods=['GET'])
 def index():
+    logging.info("Serving index.html to client")
     return send_from_directory('./dist', 'index.html')
 
 @app.route('/<path:path>', methods=['GET'])
