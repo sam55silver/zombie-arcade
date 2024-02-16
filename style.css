@@ -13,8 +13,17 @@ body {
   color: #ffffff;
 }
 
-#app {
+a {
+  color: white;
+}
+
+a:hover {
+  color: #ff0000;
+}
+
+#container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;

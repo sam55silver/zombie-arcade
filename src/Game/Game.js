@@ -9,6 +9,16 @@ import Input from './Input';
 import fonts from '../fonts.json';
 
 const Game = (app) => {
+  const socials = document.getElementById('socials');
+  socials.style.display = 'none';
+
+  if (app.isMobile) {
+    app.renderer.resize(
+      app.renderer.width,
+      app.renderer.height + 125 * app.spriteScale
+    );
+  }
+
   // create scene for game to be added to
   const scene = new Scene(app);
   scene.input = new Input(app);

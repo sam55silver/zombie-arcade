@@ -4,9 +4,11 @@ import Game from '../Game/Game';
 import Button from './button';
 import MainMenu from './mainMenu';
 import fonts from "../fonts.json"
-import Socials from './socials';
 
 const Credits = (app) => {
+  const socials = document.getElementById('socials');
+  socials.style.display = 'block';
+
   const credits = new Scene(app);
   credits.x = app.renderer.width / 2;
 
@@ -39,10 +41,6 @@ const Credits = (app) => {
     }
   );
   credits.addChild(mainMenuButton);
-
-  const socials = Socials(app.spriteScale);
-  socials.y = mainMenuButton.y + 28 * app.spriteScale;
-  credits.addChild(socials);
 
   return credits;
 };

@@ -5,12 +5,21 @@ import fonts from '../fonts.json';
 import Button from './button';
 import post_leader_board from '../LeaderBoard/postLeaderBoard';
 import MainMenu from './mainMenu';
-import Socials from './socials';
 
 const GameOver = (app, killCount) => {
+  if (app.isMobile) {
+    app.renderer.resize(
+      app.renderer.width,
+      app.renderer.height - 125 * app.spriteScale
+    );
+  }
+
   const scene = new Scene(app);
   scene.x = app.renderer.width / 2;
   scene.y = app.renderer.height / 2;
+
+  const socials = document.getElementById('socials');
+  socials.style.display = 'block';
 
   const headerText = new Text('Game Over', {
     ...fonts.headerStyle,
@@ -85,7 +94,7 @@ const NewHighScore = (app, killCount, highScorePosition, scene) => {
   inputElem.style.fontSize = fontSize + 'px'
   inputElem.style.borderRadius = radius + 'px'
 
-  const appContainer = document.getElementById("app")
+  const appContainer = document.getElementById("container")
   appContainer.appendChild(inputElem)
 
   let posting = false;
@@ -139,7 +148,7 @@ const ShowScore = (app, scene) => {
     18,
     8,
     0,
-    30 * app.spriteScale,
+    40 * app.spriteScale,
     'RETRY',
     app.spriteScale,
     () => {
@@ -155,7 +164,7 @@ const ShowScore = (app, scene) => {
     18,
     8,
     0,
-    retryButton.y + retryButton.height + 4 * app.spriteScale,
+    retryButton.y + retryButton.height + 8 * app.spriteScale,
     'MENU',
     app.spriteScale,
     () => {
@@ -165,10 +174,6 @@ const ShowScore = (app, scene) => {
     }
   );
   scene.addChild(mainMenuButton);
-
-  const socials = Socials(app.spriteScale);
-  socials.y = mainMenuButton.y + mainMenuButton.height + 8 * app.spriteScale;
-  scene.addChild(socials);
 };
 
 export default GameOver;
