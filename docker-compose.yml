@@ -1,7 +1,7 @@
 version: '3'
 services:
   zombies:
-    build: .
+    image: "zombie-arcade"
     ports:
       - "8000:8000"
     volumes:
