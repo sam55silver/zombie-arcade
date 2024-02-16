@@ -17,6 +17,12 @@ const Socials = (spriteScale) => {
   githubTexture.on('pointerdown', () => {
     window.open("https://github.com/sam55silver/zombie-arcade")
   });
+  githubTexture.on('pointerover', () => {
+    window.document.body.style.cursor = 'pointer';
+  });
+  githubTexture.on('pointerout', () => {
+    window.document.body.style.cursor = 'default';
+  });
 
   const xTexture = Sprite.from("https://assets.samsilver.ca/zombie-arcade/socials/x.png");
   xTexture.x = textureX
@@ -27,6 +33,13 @@ const Socials = (spriteScale) => {
 
   xTexture.on('pointerdown', () => {
     window.open("https://twitter.com/sam55silver")
+  });
+
+  xTexture.on('pointerover', () => {
+    window.document.body.style.cursor = 'pointer';
+  });
+  xTexture.on('pointerout', () => {
+    window.document.body.style.cursor = 'default';
   });
 
   return socials;

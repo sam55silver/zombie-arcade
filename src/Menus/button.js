@@ -48,7 +48,14 @@ const Button = (width, height, radius, x, y, text, spriteScale, onClick) => {
   button.addChild(buttonText);
 
   button.on('pointerdown', () => {
+    window.document.body.style.cursor = 'default';
     onClick();
+  });
+  button.on('pointerover', () => {
+    window.document.body.style.cursor = 'pointer';
+  });
+  button.on('pointerout', () => {
+    window.document.body.style.cursor = 'default';
   });
 
   return button;
