@@ -1,5 +1,5 @@
 const get_leader_board = async () => {
-  const url = import.meta.env.PROD ? window.location.href : "http://localhost:8070";
+  const url = import.meta.env.PROD ? "https://zombies.samsilver.ca" : "http://localhost:8070";
   const endpoint = url + "/leaderboard";
 
   try {
