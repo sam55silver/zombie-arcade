@@ -1,7 +1,11 @@
-version: '3'
+network:
+  web:
+    external: true
+
 services:
   zombies:
     image: "zombie-arcade"
+    restart: always
     ports:
       - "8000:8000"
     volumes:
@@ -9,4 +13,4 @@ services:
     labels:
       - "traefik.http.routers.zombies.tls=true"
       - "traefik.http.routers.zombies.rule=Host(`zombies.samsilver.ca`)"
-    network_mode: bridge
+    networks: web
