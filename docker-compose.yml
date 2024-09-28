@@ -1,4 +1,4 @@
-network:
+networks:
   web:
     external: true
 
