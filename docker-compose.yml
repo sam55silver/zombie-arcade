@@ -13,4 +13,5 @@ services:
     labels:
       - "traefik.http.routers.zombies.tls=true"
       - "traefik.http.routers.zombies.rule=Host(`zombies.samsilver.ca`)"
-    networks: web
+    networks:
+      - web
