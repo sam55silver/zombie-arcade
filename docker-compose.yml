@@ -4,7 +4,7 @@ networks:
 
 services:
   zombies:
-    image: "zombie-arcade"
+    image: registry.samsilver.ca/zombie-arcade:latest
     restart: always
     ports:
       - "8000:8000"
