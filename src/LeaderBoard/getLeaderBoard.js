@@ -1,24 +1,28 @@
+import { supabase } from '../config/supabase.js'
+
 const get_leader_board = async () => {
-  const url = import.meta.env.PROD ? "https://zombies.samsilver.ca" : "http://localhost:8070";
-  const endpoint = url + "/leaderboard";
-
   try {
-    const response = await fetch(endpoint);
+    const { data, error } = await supabase
+      .from('leaderboard')
+      .select('name, score')
+      .order('score', { ascending: false })
+      .limit(10)
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    if (error) {
+      throw error
     }
 
-    const highScores = await response.json();
-    while (highScores.scores.length < 10) {
-      highScores.scores.push({"name": "------", "score": "N/A"})
+    // Pad results to 10 entries like the original implementation
+    const scores = data || []
+    while (scores.length < 10) {
+      scores.push({"name": "------", "score": "N/A"})
     }
 
-    return highScores.scores;
+    return scores
   } catch (error) {
-    console.error("Error fetching high scores:", error);
-    throw error;
+    console.error("Error fetching high scores from Supabase:", error)
+    throw error
   }
-};
+}
 
-export default get_leader_board;
+export default get_leader_board

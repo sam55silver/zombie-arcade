@@ -1,31 +1,21 @@
+import { supabase } from '../config/supabase.js'
+
 const post_leader_board = async (name, score) => {
-  const url = import.meta.env.PROD ? "https://zombies.samsilver.ca" : "http://localhost:8070";
-  const endpoint = url + "/leaderboard";
-
-  const entry = {
-    name: name,
-    score: score,
-  };
-
   try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', // Set the content type to JSON
-      },
-      body: JSON.stringify(entry), // Convert the data to JSON format
-    });
+    const { data, error } = await supabase
+      .from('leaderboard')
+      .insert({ name: name, score: score })
+      .select()
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    if (error) {
+      throw error
     }
 
-    const responseData = await response.json(); // Parse the response JSON
-    return responseData.message;
+    return `Score posted successfully!`
   } catch (error) {
-    console.error("Error making POST request:", error);
-    throw error;
+    console.error("Error posting score to Supabase:", error)
+    throw error
   }
-};
+}
 
-export default post_leader_board;
+export default post_leader_board
