@@ -19,8 +19,8 @@ class Zombie extends CharacterController {
 
     this.sprite.rotation = Math.PI / 2
 
-    this.sound1 = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/zombie/pain.wav'], volume: 0.14})
-    this.sound2 = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/zombie/death.wav'], volume: 0.14})
+    this.sound1 = new Howl({src: ['/assets/sounds/zombie/pain.wav'], volume: 0.14})
+    this.sound2 = new Howl({src: ['/assets/sounds/zombie/death.wav'], volume: 0.14})
 
     this.health = 2;
     this.alreadyHit = false;

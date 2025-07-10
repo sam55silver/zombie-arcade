@@ -41,7 +41,7 @@ const Setup = () => {
   app.currentScene = new Container();
   app.stage.addChild(app.currentScene);
   
-  app.music = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/music.wav'], loop: true})
+  app.music = new Howl({src: ['/assets/sounds/music.wav'], loop: true})
   app.music.play()
 
   const musicVolume = 0.045 
@@ -57,7 +57,7 @@ const Setup = () => {
 
   app.musicFadeIn()
   
-  app.gameoverMusic = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/gameover.wav'], volume: 0.1})
+  app.gameoverMusic = new Howl({src: ['/assets/sounds/gameover.wav'], volume: 0.1})
 
   // add filter to app
   app.currentScene.filters = [

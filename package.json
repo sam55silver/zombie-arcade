@@ -15,7 +15,7 @@
     "@pixi/filter-advanced-bloom": "^5.1.1",
     "@pixi/filter-bulge-pinch": "^5.1.1",
     "@pixi/filter-crt": "^5.1.1",
-    "firebase": "^9.22.2",
+    "@supabase/supabase-js": "^2.50.4",
     "fontfaceobserver": "^2.3.0",
     "howler": "^2.2.3",
     "pixi.js": "^7.2.4",

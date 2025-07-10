@@ -34,7 +34,7 @@ class Player extends CharacterController {
 
     this.gunVolume = 0.08
     this.shotgunVolume = 0.16
-    this.gunNoise = new Howl({src: ['https://assets.samsilver.ca/zombie-arcade/sounds/fire.mp3'], volume: this.gunVolume})    
+    this.gunNoise = new Howl({src: ['/assets/sounds/fire.mp3'], volume: this.gunVolume})    
 
     this.isInvulnerable = false;
 

@@ -7,7 +7,7 @@ const Socials = (spriteScale) => {
   const scale = 0.1 * spriteScale;
   const textureX = 17 * spriteScale;
   
-  const githubTexture = Sprite.from("https://assets.samsilver.ca/zombie-arcade/socials/github.png");
+  const githubTexture = Sprite.from("/assets/socials/github.png");
   githubTexture.x = -textureX;
   githubTexture.anchor.set(0.5);
   githubTexture.scale.set(scale);
@@ -24,7 +24,7 @@ const Socials = (spriteScale) => {
     window.document.body.style.cursor = 'default';
   });
 
-  const xTexture = Sprite.from("https://assets.samsilver.ca/zombie-arcade/socials/x.png");
+  const xTexture = Sprite.from("/assets/socials/x.png");
   xTexture.x = textureX
   xTexture.anchor.set(0.5);
   xTexture.scale.set(scale);
